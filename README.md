@@ -33,7 +33,6 @@ Website cung cấp thông tin về sân bóng Thắng Lợi, bao gồm:
 ## Công nghệ sử dụng
 
 - HTML5
-- CSS3
 - Semantic HTML
 - Responsive Web Design
 - GitHub Pages
