@@ -1,127 +1,110 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Trang giới thiệu thành viên Silaphet Thit của Nhóm 11.">
     <title>Silaphet Thit | Nhóm 11</title>
-    <link rel="stylesheet" href="../../styles/profile.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="css/profile.css">
 </head>
 
-<body>
-    <header class="topbar">
-        <div class="topbar-inner">
-            <nav aria-label="Điều hướng chính">
-                <ul class="main-nav">
-                    <li><a href="../../index.html">Trang chủ</a></li>
-                    <li><a href="../../danh-sach.html">Danh sách sân</a></li>
-                    <li><a href="../../chi-tiet.html">Chi tiết sân</a></li>
-                    <li><a href="../../gioi-thieu.html" class="active">Giới thiệu nhóm</a></li>
-                    <li><a href="../../lien-he.html">Liên hệ / Đặt sân</a></li>
-                </ul>
-            </nav>
-        </div>
+<body class="trang">
+    <header class="trang__header">
+        <h1>Sân Bóng Thắng Lợi</h1>
+        <p>Uy tín - Tiện lợi - Sức khỏe là vàng</p>
     </header>
 
-    <main class="page-shell content">
-        <h1>Giới thiệu thành viên Silaphet Thit</h1>
+    <nav class="trang__nav">
+        <ul class="menu__danh-sach">
+            <li class="menu__muc"><a class="menu__lien-ket" href="../../index.html">Trang chủ</a></li>
+            <li class="menu__muc"><a class="menu__lien-ket" href="../../danh-sach.html">Danh sách sân</a></li>
+            <li class="menu__muc"><a class="menu__lien-ket" href="../../chi-tiet.html">Chi tiết sân</a></li>
+            <li class="menu__muc"><a class="menu__lien-ket active" href="../../gioi-thieu.html">Giới thiệu nhóm</a></li>
+            <li class="menu__muc"><a class="menu__lien-ket" href="../../lien-he.html">Liên hệ / Đặt sân</a></li>
+        </ul>
+    </nav>
 
-        <section class="profile-card" aria-label="Thông tin cá nhân">
-            <figure>
-                <img
-                    class="avatar"
-                    src="../../images/silaphet.jpg"
-                    alt="Ảnh chân dung của Silaphet Thit"
-                    width="130"
-                    height="130">
-                <figcaption>Silaphet Thit</figcaption>
-            </figure>
+    <main class="trang__main profile-main">
+        <h2 class="chu-canh-giua mb-1">Giới thiệu thành viên Silaphet Thit</h2>
 
-            <div class="profile-meta">
-                <span class="label">Thành viên Nhóm 11</span>
-                <h2>Silaphet Thit</h2>
-                <p><strong>Mã sinh viên:</strong> 3120224188</p>
-                <p><strong>Vai trò:</strong> Thành viên nhóm</p>
+        <section class="profile-card">
+            <div class="profile-card__img-container">
+                <img src="../../images/silaphet.jpg" alt="Ảnh chân dung của Silaphet Thit" class="profile-card__img" width="150" height="150">
+            </div>
+            
+            <div class="profile-card__info">
+                <h3 class="profile-card__name">Silaphet Thit</h3>
+                <p class="profile-card__role"><strong>Vai trò:</strong> Thành viên nhóm</p>
+                <p class="profile-card__id"><strong>Mã sinh viên:</strong> 3120224188</p>
                 <p><strong>Nhiệm vụ:</strong> Phụ trách trang liên hệ, bản đồ và nội dung hỗ trợ người dùng.</p>
+                
+                <div class="d-flex gap-1" style="flex-wrap: wrap; margin-top: 1rem;">
+                    <div style="flex: 1; min-width: 200px;">
+                        <h4 style="margin-top:0; color: var(--mau-chinh);">Thông tin cá nhân</h4>
+                        <ul style="padding-left: 1rem;">
+                            <li>Khoa: Toán - Tin</li>
+                            <li>Chuyên ngành: Công nghệ thông tin</li>
+                        </ul>
+                    </div>
+                    <div style="flex: 1; min-width: 200px;">
+                        <h4 style="margin-top:0; color: var(--mau-chinh);">Kỹ năng</h4>
+                        <ul style="padding-left: 1rem;">
+                            <li>HTML5 semantic elements</li>
+                            <li>CSS layout</li>
+                            <li>Nhúng iframe và bản đồ</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <div class="info-grid">
-            <article class="info-box">
-                <h2>Thông tin cá nhân</h2>
-                <ul>
-                    <li>Họ và tên: Silaphet Thit</li>
-                    <li>Khoa: Toán - Tin</li>
-                    <li>Chuyên ngành: Công nghệ thông tin</li>
-                </ul>
-            </article>
-
-            <article class="info-box">
-                <h2>Kỹ năng</h2>
-                <ul>
-                    <li>HTML5 semantic elements</li>
-                    <li>CSS layout</li>
-                    <li>Nhúng iframe và bản đồ</li>
-                    <li>Thiết kế nội dung hỗ trợ người dùng</li>
-                </ul>
-            </article>
-        </div>
-
-        <article class="full-box">
-            <h2>Sở thích và mục tiêu</h2>
-            <p>
-                Silaphet yêu thích bóng đá, du lịch và tìm hiểu văn hóa các nước.
-                Mục tiêu là hoàn thành tốt trang liên hệ và hỗ trợ người dùng
-                trong dự án website Sân Bóng Thắng Lợi.
-            </p>
-        </article>
-
-        <section class="full-box">
-            <h2>Thời khóa biểu tuần</h2>
-
-            <table class="schedule-table">
-                <caption>
-                    Lịch học và hoạt động trong tuần của Silaphet Thit
-                </caption>
-
-                <thead>
-                    <tr>
-                        <th scope="col">Ngày</th>
-                        <th scope="col">Hoạt động</th>
-                        <th scope="col">Thời gian</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <tr>
-                        <th scope="row">Thứ Hai</th>
-                        <td>Học tập trên lớp</td>
-                        <td>07:00 - 11:00</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Thứ Năm</th>
-                        <td>Thiết kế nội dung website</td>
-                        <td>13:30 - 17:00</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Thứ Bảy</th>
-                        <td>Họp nhóm và kiểm tra tiến độ</td>
-                        <td>19:00 - 21:00</td>
-                    </tr>
-                </tbody>
-            </table>
+        <section class="mt-1" style="background: var(--mau-trang); padding: 1.5rem; border-radius: var(--bo-goc); box-shadow: var(--bong-do);">
+            <h3 style="color: var(--mau-chinh); margin-top: 0;">Sở thích và mục tiêu</h3>
+            <p>Silaphet yêu thích bóng đá, du lịch và tìm hiểu văn hóa các nước. Mục tiêu là hoàn thành tốt trang liên hệ và hỗ trợ người dùng trong dự án website Sân Bóng Thắng Lợi.</p>
         </section>
 
-        <p class="back-link">
-            <a href="../../gioi-thieu.html">← Quay lại trang giới thiệu nhóm</a>
+        <section class="profile-schedule mt-1">
+            <h3 class="chu-canh-giua">Thời khóa biểu tuần</h3>
+            
+            <div class="bang-cuon-ngang">
+                <table class="bang-du-lieu">
+                    <caption>Lịch học và hoạt động trong tuần của Silaphet Thit</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Ngày</th>
+                            <th scope="col">Hoạt động</th>
+                            <th scope="col">Thời gian</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Thứ Hai</th>
+                            <td>Học tập trên lớp</td>
+                            <td>07:00 - 11:00</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Thứ Năm</th>
+                            <td>Thiết kế nội dung website</td>
+                            <td>13:30 - 17:00</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Thứ Bảy</th>
+                            <td>Họp nhóm và kiểm tra tiến độ</td>
+                            <td>19:00 - 21:00</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        
+        <p class="chu-canh-giua mt-1">
+            <a href="../../gioi-thieu.html" class="nut nut--phu">← Quay lại trang giới thiệu nhóm</a>
         </p>
     </main>
 
-    <footer>
-        <p>
-            &copy; 2026 Nhóm 11 -
-            <a href="../../index.html">Quay về trang chủ</a>
-        </p>
+    <footer class="trang__footer">
+        <p>© 2026 Nhóm 11 — Khoa Toán - Tin, Đại học Sư phạm Đà Nẵng</p>
     </footer>
 </body>
 </html>

@@ -1,0 +1,75 @@
+﻿.profile-main {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.profile-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--mau-trang);
+    border-radius: var(--bo-goc);
+    box-shadow: var(--bong-do);
+    padding: 2rem;
+    gap: 2rem;
+}
+
+.profile-card__img-container {
+    flex-shrink: 0;
+}
+
+.profile-card__img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--mau-vien);
+    box-shadow: var(--bong-do);
+}
+
+.profile-card__info {
+    text-align: center;
+}
+
+.profile-card__name {
+    color: var(--mau-chinh);
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+
+.profile-card__list {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.profile-card__list li {
+    background-color: var(--mau-vien);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+}
+
+.bang-cuon-ngang {
+    overflow-x: auto;
+    width: 100%;
+}
+
+@media (min-width: 600px) {
+    .profile-card {
+        flex-direction: row;
+        align-items: flex-start;
+        text-align: left;
+    }
+    
+    .profile-card__info {
+        text-align: left;
+    }
+    
+    .profile-card__list {
+        justify-content: flex-start;
+    }
+}
