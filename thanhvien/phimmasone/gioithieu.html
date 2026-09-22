@@ -1,129 +1,94 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Trang giới thiệu thành viên Phimmasone Khamphouvanh của Nhóm 11.">
     <title>Phimmasone Khamphouvanh | Nhóm 11</title>
-    <link rel="stylesheet" href="../../styles/profile.css">
+    <!-- Link đến CSS dùng chung của cả trang web -->
+    <link rel="stylesheet" href="../../css/style.css">
+    <!-- Link đến CSS riêng của trang cá nhân này -->
+    <link rel="stylesheet" href="css/profile.css">
 </head>
 
-<body>
-    <header class="topbar">
-        <div class="topbar-inner">
-            <nav aria-label="Điều hướng chính">
-                <ul class="main-nav">
-                    <li><a href="../../index.html">Trang chủ</a></li>
-                    <li><a href="../../danh-sach.html">Danh sách sân</a></li>
-                    <li><a href="../../chi-tiet.html">Chi tiết sân</a></li>
-                    <li><a href="../../gioi-thieu.html" class="active">Giới thiệu nhóm</a></li>
-                    <li><a href="../../lien-he.html">Liên hệ / Đặt sân</a></li>
-                </ul>
-            </nav>
-        </div>
+<body class="trang">
+    <header class="trang__header">
+        <h1>Sân Bóng Thắng Lợi</h1>
+        <p>Uy tín - Tiện lợi - Sức khỏe là vàng</p>
     </header>
 
-    <main class="page-shell content">
-        <h1>Giới thiệu thành viên Phimmasone Khamphouvanh</h1>
+    <nav class="trang__nav">
+        <ul class="menu__danh-sach">
+            <li class="menu__muc"><a class="menu__lien-ket" href="../../index.html">Trang chủ</a></li>
+            <li class="menu__muc"><a class="menu__lien-ket" href="../../danh-sach.html">Danh sách sân</a></li>
+            <li class="menu__muc"><a class="menu__lien-ket" href="../../chi-tiet.html">Chi tiết sân</a></li>
+            <li class="menu__muc"><a class="menu__lien-ket active" href="../../gioi-thieu.html">Giới thiệu nhóm</a></li>
+            <li class="menu__muc"><a class="menu__lien-ket" href="../../lien-he.html">Liên hệ / Đặt sân</a></li>
+        </ul>
+    </nav>
 
-        <section class="profile-card" aria-label="Thông tin cá nhân">
-            <figure>
-                <img
-                    class="avatar"
-                    src="../../images/phimmasone.jpg"
-                    alt="Ảnh chân dung của Phimmasone Khamphouvanh"
-                    width="130"
-                    height="130">
-                <figcaption>Phimmasone Khamphouvanh</figcaption>
-            </figure>
-
-            <div class="profile-meta">
-                <span class="label">Thành viên Nhóm 11</span>
-                <h2>Phimmasone Khamphouvanh</h2>
-                <p><strong>Mã sinh viên:</strong> 3120224192</p>
-                <p><strong>Vai trò:</strong> Thành viên nhóm</p>
-                <p><strong>Nhiệm vụ:</strong> Phụ trách nội dung HTML và trang giới thiệu cá nhân.</p>
+    <main class="trang__main profile-main">
+        <section class="profile-card">
+            <div class="profile-card__img-container">
+                <img src="../../images/san-a1.jpg" alt="Ảnh chân dung Phimmasone Khamphouvanh" class="profile-card__img" width="150" height="150">
+            </div>
+            
+            <div class="profile-card__info">
+                <h2 class="profile-card__name">Phimmasone Khamphouvanh</h2>
+                <p class="profile-card__role">Vai trò: Trưởng nhóm</p>
+                <p class="profile-card__id">Mã sinh viên: 23ABC001</p>
+                <p class="profile-card__email">Email: tmilk282@gmail.com</p>
+                
+                <h3 class="profile-card__subtitle">Sở thích cá nhân</h3>
+                <ul class="profile-card__list">
+                    <li>Đá bóng</li>
+                    <li>Nghe nhạc</li>
+                    <li>Chơi game</li>
+                </ul>
             </div>
         </section>
 
-        <!-- ĐÃ SỬA: đổi <section> thành <div> để hết warning -->
-        <div class="info-grid">
-            <article class="info-box">
-                <h2>Thông tin cá nhân</h2>
-                <ul>
-                    <li>Họ và tên: Phimmasone Khamphouvanh</li>
-                    <li>Khoa: Toán - Tin</li>
-                    <li>Chuyên ngành: Công nghệ thông tin</li>
-                </ul>
-            </article>
-
-            <article class="info-box">
-                <h2>Kỹ năng</h2>
-                <ul>
-                    <li>HTML5 semantic elements</li>
-                    <li>CSS responsive layout</li>
-                    <li>Thiết kế nội dung website</li>
-                    <li>Làm việc nhóm với GitHub</li>
-                </ul>
-            </article>
-        </div>
-        <!-- KẾT THÚC SỬA -->
-
-        <article class="full-box">
-            <h2>Sở thích và mục tiêu</h2>
-            <p>
-                Phimmasone yêu thích bóng đá, công nghệ và thiết kế website.
-                Mục tiêu là nâng cao kỹ năng lập trình web và hoàn thành tốt
-                dự án website đặt sân bóng của nhóm.
-            </p>
-        </article>
-
-        <section class="full-box">
-            <h2>Thời khóa biểu tuần</h2>
-
-            <table class="schedule-table">
-                <caption>
-                    Lịch học và hoạt động trong tuần của Phimmasone Khamphouvanh
-                </caption>
-
-                <thead>
-                    <tr>
-                        <th scope="col">Ngày</th>
-                        <th scope="col">Hoạt động</th>
-                        <th scope="col">Thời gian</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <tr>
-                        <th scope="row">Thứ Hai</th>
-                        <td>Học tập trên lớp</td>
-                        <td>07:00 - 11:00</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Thứ Sáu</th>
-                        <td>Làm nội dung website</td>
-                        <td>14:00 - 17:00</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Chủ Nhật</th>
-                        <td>Họp và kiểm tra dự án</td>
-                        <td>19:00 - 21:00</td>
-                    </tr>
-                </tbody>
-            </table>
+        <section class="profile-schedule mt-1">
+            <h3 class="chu-canh-giua">Thời khóa biểu học kỳ 1 (2026-2027)</h3>
+            
+            <!-- Bao bọc bảng bằng một div để có thể cuộn ngang trên mobile -->
+            <div class="bang-cuon-ngang">
+                <table class="bang-du-lieu">
+                    <thead>
+                        <tr>
+                            <th scope="col">Buổi</th>
+                            <th scope="col">Thứ 2</th>
+                            <th scope="col">Thứ 3</th>
+                            <th scope="col">Thứ 4</th>
+                            <th scope="col">Thứ 5</th>
+                            <th scope="col">Thứ 6</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Sáng</th>
+                            <td>Thiết kế Web</td>
+                            <td></td>
+                            <td>Cơ sở Dữ liệu</td>
+                            <td></td>
+                            <td>Toán rời rạc</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Chiều</th>
+                            <td></td>
+                            <td>Lập trình Java</td>
+                            <td></td>
+                            <td>Tiếng Anh</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </section>
-
-        <p class="back-link">
-            <a href="../../gioi-thieu.html">← Quay lại trang giới thiệu nhóm</a>
-        </p>
     </main>
 
-    <footer>
-        <p>
-            &copy; 2026 Nhóm 11 -
-            <a href="../../index.html">Quay về trang chủ</a>
-        </p>
+    <footer class="trang__footer">
+        <p>© 2026 Phimmasone Khamphouvanh - Thành viên Nhóm 11</p>
     </footer>
 </body>
 </html>

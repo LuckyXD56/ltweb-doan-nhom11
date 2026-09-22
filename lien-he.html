@@ -3,105 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Form liên hệ và đặt sân bóng mini cho người dùng.">
-    <title>Liên hệ | Quản lí sân bóng mini</title>
+    <meta name="description" content="Liên hệ và đặt sân bóng trực tuyến. Điền thông tin cá nhân và thời gian để hệ thống ghi nhận đơn đặt sân của bạn.">
+    <title>Liên hệ & Đặt sân | Sân Bóng Thắng Lợi</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
-    <header>
-        <h1>Liên hệ / Đặt sân</h1>
-
-        <nav aria-label="Điều hướng chính">
-            <ul>
-                <li><a href="index.html">Trang chủ</a></li>
-                <li><a href="danh-sach.html">Danh sách sân</a></li>
-                <li><a href="chi-tiet.html">Chi tiết sân</a></li>
-                <li><a href="gioi-thieu.html">Giới thiệu</a></li>
-                <li><a href="lien-he.html">Liên hệ / Đặt sân</a></li>
-            </ul>
-        </nav>
+<body class="trang">
+    <header class="trang__header">
+        <h1>Sân Bóng Thắng Lợi</h1>
+        <p>Uy tín - Tiện lợi - Sức khỏe là vàng</p>
     </header>
 
-    <main>
-        <section>
-            <h2>Đặt sân trực tuyến</h2>
-            <p>Vui lòng điền đầy đủ thông tin. Nhóm sẽ phản hồi qua email hoặc số điện thoại trong giờ làm việc.</p>
-            <form action="#" method="post" autocomplete="on">
-                <fieldset>
-                    <legend>Thông tin đặt sân</legend>
+    <nav class="trang__nav">
+        <ul class="menu__danh-sach">
+            <li class="menu__muc"><a class="menu__lien-ket" href="index.html">Trang chủ</a></li>
+            <li class="menu__muc"><a class="menu__lien-ket" href="danh-sach.html">Danh sách sân bóng</a></li>
+            <li class="menu__muc"><a class="menu__lien-ket" href="chi-tiet.html">Chi tiết sân</a></li>
+            <li class="menu__muc"><a class="menu__lien-ket" href="gioi-thieu.html">Giới thiệu nhóm</a></li>
+            <li class="menu__muc"><a class="menu__lien-ket" href="lien-he.html">Liên hệ & Đặt sân</a></li>
+        </ul>
+    </nav>
 
-                    <p>
-                        <label for="ho-ten">Họ và tên:</label>
-                        <input id="ho-ten" name="ho-ten" type="text" minlength="2" maxlength="60" autocomplete="name" required>
-                    </p>
+    <main class="trang__main gioi-han-form">
+        <h2 class="chu-canh-giua">Biểu mẫu Đặt sân</h2>
+        <p class="chu-canh-giua">Vui lòng điền đầy đủ thông tin dưới đây để gửi yêu cầu đặt sân. Chúng tôi sẽ liên hệ lại để xác nhận.</p>
 
-                    <p>
-                        <label for="email">Email:</label>
-                        <input id="email" name="email" type="email" autocomplete="email" required>
-                    </p>
+        <form action="#" method="post" class="bieu-mau">
+            <fieldset>
+                <legend>Thông tin khách hàng</legend>
+                
+                <div class="bieu-mau__nhom">
+                    <label class="bieu-mau__nhan" for="hoten">Họ và tên (*):</label>
+                    <input class="bieu-mau__o-nhap" type="text" id="hoten" name="hoten" required minlength="3" maxlength="50" placeholder="VD: Nguyễn Văn A">
+                </div>
+                
+                <div class="bieu-mau__nhom">
+                    <label class="bieu-mau__nhan" for="sdt">Số điện thoại (*):</label>
+                    <input class="bieu-mau__o-nhap" type="tel" id="sdt" name="sdt" required pattern="[0-9]{10}" placeholder="VD: 0901234567">
+                </div>
+            </fieldset>
 
-                    <p>
-                        <label for="dien-thoai">Số điện thoại:</label>
-                        <input id="dien-thoai" name="dien-thoai" type="tel" pattern="0[0-9]{9,10}" title="Nhập số điện thoại Việt Nam gồm 10 hoặc 11 chữ số, bắt đầu bằng 0" autocomplete="tel" required>
-                    </p>
+            <fieldset>
+                <legend>Thông tin đặt sân</legend>
 
-                    <p>
-                        <label for="san">Chọn sân:</label>
-                        <select id="san" name="san" required>
-                            <option value="">-- Chọn sân --</option>
-                            <option value="s01">Sân bóng Hòa Khánh</option>
-                            <option value="s02">Sân bóng Thanh Khê</option>
-                            <option value="s03">Sân bóng Sơn Trà</option>
-                            <option value="s04">Sân bóng Ngũ Hành Sơn</option>
-                        </select>
-                    </p>
-
-                    <p>
-                        <label for="ngay">Ngày đặt:</label>
-                        <input id="ngay" name="ngay" type="date" min="2026-09-17" required>
-                    </p>
-
-                    <p>
-                        <label for="gio">Khung giờ:</label>
-                        <input id="gio" name="gio" type="time" min="06:00" max="23:00" required>
-                    </p>
-
-                    <p>
-                        <label for="so-nguoi">Số người chơi:</label>
-                        <input id="so-nguoi" name="so-nguoi" type="number" min="5" max="22" required>
-                    </p>
-
-                    <p>
-                        <label for="ghi-chu">Ghi chú:</label>
-                        <textarea id="ghi-chu" name="ghi-chu" rows="4" cols="40" maxlength="300"></textarea>
-                    </p>
-                </fieldset>
-
-                <fieldset>
-                    <legend>Hình thức xác nhận</legend>
-                    <p>Chọn kênh liên hệ ưu tiên:</p>
-                    <label><input type="radio" name="kenh-lien-he" value="email" required> Email</label>
-                    <label><input type="radio" name="kenh-lien-he" value="dien-thoai"> Điện thoại</label>
-                    <p>
-                        <label for="ma-uu-dai">Mã ưu đãi (nếu có):</label>
-                        <input id="ma-uu-dai" name="ma-uu-dai" type="text" pattern="[A-Za-z0-9-]{0,12}" maxlength="12">
-                    </p>
-                    <p>
-                        <label for="dong-y">
-                            <input id="dong-y" name="dong-y" type="checkbox" required>
-                            Tôi đồng ý để nhóm liên hệ về yêu cầu đặt sân.
-                        </label>
-                    </p>
-
-                    <p>
-                        <button type="submit">Gửi yêu cầu</button>
-                    </p>
-                </fieldset>
-            </form>
-        </section>
+                <div class="bieu-mau__nhom">
+                    <label class="bieu-mau__nhan" for="loaisan">Chọn loại sân:</label>
+                    <select class="bieu-mau__lua-chon" id="loaisan" name="loaisan">
+                        <option value="5nguoi">Sân 5 người</option>
+                        <option value="7nguoi">Sân 7 người</option>
+                    </select>
+                </div>
+                
+                <div class="bieu-mau__nhom">
+                    <label class="bieu-mau__nhan" for="ngaydat">Ngày đặt (*):</label>
+                    <input class="bieu-mau__o-nhap" type="date" id="ngaydat" name="ngaydat" required min="2026-09-01" max="2027-12-31">
+                </div>
+                
+                <div class="bieu-mau__nhom">
+                    <label class="bieu-mau__nhan" for="giothue">Số giờ thuê (1 - 3 giờ):</label>
+                    <input class="bieu-mau__o-nhap" type="number" id="giothue" name="giothue" min="1" max="3" value="1">
+                </div>
+                
+                <div class="bieu-mau__nhom">
+                    <label class="bieu-mau__nhan" for="yeucau">Yêu cầu khác:</label>
+                    <textarea class="bieu-mau__o-nhap" id="yeucau" name="yeucau" rows="4" placeholder="Cần thuê trọng tài, mua nước..."></textarea>
+                </div>
+            </fieldset>
+            
+            <div class="d-flex gap-1 justify-center mt-1">
+                <button class="nut" type="submit">Gửi yêu cầu đặt sân</button>
+                <button class="nut nut--phu" type="reset">Nhập lại</button>
+            </div>
+        </form>
     </main>
 
-    <footer>
-        <p>&copy; 2026 Nhóm 11 - Quản lí sân bóng mini</p>
+    <footer class="trang__footer">
+        <p>© 2026 Nhóm 11 — Khoa Toán - Tin, Đại học Sư phạm Đà Nẵng</p>
     </footer>
 </body>
 </html>
