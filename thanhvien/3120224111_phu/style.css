@@ -1,0 +1,105 @@
+:root {
+    --primary-color: #0056b3;
+    --secondary-color: #e9ecef;
+    --text-color: #212529;
+    --bg-color: #ffffff;
+    --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --spacing-unit: 1rem;
+    --border-radius: 8px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: var(--font-family);
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    line-height: 1.6;
+}
+
+header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: var(--spacing-unit);
+    text-align: center;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--spacing-unit) * 1.5);
+    padding: var(--spacing-unit);
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+section {
+    background-color: var(--secondary-color);
+    padding: var(--spacing-unit);
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+h1, h2 { margin-bottom: var(--spacing-unit); }
+
+.profile-img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto var(--spacing-unit);
+    border-radius: var(--border-radius);
+    object-fit: cover;
+    max-height: 400px; 
+}
+
+.skills-list { list-style-position: inside; padding-left: 0; }
+.skills-list li { padding: 0.5rem 0; border-bottom: 1px solid #ccc; }
+.skills-list li:last-child { border-bottom: none; }
+
+.table-container {
+    overflow-x: auto;
+    width: 100%;
+    -webkit-overflow-scrolling: touch;
+}
+
+table {
+    width: 100%;
+    min-width: 400px;
+    border-collapse: collapse;
+    background-color: var(--bg-color);
+}
+
+th, td { padding: 0.75rem; text-align: left; border: 1px solid #dee2e6; }
+th { background-color: var(--primary-color); color: white; }
+tr:nth-child(even) { background-color: #f8f9fa; }
+
+a { color: var(--primary-color); text-decoration: none; font-weight: bold; transition: color 0.3s ease; }
+a:hover, a:focus-visible { color: #003d80; text-decoration: underline; outline: 2px solid transparent; outline-offset: 2px; }
+
+button, .btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-family: inherit;
+    transition: background-color 0.3s ease;
+}
+
+button:hover, .btn:hover { background-color: #003d80; }
+button:focus-visible, .btn:focus-visible { outline: 3px solid #ffc107; outline-offset: 2px; }
+
+footer { text-align: center; padding: var(--spacing-unit); background-color: var(--secondary-color); margin-top: var(--spacing-unit); }
+
+@media (min-width: 768px) {
+    main {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: calc(var(--spacing-unit) * 2);
+    }
+    #gioi-thieu { grid-column: 1 / -1; display: flex; align-items: center; gap: var(--spacing-unit); }
+    .profile-img { max-width: 300px; margin: 0; }
+    #thoi-khoa-bieu { grid-column: 1 / -1; }
+    .skills-list { columns: 2; column-gap: var(--spacing-unit); }
+}
