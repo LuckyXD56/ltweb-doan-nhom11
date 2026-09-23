@@ -1,0 +1,115 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Đăng nhập hệ thống Sân Bóng Thắng Lợi.">
+    <title>Đăng nhập | Sân Bóng Thắng Lợi</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .login-container {
+            max-width: 450px;
+            margin: 3rem auto;
+            background: var(--mau-trang);
+            padding: 2.5rem;
+            border-radius: var(--bo-goc);
+            box-shadow: var(--bong-do);
+            border-top: 5px solid var(--mau-chinh);
+        }
+        .login-title {
+            text-align: center;
+            color: var(--mau-chinh);
+            margin-bottom: 2rem;
+            font-size: 2rem;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: var(--chu);
+        }
+        .form-control {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--mau-chinh);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+        }
+        .login-btn {
+            width: 100%;
+            padding: 0.8rem;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+        }
+        .login-footer {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.95rem;
+        }
+        .login-footer a {
+            color: var(--mau-chinh);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .login-footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body class="trang">
+    <header class="trang__header">
+        <h1>Sân Bóng Thắng Lợi</h1>
+        <p>Uy tín - Tiện lợi - Sức khỏe là vàng</p>
+    </header>
+
+    <nav class="trang__nav">
+        <ul class="menu__danh-sach">
+            <li class="menu__muc"><a class="menu__lien-ket" href="index.html">Trang chủ</a></li>
+            <li class="menu__muc"><a class="menu__lien-ket" href="danh-sach.html">Danh sách sân bóng</a></li>
+            <li class="menu__muc"><a class="menu__lien-ket" href="chi-tiet.html">Chi tiết sân</a></li>
+            <li class="menu__muc"><a class="menu__lien-ket" href="gioi-thieu.html">Giới thiệu nhóm</a></li>
+            <li class="menu__muc"><a class="menu__lien-ket" href="lien-he.html">Liên hệ & Đặt sân</a></li>
+            <li class="menu__muc"><a class="menu__lien-ket active" href="dang-nhap.html">Đăng nhập</a></li>
+        </ul>
+    </nav>
+
+    <main class="trang__main">
+        <div class="login-container">
+            <h2 class="login-title">Đăng nhập</h2>
+            <form action="index.html">
+                <div class="form-group">
+                    <label for="email" class="form-label">Email / Tên đăng nhập</label>
+                    <input type="email" id="email" class="form-control" placeholder="nhap_email@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="password" class="form-label">Mật khẩu</label>
+                    <input type="password" id="password" class="form-control" placeholder="••••••••" required>
+                </div>
+                <div class="form-group" style="display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem;">
+                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                        <input type="checkbox"> Nhớ mật khẩu
+                    </label>
+                    <a href="#" style="color: var(--mau-chinh); text-decoration: none;">Quên mật khẩu?</a>
+                </div>
+                <button type="submit" class="nut login-btn">Đăng nhập ngay</button>
+            </form>
+            <div class="login-footer">
+                Chưa có tài khoản? <a href="#">Đăng ký tại đây</a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="trang__footer">
+        <p>© 2026 Sân Bóng Thắng Lợi. Bản quyền thuộc về Nhóm 11.</p>
+    </footer>
+</body>
+</html>
