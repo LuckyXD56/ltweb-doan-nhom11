@@ -1,43 +1,40 @@
 /* =====================================================
-   TRANG CÁ NHÂN - LÊ NGUYỄN GIA NHÂN
+   TRANG CÁ NHÂN
+   LÊ NGUYỄN GIA NHÂN
    MSSV: 3120224105
-   Nhóm 11
+   NHÓM 11
    ===================================================== */
 
 
 /* =====================================================
    1. BIẾN CSS
-   Nếu profile.css của nhóm đã có các biến tương ứng,
-   có thể thay các giá trị này bằng biến chung của nhóm.
    ===================================================== */
 
 :root {
-    --primary-color: #2563eb;
-    --primary-dark: #1d4ed8;
+    --primary: #00a86b;
+    --primary-dark: #007f51;
 
-    --secondary-color: #0f172a;
+    --dark: #0f172a;
 
-    --background-color: #f8fafc;
-    --card-color: #ffffff;
+    --background: #f5f7f9;
+    --white: #ffffff;
 
-    --text-color: #1e293b;
+    --text: #1f2937;
     --text-light: #475569;
 
-    --border-color: #cbd5e1;
-    --light-blue: #eff6ff;
+    --border: #dbe2e8;
 
-    --focus-color: #f59e0b;
+    --orange: #f59e0b;
 
-    --border-radius: 12px;
-    --spacing: 20px;
+    --radius: 14px;
 
     --shadow:
-        0 4px 15px rgba(0, 0, 0, 0.08);
+        0 8px 24px rgba(0, 0, 0, 0.08);
 }
 
 
 /* =====================================================
-   2. RESET CƠ BẢN
+   2. RESET
    ===================================================== */
 
 *,
@@ -46,9 +43,11 @@
     box-sizing: border-box;
 }
 
+
 html {
     scroll-behavior: smooth;
 }
+
 
 body {
     margin: 0;
@@ -60,11 +59,9 @@ body {
 
     line-height: 1.6;
 
-    color: var(--text-color);
+    color: var(--text);
 
-    background-color: var(--background-color);
-
-    overflow-x: hidden;
+    background-color: var(--background);
 }
 
 
@@ -82,37 +79,41 @@ img {
 
 
 /* =====================================================
-   4. KHUNG NỘI DUNG
+   4. KHUNG TRANG
    ===================================================== */
 
 .page-shell {
-    width: min(100% - 32px, 1100px);
+    width: min(1100px, calc(100% - 32px));
 
     margin-inline: auto;
 }
 
+
 .content {
-    padding-top: 25px;
-    padding-bottom: 40px;
+    padding-top: 30px;
+
+    padding-bottom: 50px;
 }
+
 
 .content > h1 {
     margin-top: 0;
-    margin-bottom: 25px;
 
-    font-size: clamp(1.7rem, 5vw, 2.5rem);
+    margin-bottom: 30px;
 
-    line-height: 1.25;
+    color: var(--dark);
+
+    font-size: clamp(1.6rem, 5vw, 2.4rem);
+
+    line-height: 1.3;
 
     text-align: center;
-
-    color: var(--secondary-color);
 }
 
 
 /* =====================================================
-   5. THẺ GIỚI THIỆU CÁ NHÂN
-   MOBILE-FIRST: 1 CỘT
+   5. PROFILE CARD
+   MOBILE FIRST
    ===================================================== */
 
 .profile-card {
@@ -124,22 +125,22 @@ img {
 
     align-items: center;
 
-    padding: 25px;
+    padding: 24px;
 
     margin-bottom: 25px;
 
-    background-color: var(--card-color);
+    background-color: var(--white);
 
-    border: 1px solid var(--border-color);
+    border-top: 5px solid var(--primary);
 
-    border-radius: var(--border-radius);
+    border-radius: var(--radius);
 
     box-shadow: var(--shadow);
 }
 
 
 /* =====================================================
-   6. ẢNH ĐẠI DIỆN
+   6. ẢNH CÁ NHÂN
    ===================================================== */
 
 .profile-figure {
@@ -148,8 +149,11 @@ img {
     text-align: center;
 }
 
+
 .avatar {
     width: min(100%, 230px);
+
+    height: auto;
 
     aspect-ratio: 1 / 1;
 
@@ -157,17 +161,26 @@ img {
 
     object-fit: cover;
 
+    object-position: center;
+
+    border: 5px solid var(--white);
+
     border-radius: 50%;
 
-    border: 4px solid var(--primary-color);
+    box-shadow:
+        0 0 0 3px var(--primary),
+        0 10px 25px rgba(0, 168, 107, 0.25);
 }
 
+
 .profile-figure figcaption {
-    margin-top: 12px;
+    margin-top: 15px;
+
+    color: var(--primary-dark);
+
+    font-size: 1.1rem;
 
     font-weight: 700;
-
-    color: var(--secondary-color);
 }
 
 
@@ -179,32 +192,15 @@ img {
     min-width: 0;
 }
 
-.profile-meta h2 {
-    margin-top: 10px;
-    margin-bottom: 15px;
 
-    color: var(--secondary-color);
-
-    font-size: 1.6rem;
-}
-
-.profile-meta p {
-    margin: 8px 0;
-
-    overflow-wrap: break-word;
-}
-
-
-/* Nhãn "Thành viên Nhóm 11" */
-
-.label {
+.profile-meta .label {
     display: inline-block;
 
-    padding: 6px 12px;
+    padding: 6px 14px;
 
-    color: var(--primary-dark);
+    color: var(--white);
 
-    background-color: var(--light-blue);
+    background-color: var(--primary);
 
     border-radius: 999px;
 
@@ -214,9 +210,26 @@ img {
 }
 
 
+.profile-meta h2 {
+    margin-top: 14px;
+
+    margin-bottom: 15px;
+
+    color: var(--primary-dark);
+
+    font-size: clamp(1.5rem, 5vw, 2rem);
+}
+
+
+.profile-meta p {
+    margin: 9px 0;
+
+    overflow-wrap: break-word;
+}
+
+
 /* =====================================================
    8. GRID THÔNG TIN
-   MOBILE: 1 CỘT
    ===================================================== */
 
 .info-grid {
@@ -229,47 +242,54 @@ img {
     margin-bottom: 25px;
 }
 
+
 .info-box,
 .full-box {
     min-width: 0;
 
-    padding: 20px;
+    padding: 22px;
 
-    background-color: var(--card-color);
+    background-color: var(--white);
 
-    border: 1px solid var(--border-color);
-
-    border-radius: var(--border-radius);
+    border-radius: var(--radius);
 
     box-shadow: var(--shadow);
 }
+
 
 .info-box h2,
 .full-box h2 {
     margin-top: 0;
 
-    color: var(--secondary-color);
+    margin-bottom: 15px;
+
+    color: var(--primary-dark);
+
+    font-size: 1.35rem;
 }
 
 
 /* =====================================================
-   9. DANH SÁCH THÔNG TIN
+   9. THÔNG TIN CÁ NHÂN
    ===================================================== */
 
-.info-box ul {
-    margin-bottom: 0;
+.personal-list {
+    margin: 0;
 
     padding-left: 22px;
 }
 
-.info-box li {
-    margin-bottom: 8px;
+
+.personal-list li {
+    margin-bottom: 10px;
+
+    overflow-wrap: break-word;
 }
 
 
 /* =====================================================
    10. DANH SÁCH KỸ NĂNG
-   Flexbox + tự xuống dòng
+   FLEXBOX
    ===================================================== */
 
 .skill-list {
@@ -279,39 +299,49 @@ img {
 
     gap: 10px;
 
-    padding: 0 !important;
+    margin: 0;
 
-    margin: 15px 0 0;
+    padding: 0;
 
     list-style: none;
 }
 
+
 .skill-list li {
     max-width: 100%;
 
-    padding: 8px 13px;
+    padding: 8px 14px;
 
-    margin: 0;
+    color: var(--white);
 
-    color: var(--primary-dark);
+    background-color: var(--primary);
 
-    background-color: var(--light-blue);
+    border-radius: 999px;
 
-    border: 1px solid #bfdbfe;
+    font-size: 0.95rem;
 
-    border-radius: 20px;
+    font-weight: 600;
 
     overflow-wrap: break-word;
+
+    box-shadow:
+        0 3px 8px rgba(0, 168, 107, 0.18);
 }
 
 
 /* =====================================================
-   11. BOX SỞ THÍCH / THỜI KHÓA BIỂU
+   11. FULL BOX
    ===================================================== */
 
 .full-box {
     margin-bottom: 25px;
 }
+
+
+.full-box p {
+    color: var(--text-light);
+}
+
 
 .full-box p:last-child {
     margin-bottom: 0;
@@ -319,9 +349,7 @@ img {
 
 
 /* =====================================================
-   12. BẢNG THỜI KHÓA BIỂU RESPONSIVE
-   Chỉ bảng được phép cuộn ngang.
-   Trang web không bị tràn ở 360px.
+   12. BẢNG RESPONSIVE
    ===================================================== */
 
 .table-wrapper {
@@ -333,18 +361,9 @@ img {
 
     -webkit-overflow-scrolling: touch;
 
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--border);
 
-    border-radius: 8px;
-}
-
-
-/* Cho biết vùng bảng có thể nhận focus */
-
-.table-wrapper:focus-visible {
-    outline: 3px solid var(--focus-color);
-
-    outline-offset: 3px;
+    border-radius: 10px;
 }
 
 
@@ -355,106 +374,105 @@ img {
 
     border-collapse: collapse;
 
-    background-color: var(--card-color);
+    background-color: var(--white);
 }
+
 
 .schedule-table caption {
     padding: 12px;
 
+    color: var(--dark);
+
+    background-color: #ecfdf5;
+
     font-weight: 700;
 
     text-align: left;
-
-    color: var(--secondary-color);
-
-    background-color: var(--light-blue);
 }
+
 
 .schedule-table th,
 .schedule-table td {
-    padding: 12px;
+    padding: 12px 14px;
 
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--border);
 
     text-align: left;
 
     vertical-align: middle;
 }
 
-.schedule-table thead th {
-    color: #ffffff;
 
-    background-color: var(--primary-color);
+.schedule-table thead th {
+    color: var(--white);
+
+    background-color: var(--primary);
 }
+
 
 .schedule-table tbody th {
-    color: var(--secondary-color);
+    color: var(--primary-dark);
 
-    background-color: var(--light-blue);
+    background-color: #ecfdf5;
 }
 
+
 .schedule-table tbody tr:hover {
-    background-color: #f8fafc;
+    background-color: #f0fdf4;
 }
 
 
 /* =====================================================
-   13. LIÊN KẾT
+   13. LINK
    ===================================================== */
 
 a {
-    color: var(--primary-color);
-
-    text-decoration-thickness: 1px;
-
-    text-underline-offset: 3px;
-
     transition:
         color 0.2s ease,
         background-color 0.2s ease,
         transform 0.2s ease;
 }
 
-a:hover {
-    color: var(--primary-dark);
 
+a:hover {
     text-decoration-thickness: 2px;
 }
 
 
 /* =====================================================
    14. FOCUS-VISIBLE
-   Yêu cầu Accessibility
    ===================================================== */
 
 a:focus-visible,
-button:focus-visible {
-    outline: 3px solid var(--focus-color);
+button:focus-visible,
+.table-wrapper:focus-visible {
+    outline: 3px solid var(--orange);
 
     outline-offset: 3px;
-
-    border-radius: 4px;
 }
 
 
 /* =====================================================
-   15. NÚT / LINK QUAY LẠI
+   15. NÚT QUAY LẠI
    ===================================================== */
 
 .back-link {
-    margin-top: 25px;
+    margin-top: 30px;
+
+    margin-bottom: 0;
 
     text-align: center;
 }
 
+
 .back-link a {
     display: inline-block;
 
-    padding: 10px 18px;
+    padding: 11px 20px;
 
-    color: #ffffff;
+    color: var(--white);
 
-    background-color: var(--primary-color);
+    background-color: var(--primary);
 
     border-radius: 8px;
 
@@ -463,18 +481,13 @@ button:focus-visible {
     text-decoration: none;
 }
 
+
 .back-link a:hover {
-    color: #ffffff;
+    color: var(--white);
 
     background-color: var(--primary-dark);
 
     transform: translateY(-2px);
-}
-
-.back-link a:focus-visible {
-    outline: 3px solid var(--focus-color);
-
-    outline-offset: 3px;
 }
 
 
@@ -483,116 +496,121 @@ button:focus-visible {
    ===================================================== */
 
 footer {
-    padding: 20px 16px;
+    padding: 22px 16px;
+
+    color: var(--white);
+
+    background-color: var(--dark);
 
     text-align: center;
-
-    color: #ffffff;
-
-    background-color: var(--secondary-color);
 }
+
 
 footer p {
     margin: 0;
 }
 
+
 footer a {
-    color: #ffffff;
+    color: var(--white);
 }
+
 
 footer a:hover {
-    color: #bfdbfe;
-}
-
-footer a:focus-visible {
-    outline: 3px solid var(--focus-color);
-
-    outline-offset: 3px;
+    color: #6ee7b7;
 }
 
 
 /* =====================================================
-   17. RESPONSIVE
-   Điểm ngắt bắt buộc dùng min-width
+   17. TABLET
+   MOBILE-FIRST - MIN-WIDTH
    ===================================================== */
-
-/*
-   Tablet trở lên
-*/
 
 @media (min-width: 768px) {
 
     .content {
         padding-top: 40px;
-        padding-bottom: 50px;
+
+        padding-bottom: 60px;
     }
 
-    /*
-       Profile chuyển từ 1 cột -> 2 cột
-    */
+
+    /* Profile 2 cột */
 
     .profile-card {
-        grid-template-columns: 250px 1fr;
+        grid-template-columns:
+            250px minmax(0, 1fr);
 
-        padding: 30px;
+        gap: 35px;
+
+        padding: 35px;
     }
+
 
     .avatar {
         width: 220px;
     }
 
 
-    /*
-       Hai box thông tin nằm cạnh nhau
-    */
+    /* Thông tin 2 cột */
 
     .info-grid {
         grid-template-columns:
             repeat(2, minmax(0, 1fr));
     }
 
+
     .info-box,
     .full-box {
-        padding: 25px;
+        padding: 28px;
     }
 
 }
 
 
 /* =====================================================
-   18. MÀN HÌNH LỚN
+   18. DESKTOP
    ===================================================== */
 
 @media (min-width: 1024px) {
 
     .profile-card {
-        grid-template-columns: 280px 1fr;
+        grid-template-columns:
+            280px minmax(0, 1fr);
 
-        gap: 40px;
+        gap: 45px;
+
+        padding: 40px;
     }
+
 
     .avatar {
         width: 240px;
     }
 
+
     .profile-meta h2 {
-        font-size: 1.8rem;
+        font-size: 2rem;
     }
 
 }
 
 
 /* =====================================================
-   19. HỖ TRỢ NGƯỜI DÙNG GIẢM CHUYỂN ĐỘNG
+   19. GIẢM CHUYỂN ĐỘNG
+   ACCESSIBILITY
    ===================================================== */
 
 @media (prefers-reduced-motion: reduce) {
 
+    html {
+        scroll-behavior: auto;
+    }
+
+
     *,
     *::before,
     *::after {
-        scroll-behavior: auto !important;
-
         transition-duration: 0.01ms !important;
 
         animation-duration: 0.01ms !important;
