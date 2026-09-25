@@ -1,129 +1,391 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Trang giới thiệu thành viên Lê Nguyễn Gia Nhân của Nhóm 11.">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="Trang giới thiệu thành viên Lê Nguyễn Gia Nhân - MSSV 3120224105 của Nhóm 11.">
+
     <title>Lê Nguyễn Gia Nhân | Nhóm 11</title>
-    <link rel="stylesheet" href="../../styles/profile.css">
+
+    <!-- CSS chung của nhóm -->
+    <link
+        rel="stylesheet"
+        href="../../styles/profile.css">
+
+    <!-- CSS riêng của trang cá nhân -->
+    <link
+        rel="stylesheet"
+        href="canhan.css">
 </head>
 
+
 <body>
+
+    <!-- ================= HEADER ================= -->
+
     <header class="topbar">
+
         <div class="topbar-inner">
+
             <nav aria-label="Điều hướng chính">
+
                 <ul class="main-nav">
-                    <li><a href="../../index.html">Trang chủ</a></li>
-                    <li><a href="../../danh-sach.html">Danh sách sân</a></li>
-                    <li><a href="../../chi-tiet.html">Chi tiết sân</a></li>
-                    <li><a href="../../gioi-thieu.html" class="active">Giới thiệu nhóm</a></li>
-                    <li><a href="../../lien-he.html">Liên hệ / Đặt sân</a></li>
+
+                    <li>
+                        <a href="../../index.html">
+                            Trang chủ
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="../../danh-sach.html">
+                            Danh sách sân
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="../../chi-tiet.html">
+                            Chi tiết sân
+                        </a>
+                    </li>
+
+                    <li>
+                        <a
+                            href="../../gioi-thieu.html"
+                            class="active">
+                            Giới thiệu nhóm
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="../../lien-he.html">
+                            Liên hệ / Đặt sân
+                        </a>
+                    </li>
+
                 </ul>
+
             </nav>
+
         </div>
+
     </header>
 
-    <main class="page-shell content">
-        <h1>Giới thiệu thành viên Lê Nguyễn Gia Nhân</h1>
 
-        <section class="profile-card" aria-label="Thông tin cá nhân">
-            <figure>
+    <!-- ================= MAIN ================= -->
+
+    <main class="page-shell content">
+
+        <h1>
+            Giới thiệu thành viên Lê Nguyễn Gia Nhân
+        </h1>
+
+
+        <!-- ================= PROFILE ================= -->
+
+        <section
+            class="profile-card"
+            aria-labelledby="profile-heading">
+
+
+            <!-- ẢNH CÁ NHÂN -->
+
+            <figure class="profile-figure">
+
                 <img
                     class="avatar"
                     src="../../images/nhan.jpg"
                     alt="Ảnh chân dung của Lê Nguyễn Gia Nhân"
-                    width="130"
-                    height="130">
-                <figcaption>Lê Nguyễn Gia Nhân</figcaption>
+                    width="300"
+                    height="300">
+
+                <figcaption>
+                    Lê Nguyễn Gia Nhân
+                </figcaption>
+
             </figure>
 
+
+            <!-- THÔNG TIN CHÍNH -->
+
             <div class="profile-meta">
-                <span class="label">Thành viên Nhóm 11</span>
-                <h2>Lê Nguyễn Gia Nhân</h2>
-                <p><strong>Mã sinh viên:</strong> 3120224105</p>
-                <p><strong>Vai trò:</strong> Thành viên nhóm</p>
-                <p><strong>Nhiệm vụ:</strong> Tham gia phân tích cấu trúc HTML và trả lời câu hỏi thảo luận.</p>
+
+                <span class="label">
+                    Thành viên Nhóm 11
+                </span>
+
+                <h2 id="profile-heading">
+                    Lê Nguyễn Gia Nhân
+                </h2>
+
+                <p>
+                    <strong>Mã sinh viên:</strong>
+                    3120224105
+                </p>
+
+                <p>
+                    <strong>Vai trò:</strong>
+                    Thành viên nhóm
+                </p>
+
+                <p>
+                    <strong>Nhiệm vụ:</strong>
+                    Tham gia xây dựng giao diện,
+                    phân tích cấu trúc HTML,
+                    thiết kế CSS responsive
+                    và trả lời câu hỏi thảo luận.
+                </p>
+
             </div>
+
         </section>
 
-        <!-- ĐÃ SỬA: đổi <section> thành <div> -->
+
+        <!-- ================= THÔNG TIN + KỸ NĂNG ================= -->
+
         <div class="info-grid">
-            <article class="info-box">
-                <h2>Thông tin cá nhân</h2>
-                <ul>
-                    <li>Họ và tên: Lê Nguyễn Gia Nhân</li>
-                    <li>Khoa: Toán - Tin</li>
-                    <li>Chuyên ngành: Công nghệ thông tin</li>
-                </ul>
-            </article>
+
+
+            <!-- THÔNG TIN CÁ NHÂN -->
 
             <article class="info-box">
-                <h2>Kỹ năng</h2>
-                <ul>
-                    <li>HTML5 semantic elements</li>
-                    <li>Phân tích cấu trúc website</li>
-                    <li>Sử dụng DevTools và Validator</li>
-                    <li>Làm việc nhóm với GitHub</li>
+
+                <h2>
+                    Thông tin cá nhân
+                </h2>
+
+                <ul class="personal-list">
+
+                    <li>
+                        <strong>Họ và tên:</strong>
+                        Lê Nguyễn Gia Nhân
+                    </li>
+
+                    <li>
+                        <strong>MSSV:</strong>
+                        3120224105
+                    </li>
+
+                    <li>
+                        <strong>Khoa:</strong>
+                        Toán - Tin
+                    </li>
+
+                    <li>
+                        <strong>Chuyên ngành:</strong>
+                        Công nghệ thông tin
+                    </li>
+
                 </ul>
+
             </article>
+
+
+            <!-- KỸ NĂNG -->
+
+            <article class="info-box">
+
+                <h2>
+                    Kỹ năng
+                </h2>
+
+                <ul class="skill-list">
+
+                    <li>HTML5 Semantic</li>
+
+                    <li>CSS3 Responsive</li>
+
+                    <li>JavaScript</li>
+
+                    <li>DevTools</li>
+
+                    <li>W3C Validator</li>
+
+                    <li>Git &amp; GitHub</li>
+
+                </ul>
+
+            </article>
+
         </div>
-        <!-- KẾT THÚC SỬA -->
+
+
+        <!-- ================= SỞ THÍCH ================= -->
 
         <article class="full-box">
-            <h2>Sở thích và mục tiêu</h2>
+
+            <h2>
+                Sở thích và mục tiêu
+            </h2>
+
             <p>
-                Nhân yêu thích bóng đá, đọc sách công nghệ và tìm hiểu về
-                khả năng truy cập web (accessibility). Mục tiêu là hoàn thành
-                tốt phần phân tích và thảo luận trong dự án nhóm.
+                Nhân yêu thích bóng đá, đọc sách công nghệ
+                và tìm hiểu về phát triển website.
+                Bên cạnh đó, Nhân quan tâm đến thiết kế
+                giao diện responsive và khả năng truy cập
+                web (Accessibility).
             </p>
+
+            <p>
+                Mục tiêu của Nhân là nâng cao kỹ năng
+                HTML, CSS, JavaScript và GitHub,
+                đồng thời áp dụng những kiến thức đã học
+                vào các dự án website thực tế.
+            </p>
+
         </article>
 
-        <section class="full-box">
-            <h2>Thời khóa biểu tuần</h2>
 
-            <table class="schedule-table">
-                <caption>
-                    Lịch học và hoạt động trong tuần của Lê Nguyễn Gia Nhân
-                </caption>
+        <!-- ================= THỜI KHÓA BIỂU ================= -->
 
-                <thead>
-                    <tr>
-                        <th scope="col">Ngày</th>
-                        <th scope="col">Hoạt động</th>
-                        <th scope="col">Thời gian</th>
-                    </tr>
-                </thead>
+        <section
+            class="full-box schedule-section"
+            aria-labelledby="schedule-heading">
 
-                <tbody>
-                    <tr>
-                        <th scope="row">Thứ Hai</th>
-                        <td>Học tập trên lớp</td>
-                        <td>07:00 - 11:00</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Thứ Sáu</th>
-                        <td>Phân tích và kiểm tra website</td>
-                        <td>13:30 - 17:00</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Chủ Nhật</th>
-                        <td>Họp nhóm và ôn tập</td>
-                        <td>19:00 - 21:00</td>
-                    </tr>
-                </tbody>
-            </table>
+            <h2 id="schedule-heading">
+                Thời khóa biểu tuần
+            </h2>
+
+
+            <!--
+                Khung riêng để bảng có thể cuộn ngang
+                trên điện thoại mà không làm toàn trang
+                xuất hiện thanh cuộn ngang.
+            -->
+
+            <div
+                class="table-wrapper"
+                tabindex="0"
+                aria-label="Bảng thời khóa biểu có thể cuộn ngang">
+
+
+                <table class="schedule-table">
+
+
+                    <caption>
+                        Lịch học và hoạt động trong tuần
+                        của Lê Nguyễn Gia Nhân
+                    </caption>
+
+
+                    <thead>
+
+                        <tr>
+
+                            <th scope="col">
+                                Ngày
+                            </th>
+
+                            <th scope="col">
+                                Hoạt động
+                            </th>
+
+                            <th scope="col">
+                                Thời gian
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        <tr>
+
+                            <th scope="row">
+                                Thứ Hai
+                            </th>
+
+                            <td>
+                                Học tập trên lớp
+                            </td>
+
+                            <td>
+                                07:00 - 11:00
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <th scope="row">
+                                Thứ Sáu
+                            </th>
+
+                            <td>
+                                Phân tích và kiểm tra website
+                            </td>
+
+                            <td>
+                                13:30 - 17:00
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <th scope="row">
+                                Chủ Nhật
+                            </th>
+
+                            <td>
+                                Họp nhóm và ôn tập
+                            </td>
+
+                            <td>
+                                19:00 - 21:00
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
         </section>
 
+
+        <!-- ================= QUAY LẠI ================= -->
+
         <p class="back-link">
-            <a href="../../gioi-thieu.html">← Quay lại trang giới thiệu nhóm</a>
+
+            <a href="../../gioi-thieu.html">
+                ← Quay lại trang giới thiệu nhóm
+            </a>
+
         </p>
+
     </main>
 
+
+    <!-- ================= FOOTER ================= -->
+
     <footer>
+
         <p>
+
             &copy; 2026 Nhóm 11 -
-            <a href="../../index.html">Quay về trang chủ</a>
+
+            <a href="../../index.html">
+                Quay về trang chủ
+            </a>
+
         </p>
+
     </footer>
+
 </body>
+
 </html>
