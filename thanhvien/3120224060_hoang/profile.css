@@ -1,0 +1,213 @@
+/* ========================================
+   TRANG CÁ NHÂN
+   ======================================== */
+
+.page-shell {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--khoang-cach);
+}
+
+.page-shell h1 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    color: #0f172a;
+}
+
+/* ========================================
+   THÔNG TIN THÀNH VIÊN
+   ======================================== */
+
+.profile-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--khoang-cach);
+
+    background-color: var(--mau-trang);
+    padding: 1.5rem;
+    border-radius: var(--bo-goc);
+    box-shadow: var(--bong-do);
+
+    margin-bottom: var(--khoang-cach);
+    text-align: center;
+}
+
+.profile-card figure {
+    margin: 0;
+    flex-shrink: 0;
+    text-align: center;
+}
+
+/* Ảnh chân dung responsive */
+.avatar {
+    width: 130px;
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+
+    border-radius: 50%;
+    border: 3px solid var(--mau-chinh);
+}
+
+.profile-meta {
+    flex: 1;
+}
+
+.profile-meta h2 {
+    margin-top: 0;
+    color: #0f172a;
+}
+
+.label {
+    display: inline-block;
+    color: var(--mau-chinh);
+    font-weight: 600;
+}
+
+/* ========================================
+   THÔNG TIN + KỸ NĂNG
+   ======================================== */
+
+.info-grid {
+    display: grid;
+
+    /* Màn hình nhỏ: 1 cột */
+    grid-template-columns: 1fr;
+
+    gap: var(--khoang-cach);
+    margin-bottom: var(--khoang-cach);
+}
+
+.info-box,
+.full-box {
+    background-color: var(--mau-trang);
+    padding: 1.5rem;
+    border-radius: var(--bo-goc);
+    box-shadow: var(--bong-do);
+}
+
+.info-box h2,
+.full-box h2 {
+    margin-top: 0;
+    color: #0f172a;
+}
+
+.info-box ul {
+    margin: 0;
+    padding-left: 1.5rem;
+}
+
+.info-box li {
+    margin-bottom: 0.6rem;
+    overflow-wrap: anywhere;
+}
+
+/* ========================================
+   BẢNG THỜI KHÓA BIỂU
+   ======================================== */
+
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+}
+
+.schedule-table {
+    width: 100%;
+    min-width: 600px;
+    border-collapse: collapse;
+    background-color: var(--mau-trang);
+}
+
+.schedule-table th,
+.schedule-table td {
+    padding: 0.9rem 1rem;
+    border: 1px solid var(--mau-vien);
+    text-align: left;
+}
+
+.schedule-table th {
+    background-color: #f8fafc;
+    font-weight: 600;
+}
+
+.schedule-table caption {
+    padding: 0.75rem;
+    font-weight: 600;
+    text-align: left;
+}
+
+/* ========================================
+   LIÊN KẾT
+   ======================================== */
+
+.profile-card a:hover,
+.info-box a:hover,
+.full-box a:hover {
+    color: var(--mau-nhan);
+}
+
+.profile-card a:focus-visible,
+.info-box a:focus-visible,
+.full-box a:focus-visible {
+    outline: 3px solid var(--mau-nhan);
+    outline-offset: 2px;
+}
+
+/* ========================================
+   NÚT
+   ======================================== */
+.nut:hover {
+    background-color: var(--mau-nhan);
+}
+
+.nut:focus-visible {
+    outline: 3px solid var(--mau-nhan);
+    outline-offset: 2px;
+}
+
+/* ========================================
+   RESPONSIVE - BREAKPOINT
+   ======================================== */
+
+/*
+   Từ 768px trở lên:
+   - Thông tin thành viên nằm ngang
+   - Hai khối thông tin nằm cạnh nhau
+*/
+@media (min-width: 768px) {
+
+    .profile-card {
+        flex-direction: row;
+        align-items: center;
+        text-align: left;
+    }
+
+    .info-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+.page-shell {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--khoang-cach);
+}
+
+.profile-card,
+.info-box,
+.full-box {
+    min-width: 0;
+}
+
+.profile-meta {
+    min-width: 0;
+}
+
+.info-grid {
+    width: 100%;
+    min-width: 0;
+}

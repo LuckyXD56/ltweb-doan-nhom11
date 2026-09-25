@@ -5,26 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Trang giới thiệu thành viên Nguyễn Quý Minh Hoàng của Nhóm 11.">
     <title>Nguyễn Quý Minh Hoàng | Nhóm 11</title>
-    <link rel="stylesheet" href="../../styles/profile.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="profile.css">
 </head>
 
 <body>
-    <header class="topbar">
-        <div class="topbar-inner">
-            <nav aria-label="Điều hướng chính">
-                <ul class="main-nav">
-                    <li><a href="../../index.html">Trang chủ</a></li>
-                    <li><a href="../../danh-sach.html">Danh sách sân</a></li>
-                    <li><a href="../../chi-tiet.html">Chi tiết sân</a></li>
-                    <li><a href="../../gioi-thieu.html" class="active">Giới thiệu nhóm</a></li>
-                    <li><a href="../../lien-he.html">Liên hệ / Đặt sân</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+    <header class="trang__header">
+    <h1>Sân Bóng Thắng Lợi</h1>
+    <p>Uy tín - Tiện lợi - Sức khỏe là vàng</p>
+</header>
+
+<nav class="trang__nav" aria-label="Điều hướng chính">
+    <ul class="menu__danh-sach">
+        <li class="menu__muc">
+            <a href="../../index.html" class="menu__lien-ket">Trang chủ</a>
+        </li>
+
+        <li class="menu__muc">
+            <a href="../../danh-sach.html" class="menu__lien-ket">Danh sách sân</a>
+        </li>
+
+        <li class="menu__muc">
+            <a href="../../chi-tiet.html" class="menu__lien-ket">Chi tiết sân</a>
+        </li>
+
+        <li class="menu__muc">
+            <a href="../../gioi-thieu.html" class="menu__lien-ket active">
+                Giới thiệu nhóm
+            </a>
+        </li>
+
+        <li class="menu__muc">
+            <a href="../../lien-he.html" class="menu__lien-ket">
+                Liên hệ / Đặt sân
+            </a>
+        </li>
+    </ul>
+</nav>
 
     <main class="page-shell content">
-        <h1>Giới thiệu thành viên Nguyễn Quý Minh Hoàng</h1>
+        <h1>Giới thiệu thành viên</h1>
 
         <section class="profile-card" aria-label="Thông tin cá nhân">
             <figure>
@@ -61,7 +81,7 @@
                 <ul>
                     <li>HTML5 form và validation</li>
                     <li>CSS layout</li>
-                    <li>Thiết kế cơ sở dữ liệu</li>
+<li>Thiết kế cơ sở dữ liệu</li>
                     <li>Làm việc nhóm với GitHub</li>
                 </ul>
             </article>
@@ -78,7 +98,7 @@
 
         <section class="full-box">
             <h2>Thời khóa biểu tuần</h2>
-
+            <div class="table-responsive">
             <table class="schedule-table">
                 <caption>
                     Lịch học và hoạt động trong tuần của Nguyễn Quý Minh Hoàng
@@ -94,7 +114,17 @@
 
                 <tbody>
                     <tr>
+                        <th scope="row">Thứ Hai</th>
+                        <td>Học trên lớp</td>
+                        <td>07:00 - 11:00</td>
+                    </tr>
+                    <tr>
                         <th scope="row">Thứ Ba</th>
+                        <td>Học chuyên ngành</td>
+                        <td>07:00 - 11:00</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Thứ Tư</th>
                         <td>Học chuyên ngành</td>
                         <td>07:00 - 11:00</td>
                     </tr>
@@ -104,12 +134,23 @@
                         <td>13:30 - 17:00</td>
                     </tr>
                     <tr>
+                        <th scope="row">Thứ Sáu</th>
+                        <td>Học trên lớp</td>
+                        <td>07:00 - 11:00</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Thứ Bảy</th>
+                        <td>Học chuyên ngành</td>
+                        <td>07:00 - 11:00</td>
+                    </tr>
+                    <tr>
                         <th scope="row">Chủ Nhật</th>
                         <td>Ôn tập và kiểm tra tiến độ</td>
                         <td>19:00 - 21:00</td>
                     </tr>
                 </tbody>
             </table>
+            </div>
         </section>
 
         <p class="back-link">
@@ -121,7 +162,7 @@
         <p>
             &copy; 2026 Nhóm 11 -
             <a href="../../index.html">Quay về trang chủ</a>
-        </p>
+</p>
     </footer>
 </body>
 </html>
