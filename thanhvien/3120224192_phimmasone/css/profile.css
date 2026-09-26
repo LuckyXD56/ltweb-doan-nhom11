@@ -125,3 +125,6 @@
         justify-content: flex-start;
     }
 }
+
+.profile-card__name { word-break: break-word; overflow-wrap: anywhere; }
+@media (max-width: 400px) { .profile-card__name { font-size: 1.5rem; } }
