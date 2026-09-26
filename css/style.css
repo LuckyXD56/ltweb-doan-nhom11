@@ -1,5 +1,5 @@
 ﻿:root {
-    --mau-chinh: #059669;
+    --mau-chinh: #047857;
     --mau-nhan: #10b981;
     --mau-chu: #334155;
     --mau-nen: #f8fafc;
@@ -234,7 +234,7 @@ a:hover, a:focus-visible {
 .nut {
     display: inline-block;
     background-color: var(--mau-chinh);
-    color: var(--mau-trang) !important;
+    color: var(--mau-trang) ;
     padding: 0.75rem 1.5rem;
     border-radius: var(--bo-goc);
     font-weight: 600;
@@ -255,7 +255,7 @@ a:hover, a:focus-visible {
 
 .nut--phu {
     background-color: var(--mau-vien);
-    color: var(--mau-chu) !important;
+    color: var(--mau-chu) ;
 }
 
 .nut--phu:hover {
@@ -310,7 +310,7 @@ legend {
 
 .bieu-mau__o-nhap:focus,
 .bieu-mau__lua-chon:focus {
-    outline: none;
+    
     border-color: var(--mau-chinh);
     box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
 }
@@ -350,3 +350,8 @@ legend {
 }
 
 .gioi-han-form { max-width: 600px; margin: 0 auto; }
+
+@media (min-width: 1024px) {
+  .trang { padding-left: 50px; padding-right: 50px; }
+}
+
