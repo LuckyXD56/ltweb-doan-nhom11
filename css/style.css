@@ -355,3 +355,8 @@ legend {
   .trang { padding-left: 50px; padding-right: 50px; }
 }
 
+
+/* Flexbox cho danh sach thanh vien */
+.danh-sach-thanh-vien { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
+.danh-sach-thanh-vien .the { flex: 1 1 200px; max-width: 300px; }
+
