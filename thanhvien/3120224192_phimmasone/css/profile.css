@@ -128,3 +128,11 @@
 
 .profile-card__name { word-break: break-word; overflow-wrap: anywhere; }
 @media (max-width: 400px) { .profile-card__name { font-size: 1.5rem; } }
+.flex-wrap { flex-wrap: wrap; }
+.mt-1-5 { margin-top: 1.5rem; }
+.flex-1 { flex: 1; }
+.min-w-200 { min-width: 200px; }
+.mt-0 { margin-top: 0; }
+.mb-0-5 { margin-bottom: 0.5rem; }
+.text-primary { color: var(--mau-chinh); }
+.text-secondary { line-height: 1.6; color: #475569; }
