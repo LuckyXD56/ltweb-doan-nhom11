@@ -1,8 +1,9 @@
-/* ========================================
-   TRANG CÁ NHÂN
-   ======================================== */
+/* =========================================================
+   CSS - NGUYỄN QUÝ MINH HOÀNG
+   ========================================================= */
 
 .page-shell {
+    width: 100%;
     max-width: 1200px;
     margin: 0 auto;
     padding: var(--khoang-cach);
@@ -14,22 +15,18 @@
     color: #0f172a;
 }
 
-/* ========================================
-   THÔNG TIN THÀNH VIÊN
-   ======================================== */
-
+/*THÔNG TIN THÀNH VIÊN*/
 .profile-card {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: var(--khoang-cach);
-
+    min-width: 0;
     background-color: var(--mau-trang);
     padding: 1.5rem;
+    margin-bottom: var(--khoang-cach);
     border-radius: var(--bo-goc);
     box-shadow: var(--bong-do);
-
-    margin-bottom: var(--khoang-cach);
     text-align: center;
 }
 
@@ -39,20 +36,19 @@
     text-align: center;
 }
 
-/* Ảnh chân dung responsive */
 .avatar {
     width: 130px;
     max-width: 100%;
     height: auto;
     aspect-ratio: 1 / 1;
     object-fit: cover;
-
     border-radius: 50%;
     border: 3px solid var(--mau-chinh);
 }
 
 .profile-meta {
     flex: 1;
+    min-width: 0;
 }
 
 .profile-meta h2 {
@@ -66,22 +62,19 @@
     font-weight: 600;
 }
 
-/* ========================================
-   THÔNG TIN + KỸ NĂNG
-   ======================================== */
-
+/*THÔNG TIN + KỸ NĂNG*/
 .info-grid {
     display: grid;
-
-    /* Màn hình nhỏ: 1 cột */
     grid-template-columns: 1fr;
-
+    width: 100%;
+    min-width: 0;
     gap: var(--khoang-cach);
     margin-bottom: var(--khoang-cach);
 }
 
 .info-box,
 .full-box {
+    min-width: 0;
     background-color: var(--mau-trang);
     padding: 1.5rem;
     border-radius: var(--bo-goc);
@@ -104,10 +97,7 @@
     overflow-wrap: anywhere;
 }
 
-/* ========================================
-   BẢNG THỜI KHÓA BIỂU
-   ======================================== */
-
+/*THỜI KHÓA BIỂU*/
 .table-responsive {
     width: 100%;
     overflow-x: auto;
@@ -140,10 +130,7 @@
     text-align: left;
 }
 
-/* ========================================
-   LIÊN KẾT
-   ======================================== */
-
+/*LIÊN KẾT*/
 .profile-card a:hover,
 .info-box a:hover,
 .full-box a:hover {
@@ -157,9 +144,7 @@
     outline-offset: 2px;
 }
 
-/* ========================================
-   NÚT
-   ======================================== */
+/*NÚT*/
 .nut:hover {
     background-color: var(--mau-nhan);
 }
@@ -169,17 +154,209 @@
     outline-offset: 2px;
 }
 
-/* ========================================
-   RESPONSIVE - BREAKPOINT
-   ======================================== */
+/*NÚT CHUYỂN GIAO DIỆN*/
+#dark-mode-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0;
+    margin: 0;
+    background-color: var(--mau-nen);
+}
 
-/*
-   Từ 768px trở lên:
-   - Thông tin thành viên nằm ngang
-   - Hai khối thông tin nằm cạnh nhau
-*/
+#dark-mode-button {
+    display: block;
+    margin: 0;
+    padding: 10px 16px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+#dark-mode-button:hover,
+#dark-mode-button:focus-visible {
+    transform: translateY(-1px);
+}
+
+/*CĐ DARK MODE*/
+html:has(body.dark-mode) {
+    background-color: #111827 !important;
+}
+
+body.dark-mode {
+    margin: 0 !important;
+    padding: 0 !important;
+    min-height: 100vh;
+    background-color: #111827 !important;
+    color: #f9fafb !important;
+}
+
+body.dark-mode #dark-mode-container {
+    background-color: #111827 !important;
+}
+
+body.dark-mode #dark-mode-button {
+    background-color: #374151 !important;
+    color: #ffffff !important;
+    border-color: #4b5563 !important;
+}
+
+/* HEADER */
+body.dark-mode .trang__header {
+    background-color: #111827 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .trang__header h1,
+body.dark-mode .trang__header p {
+    color: #ffffff !important;
+}
+
+/*MENU*/
+body.dark-mode .trang__nav,
+body.dark-mode .menu__danh-sach,
+body.dark-mode .menu__muc,
+body.dark-mode .menu__lien-ket {
+    background-color: #1f2937 !important;
+}
+
+body.dark-mode .menu__lien-ket {
+    color: #e5e7eb !important;
+}
+
+body.dark-mode .menu__lien-ket.active {
+    background-color: #374151 !important;
+    color: #34d399 !important;
+}
+
+body.dark-mode .menu__lien-ket:hover,
+body.dark-mode .menu__lien-ket:focus-visible {
+    background-color: #374151 !important;
+    color: #ffffff !important;
+}
+
+/* MAIN */
+body.dark-mode main,
+body.dark-mode .page-shell,
+body.dark-mode .content {
+    background-color: #111827 !important;
+    color: #f9fafb !important;
+}
+
+body.dark-mode main h1,
+body.dark-mode main h2,
+body.dark-mode main h3 {
+    color: #f9fafb !important;
+}
+
+/*CARD*/
+body.dark-mode .profile-card,
+body.dark-mode .info-box,
+body.dark-mode .full-box {
+    background-color: #1f2937 !important;
+    color: #f9fafb !important;
+}
+
+body.dark-mode .profile-card h1,
+body.dark-mode .profile-card h2,
+body.dark-mode .profile-card h3,
+body.dark-mode .profile-card p,
+body.dark-mode .profile-card span,
+body.dark-mode .profile-card strong,
+body.dark-mode .profile-card figcaption,
+body.dark-mode .info-box h2,
+body.dark-mode .full-box h2,
+body.dark-mode .info-box p,
+body.dark-mode .info-box li,
+body.dark-mode .full-box p,
+body.dark-mode .full-box li {
+    color: #f9fafb !important;
+}
+
+body.dark-mode .label {
+    color: #34d399 !important;
+}
+
+/*NÚT THU GỌN / MỞ RỘNG*/
+body.dark-mode .accordion-button,
+body.dark-mode .nut {
+    background-color: #374151 !important;
+    color: #ffffff !important;
+    border: 1px solid #4b5563 !important;
+}
+
+body.dark-mode .accordion-button:hover,
+body.dark-mode .accordion-button:focus-visible,
+body.dark-mode .nut:hover,
+body.dark-mode .nut:focus-visible {
+    background-color: #4b5563 !important;
+    color: #ffffff !important;
+}
+
+/*BẢNG*/
+body.dark-mode .table-responsive {
+    background-color: transparent !important;
+}
+
+body.dark-mode .schedule-table {
+    background-color: #1f2937 !important;
+    color: #f9fafb !important;
+    border-color: #4b5563 !important;
+}
+
+body.dark-mode .schedule-table caption {
+    color: #f9fafb !important;
+}
+
+body.dark-mode .schedule-table th,
+body.dark-mode .schedule-table td {
+    background-color: #1f2937 !important;
+    color: #f9fafb !important;
+    border-color: #4b5563 !important;
+}
+
+body.dark-mode .schedule-table thead th {
+    background-color: #374151 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .schedule-table tbody th {
+    background-color: #1f2937 !important;
+    color: #f9fafb !important;
+}
+
+body.dark-mode .schedule-table tbody tr:hover th,
+body.dark-mode .schedule-table tbody tr:hover td {
+    background-color: #374151 !important;
+}
+
+/*LINK*/
+body.dark-mode a {
+    color: #93c5fd !important;
+}
+
+body.dark-mode a:hover,
+body.dark-mode a:focus-visible {
+    color: #ffffff !important;
+}
+
+/*FOOTER*/
+body.dark-mode footer {
+    background-color: #111827 !important;
+    color: #f9fafb !important;
+    border: 0 !important;
+}
+
+body.dark-mode footer p {
+    color: #f9fafb !important;
+}
+
+/*RESPONSIVE*/
 @media (min-width: 768px) {
-
     .profile-card {
         flex-direction: row;
         align-items: center;
@@ -190,24 +367,70 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
-.page-shell {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: var(--khoang-cach);
+/* Accordion */
+.info-box.is-collapsed > *:not(h2):not(.accordion-button),
+.full-box.is-collapsed > *:not(h2):not(.accordion-button) {
+    display: none;
+}
+/* HỖ TRỢ BÀN PHÍM */
+button:focus-visible,
+a:focus-visible {
+    outline: 3px solid #f59e0b;
+    outline-offset: 3px;
 }
 
-.profile-card,
-.info-box,
-.full-box {
-    min-width: 0;
+/* HỖ TRỢ MÀN HÌNH 360PX */
+html,
+body {
+    max-width: 100%;
+    overflow-x: hidden;
 }
 
-.profile-meta {
-    min-width: 0;
+img {
+    max-width: 100%;
+    height: auto;
 }
 
-.info-grid {
-    width: 100%;
-    min-width: 0;
+/* Bảng chỉ cuộn bên trong khi màn hình nhỏ */
+.table-responsive {
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Nút chuyển giao diện không vượt màn hình */
+#dark-mode-container,
+#dark-mode-button {
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* RESPONSIVE 360PX */
+@media (max-width: 360px) {
+    .page-shell {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .info-grid {
+        width: 100%;
+        max-width: 100%;
+        grid-template-columns: 1fr;
+    }
+
+    .info-box,
+    .full-box,
+    .profile-card {
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    .accordion-button {
+        max-width: 100%;
+        box-sizing: border-box;
+        font-size: 0.9rem;
+    }
 }
