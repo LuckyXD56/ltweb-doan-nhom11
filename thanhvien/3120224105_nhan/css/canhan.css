@@ -619,3 +619,305 @@ footer a:hover {
     }
 
 }
+/* =====================================================
+   20. NÚT CHUYỂN GIAO DIỆN SÁNG / TỐI
+   ===================================================== */
+
+.theme-control {
+    display: flex;
+    justify-content: flex-end;
+
+    width: min(1100px, calc(100% - 32px));
+
+    margin: 16px auto;
+}
+
+
+#theme-toggle {
+    min-height: 44px;
+
+    padding: 10px 18px;
+
+    color: #ffffff;
+
+    background-color: var(--primary-dark);
+
+    border: 2px solid transparent;
+    border-radius: 8px;
+
+    font: inherit;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+#theme-toggle:hover {
+    background-color: var(--primary);
+
+    transform: translateY(-2px);
+}
+
+
+#theme-toggle:focus-visible {
+    outline: 3px solid var(--orange);
+
+    outline-offset: 3px;
+}
+
+
+/* =====================================================
+   21. Ô TÌM KIẾM KỸ NĂNG
+   ===================================================== */
+
+.skill-search {
+    margin-bottom: 18px;
+}
+
+
+.skill-search label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: var(--text);
+
+    font-weight: 700;
+}
+
+
+.skill-search input {
+    width: 100%;
+
+    min-height: 44px;
+
+    padding: 10px 12px;
+
+    color: var(--text);
+
+    background-color: var(--white);
+
+    border: 2px solid var(--border);
+    border-radius: 8px;
+
+    font: inherit;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.skill-search input:hover {
+    border-color: var(--primary);
+}
+
+
+.skill-search input:focus-visible {
+    border-color: var(--primary);
+
+    outline: 3px solid var(--orange);
+
+    outline-offset: 2px;
+}
+
+
+/* Class này được JavaScript thêm/xóa bằng classList */
+
+.skill-hidden {
+    display: none;
+}
+
+
+/* Thông báo số kỹ năng tìm thấy */
+
+.skill-message {
+    min-height: 1.6em;
+
+    margin-top: 15px;
+    margin-bottom: 0;
+
+    color: var(--text-light);
+
+    font-weight: 600;
+}
+
+
+/* =====================================================
+   22. DARK MODE
+   JavaScript thêm class "dark-theme" vào body
+   ===================================================== */
+
+body.dark-theme {
+    --background: #111827;
+
+    --white: #1f2937;
+
+    --dark: #f8fafc;
+
+    --text: #f8fafc;
+
+    --text-light: #e2e8f0;
+
+    --border: #475569;
+}
+
+
+/* Tiêu đề chính */
+
+body.dark-theme .content > h1 {
+    color: #f8fafc;
+}
+
+
+/* Các khối nội dung */
+
+body.dark-theme .profile-card,
+body.dark-theme .info-box,
+body.dark-theme .full-box {
+    color: var(--text);
+
+    background-color: #1f2937;
+}
+
+
+/* Tiêu đề trong các khối */
+
+body.dark-theme .profile-meta h2,
+body.dark-theme .info-box h2,
+body.dark-theme .full-box h2,
+body.dark-theme .profile-figure figcaption {
+    color: #6ee7b7;
+}
+
+
+/* Nội dung */
+
+body.dark-theme .full-box p {
+    color: var(--text-light);
+}
+
+
+/* Avatar */
+
+body.dark-theme .avatar {
+    border-color: #1f2937;
+}
+
+
+/* Ô tìm kiếm */
+
+body.dark-theme .skill-search label {
+    color: var(--text);
+}
+
+
+body.dark-theme .skill-search input {
+    color: #f8fafc;
+
+    background-color: #334155;
+
+    border-color: #64748b;
+}
+
+
+body.dark-theme .skill-search input::placeholder {
+    color: #cbd5e1;
+}
+
+
+/* Thông báo tìm kiếm */
+
+body.dark-theme .skill-message {
+    color: #e2e8f0;
+}
+
+
+/* Bảng */
+
+body.dark-theme .table-wrapper {
+    border-color: #475569;
+}
+
+
+body.dark-theme .schedule-table {
+    color: #f8fafc;
+
+    background-color: #1f2937;
+}
+
+
+body.dark-theme .schedule-table caption {
+    color: #f8fafc;
+
+    background-color: #334155;
+}
+
+
+body.dark-theme .schedule-table th,
+body.dark-theme .schedule-table td {
+    border-color: #475569;
+}
+
+
+body.dark-theme .schedule-table tbody th {
+    color: #6ee7b7;
+
+    background-color: #334155;
+}
+
+
+body.dark-theme .schedule-table tbody tr:hover {
+    background-color: #334155;
+}
+
+
+/* Footer */
+
+body.dark-theme footer {
+    color: #ffffff;
+
+    background-color: #020617;
+}
+
+
+/* =====================================================
+   23. RESPONSIVE CHO 2 CHỨC NĂNG
+   ĐẢM BẢO DÙNG TỐT Ở 360PX
+   ===================================================== */
+
+@media (max-width: 480px) {
+
+    .theme-control {
+        width: min(100% - 32px, 1100px);
+
+        justify-content: center;
+
+        margin-top: 12px;
+        margin-bottom: 12px;
+    }
+
+
+    #theme-toggle {
+        width: 100%;
+    }
+
+
+    .skill-search input {
+        width: 100%;
+
+        min-width: 0;
+    }
+
+
+    .skill-list li {
+        max-width: 100%;
+
+        overflow-wrap: anywhere;
+    }
+
+}
