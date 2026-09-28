@@ -25,6 +25,7 @@
             🌙 Chế độ tối
         </button>
     </div>
+
     <!-- ================= HEADER ================= -->
     <header class="topbar">
         <div class="topbar-inner">
@@ -90,7 +91,7 @@
 
                 <img
                     class="avatar"
-                    src="hình ảnh/nhan.jpg"
+                    src="hinh-anh/nhan.jpg"
                     alt="Ảnh chân dung của Lê Nguyễn Gia Nhân"
                     width="300"
                     height="300">
@@ -171,12 +172,24 @@
             </article>
 
 
-            <!-- ================= KỸ NĂNG ================= -->
+            <!-- KỸ NĂNG -->
             <article class="info-box">
 
                 <h2>Kỹ năng</h2>
 
-                <ul class="skill-list">
+                <div class="skill-search">
+                    <label for="skill-filter">
+                        Tìm kiếm kỹ năng:
+                    </label>
+
+                    <input
+                        type="search"
+                        id="skill-filter"
+                        placeholder="Ví dụ: HTML, CSS, Git..."
+                        autocomplete="off">
+                </div>
+
+                <ul class="skill-list" id="skill-list">
                     <li>HTML5 Semantic</li>
                     <li>CSS3 Responsive</li>
                     <li>JavaScript</li>
@@ -185,9 +198,15 @@
                     <li>Git &amp; GitHub</li>
                 </ul>
 
+                <p
+                    id="skill-message"
+                    class="skill-message"
+                    aria-live="polite">
+                </p>
+
             </article>
 
-        </div>
+        </div> <!-- Đã thêm thẻ đóng </div> cho .info-grid -->
 
 
         <!-- ================= SỞ THÍCH ================= -->
@@ -290,6 +309,8 @@
         </p>
     </footer>
 
-</body>
+    <!-- JavaScript riêng của trang cá nhân (chỉ cần nhúng 1 lần tại đây) -->
+    <script src="js/canhan.js"></script>
 
+</body>
 </html>
