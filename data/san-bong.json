@@ -1,0 +1,14 @@
+﻿[
+  { "id": 1, "ten": "Sân A1", "khu_vuc": "Khu A", "gia_truoc_17h": 150000, "gia_sau_17h": 300000, "so_nguoi": 5, "hinh_anh": "images/san-a1.jpg" },
+  { "id": 2, "ten": "Sân A2", "khu_vuc": "Khu A", "gia_truoc_17h": 150000, "gia_sau_17h": 300000, "so_nguoi": 5, "hinh_anh": "images/san-a2.jpg" },
+  { "id": 3, "ten": "Sân B1", "khu_vuc": "Khu B", "gia_truoc_17h": 250000, "gia_sau_17h": 450000, "so_nguoi": 7, "hinh_anh": "images/san-b1.jpg" },
+  { "id": 4, "ten": "Sân B2", "khu_vuc": "Khu B", "gia_truoc_17h": 250000, "gia_sau_17h": 450000, "so_nguoi": 7, "hinh_anh": "images/san-bong-chinh.jpg" },
+  { "id": 5, "ten": "Sân C1", "khu_vuc": "Khu C", "gia_truoc_17h": 400000, "gia_sau_17h": 800000, "so_nguoi": 11, "hinh_anh": "images/dich-vu-1.jpg" },
+  { "id": 6, "ten": "Sân C2", "khu_vuc": "Khu C", "gia_truoc_17h": 400000, "gia_sau_17h": 800000, "so_nguoi": 11, "hinh_anh": "images/dich-vu-2.jpg" },
+  { "id": 7, "ten": "Sân VIP 1", "khu_vuc": "Khu VIP", "gia_truoc_17h": 300000, "gia_sau_17h": 500000, "so_nguoi": 5, "hinh_anh": "images/san-a1.jpg" },
+  { "id": 8, "ten": "Sân VIP 2", "khu_vuc": "Khu VIP", "gia_truoc_17h": 300000, "gia_sau_17h": 500000, "so_nguoi": 5, "hinh_anh": "images/san-a2.jpg" },
+  { "id": 9, "ten": "Sân D1", "khu_vuc": "Khu D", "gia_truoc_17h": 200000, "gia_sau_17h": 400000, "so_nguoi": 7, "hinh_anh": "images/san-b1.jpg" },
+  { "id": 10, "ten": "Sân D2", "khu_vuc": "Khu D", "gia_truoc_17h": 200000, "gia_sau_17h": 400000, "so_nguoi": 7, "hinh_anh": "images/san-bong-chinh.jpg" },
+  { "id": 11, "ten": "Sân E1", "khu_vuc": "Khu E", "gia_truoc_17h": 150000, "gia_sau_17h": 300000, "so_nguoi": 5, "hinh_anh": "images/dich-vu-3.jpg" },
+  { "id": 12, "ten": "Sân E2", "khu_vuc": "Khu E", "gia_truoc_17h": 150000, "gia_sau_17h": 300000, "so_nguoi": 5, "hinh_anh": "images/san-a1.jpg" }
+]
