@@ -39,23 +39,30 @@
                 <p class="profile-card__id"><strong>Mã sinh viên:</strong> 3120224192</p>
                 <p><strong>Nhiệm vụ:</strong> Phụ trách nội dung HTML và trang giới thiệu cá nhân.</p>
                 
-                <div class="d-flex gap-1 flex-wrap mt-1-5">
-                    <div class="flex-1 min-w-200">
-                        <h4 class="mt-0 text-primary mb-0-5">Thông tin cá nhân</h4>
-                        <ul class="ky-nang-list">
-                            <li>Toán - Tin</li>
-                            <li>CNTT</li>
-                        </ul>
-                    </div>
-                    <div class="flex-1 min-w-200">
-                        <h4 class="mt-0 text-primary mb-0-5">Kỹ năng</h4>
-                        <ul class="ky-nang-list">
-                            <li>HTML5</li>
-                            <li>CSS3</li>
-                            <li>Responsive</li>
-                        </ul>
-                    </div>
-                </div>
+                </section>
+
+        <section class="info-skills-grid">
+            <div class="info-box">
+                <h4 class="mt-0 text-primary mb-0-5">Thông tin cá nhân</h4>
+                <ul>
+                    <li><strong>Họ và tên:</strong> Phimmasone Khamphouvanh</li>
+                    <li><strong>MSSV:</strong> 3120224192</li>
+                    <li><strong>Khoa:</strong> Toán - Tin</li>
+                    <li><strong>Chuyên ngành:</strong> Công nghệ thông tin</li>
+                </ul>
+            </div>
+            
+            <div class="info-box">
+                <h4 class="mt-0 text-primary mb-0-5">Kỹ năng</h4>
+                <label for="skill-search" style="display:block; font-weight: bold; margin-bottom: 5px;">Tìm kiếm kỹ năng:</label>
+                <input type="text" id="skill-search" placeholder="Ví dụ: HTML, CSS, Responsive..." class="bieu-mau__o-nhap" style="margin-bottom:15px; width:100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px;">
+                <ul class="ky-nang-list" id="skill-list">
+                    <li>HTML5 Semantic</li>
+                    <li>CSS3 Responsive</li>
+                    <li>JavaScript</li>
+                    <li>DevTools</li>
+                    <li>Git & GitHub</li>
+                </ul>
             </div>
         </section>
 
@@ -109,6 +116,7 @@
     <script type="module" src="js/canhan.js"></script>
 </body>
 </html>
+
 
 
 
