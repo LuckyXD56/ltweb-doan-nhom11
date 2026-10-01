@@ -39,12 +39,12 @@ function renderSan(danhSach) {
         the.className = 'the-san';
         
         the.innerHTML = 
-            <img class="the-san__anh" src=" + san.hinh_anh + " alt="Hình ảnh  + san.ten + " loading="lazy">
-            <div class="the-san__noi-dung">
-                <h3 class="the-san__ten"> + san.ten + </h3>
-                <p class="the-san__thong-tin"><strong>Khu vực:</strong>  + san.khu_vuc + </p>
-                <p class="the-san__thong-tin"><strong>Sức chứa:</strong>  + san.so_nguoi +  người</p>
-                <p class="the-san__gia">Giá: <span> + san.gia_truoc_17h.toLocaleString('vi-VN') + đ/h</span></p>
+            <img class="the__anh" src=" + san.hinh_anh + " alt="Hình ảnh  + san.ten + " loading="lazy">
+            <div class="the__noi-dung">
+                <h3 class="the__tieu-de"> + san.ten + </h3>
+                <p style="margin: 0.5rem 0;"><strong>Khu vực:</strong>  + san.khu_vuc + </p>
+                <p style="margin: 0.5rem 0;"><strong>Sức chứa:</strong>  + san.so_nguoi +  người</p>
+                <p style="margin: 0.5rem 0;">Giá: <span> + san.gia_truoc_17h.toLocaleString('vi-VN') + đ/h</span></p>
                 <a href="chi-tiet.html?id= + san.id + " class="nut nut--rong">Xem chi tiết</a>
             </div>
         ;
@@ -97,3 +97,4 @@ document.addEventListener('DOMContentLoaded', () => {
         taiDuLieu();
     }
 });
+
