@@ -1,31 +1,90 @@
-﻿// Tệp: canhan.js (Hoàng)
-// Chức năng: 1. Chuyển giao diện sáng/tối lưu vào localStorage. 2. Nút sao chép email vào clipboard.
+/*
+ * Tệp JavaScript tạo các tương tác cho trang cá nhân.
+ * Chức năng 1: chuyển giao diện sáng/tối và lưu lựa chọn bằng localStorage.
+ * Chức năng 2: thu gọn/mở rộng các mục thông tin bằng accordion.
+ * Cách thử: dùng chuột hoặc phím Tab, Enter/Space để thao tác các nút.
+ */
 
-document.addEventListener('DOMContentLoaded', () => {
-    const btnDarkMode = document.getElementById('btn-dark-mode');
-    const isDark = localStorage.getItem('hoang_dark_mode') === 'true';
-    if (isDark) { document.body.classList.add('dark-mode'); btnDarkMode.textContent = 'Giao diện sáng'; }
+document.addEventListener("DOMContentLoaded", function () {
+    // =========================
+    // 1. NÚT CHUYỂN SÁNG / TỐI
+    // =========================
+    const darkModeContainer = document.createElement("div");
+    darkModeContainer.id = "dark-mode-container";
 
-    btnDarkMode.addEventListener('click', () => {
-        document.body.classList.toggle('dark-mode');
-        const isNowDark = document.body.classList.contains('dark-mode');
-        localStorage.setItem('hoang_dark_mode', isNowDark);
-        btnDarkMode.textContent = isNowDark ? 'Giao diện sáng' : 'Giao diện tối';
+    const darkModeButton = document.createElement("button");
+    darkModeButton.type = "button";
+    darkModeButton.id = "dark-mode-button";
+    darkModeButton.textContent = "🌙 Chế độ tối";
+    darkModeButton.setAttribute("aria-label", "Chuyển sang chế độ tối");
+
+    darkModeContainer.appendChild(darkModeButton);
+    document.body.prepend(darkModeContainer);
+
+    const savedTheme = localStorage.getItem("theme");
+
+    if (savedTheme === "dark") {
+        document.body.classList.add("dark-mode");
+        darkModeButton.textContent = "☀️ Chế độ sáng";
+        darkModeButton.setAttribute("aria-label", "Chuyển sang chế độ sáng");
+    }
+
+    darkModeButton.addEventListener("click", function () {
+        const isDark = document.body.classList.toggle("dark-mode");
+
+        if (isDark) {
+            localStorage.setItem("theme", "dark");
+            darkModeButton.textContent = "☀️ Chế độ sáng";
+            darkModeButton.setAttribute(
+                "aria-label",
+                "Chuyển sang chế độ sáng"
+            );
+        } else {
+            localStorage.setItem("theme", "light");
+            darkModeButton.textContent = "🌙 Chế độ tối";
+            darkModeButton.setAttribute(
+                "aria-label",
+                "Chuyển sang chế độ tối"
+            );
+        }
     });
 
-    const btnCopy = document.getElementById('btn-copy');
-    const emailText = document.getElementById('email-text');
-    const copyMsg = document.getElementById('copy-msg');
+    // =========================
+    // 2. ACCORDION
+    // =========================
+    const boxes = document.querySelectorAll(".info-box, .full-box");
 
-    if (btnCopy && emailText) {
-        btnCopy.addEventListener('click', async () => {
-            try {
-                await navigator.clipboard.writeText(emailText.textContent);
-                copyMsg.textContent = 'Đã sao chép!';
-                setTimeout(() => { copyMsg.textContent = ''; }, 2000);
-            } catch (err) {
-                console.error('Lỗi khi sao chép:', err);
-            }
+    boxes.forEach(function (box) {
+        const heading = box.querySelector("h2");
+
+        if (!heading) {
+            return;
+        }
+
+        if (heading.textContent.includes("Thời khóa biểu")) {
+            return;
+        }
+
+        const accordionButton = document.createElement("button");
+
+        accordionButton.type = "button";
+        accordionButton.classList.add("accordion-button");
+        accordionButton.textContent = "Thu gọn ▲";
+        accordionButton.setAttribute("aria-expanded", "true");
+
+        heading.insertAdjacentElement("afterend", accordionButton);
+
+        accordionButton.addEventListener("click", function () {
+            const isCollapsed = box.classList.toggle("is-collapsed");
+
+            accordionButton.textContent = isCollapsed
+                ? "Mở rộng ▼"
+                : "Thu gọn ▲";
+
+            accordionButton.setAttribute(
+                "aria-expanded",
+                String(!isCollapsed)
+            );
         });
-    }
+    });
 });
