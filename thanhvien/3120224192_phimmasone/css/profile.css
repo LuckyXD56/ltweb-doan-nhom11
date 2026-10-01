@@ -173,3 +173,41 @@
     display: inline-block;
     width: 1em;
 }
+
+/* Tối ưu hóa UI cho điện thoại */
+@media (max-width: 600px) {
+    .profile-card {
+        padding: 1.5rem;
+        gap: 1.5rem;
+    }
+    
+    .info-box {
+        padding: 1.25rem;
+    }
+    
+    .profile-card__img {
+        width: 140px;
+        height: 140px;
+    }
+    
+    .hobbies-section {
+        padding: 1.25rem;
+    }
+    
+    .profile-schedule {
+        padding: 1rem;
+    }
+    
+    .ky-nang-list li {
+        font-size: 0.85rem;
+        padding: 0.3rem 0.8rem;
+    }
+    
+    .profile-card__role, .profile-card__id {
+        font-size: 0.95rem;
+    }
+    
+    #skill-search {
+        font-size: 0.9rem;
+    }
+}

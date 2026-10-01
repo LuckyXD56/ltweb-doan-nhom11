@@ -1,7 +1,10 @@
-﻿// Tệp: canhan.js (Phimmasone)
+﻿// Tệp: canhan.js (Người phụ trách: Phimmasone Khamphouvanh - 3120224192)
 // Chức năng: 
 // 1. Ô tìm kiếm lọc danh sách kỹ năng (nhập ký tự để lọc các thẻ li).
 // 2. Nút Thu gọn/Mở rộng thời khóa biểu (Accordion) thay đổi aria-expanded.
+// CÁCH THỬ:
+// - C1: Gõ chữ vào ô tìm kiếm kỹ năng, danh sách sẽ tự lọc.
+// - C2: Cuộn xuống Thời khóa biểu, bấm Thu gọn / Mở rộng.
 
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Tìm kiếm kỹ năng
