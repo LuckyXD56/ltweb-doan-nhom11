@@ -3,41 +3,81 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Trang giới thiệu cá nhân Trương Nguyễn Ngọc Phú">
-  <title>Giới thiệu cá nhân - Trương Nguyễn Ngọc Phú</title>
+  <title>Giới thiệu bản thân - Trương Nguyễn Ngọc Phú</title>
+  <meta name="description" content="Trang giới thiệu cá nhân của Trương Nguyễn Ngọc Phú, thành viên Nhóm 11, Khoa Toán Tin, Đại học Sư phạm Đà Nẵng.">
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <header>
-    <h1>Trang cá nhân của Trương Nguyễn Ngọc Phú</h1>
-    <button type="button" id="nut-doi-giao-dien" aria-pressed="false">
-      🌙 Chế độ tối
-    </button>
-  </header>
+<body class="trang">
 
-  <main>
-    <section id="gioi-thieu">
-      <h2>Giới thiệu bản thân</h2>
-      <img src="avatar.jpg" alt="Chân dung của Trương Nguyễn Ngọc Phú" class="profile-img">
-      <p>Xin chào, tôi là Trương Nguyễn Ngọc Phú. Tôi sinh ngày 28-04-2006 và hiện đang là
-        sinh viên Công nghệ thông tin tại Trường Đại học Bách khoa - Đại học Đà Nẵng.
-        Tôi là người yêu thích lập trình và đặc biệt quan tâm đến phát triển web.</p>
-    </section>
+  <nav class="trang__nav">
+    <ul class="menu__danh-sach">
+      <li class="menu__muc"><a class="menu__lien-ket" href="../../index.html">Trang chủ</a></li>
+      <li class="menu__muc"><a class="menu__lien-ket" href="../../danh-sach.html">Danh sách sân</a></li>
+      <li class="menu__muc"><a class="menu__lien-ket" href="../../chi-tiet.html">Chi tiết sân</a></li>
+      <li class="menu__muc"><a class="menu__lien-ket active" href="../../thanh-vien.html">Giới thiệu nhóm</a></li>
+      <li class="menu__muc"><a class="menu__lien-ket" href="../../lien-he.html">Liên hệ / Đặt sân</a></li>
+    </ul>
+  </nav>
 
-    <section id="ky-nang">
-      <h2>Kỹ năng</h2>
-      <ul class="skills-list">
-        <li>HTML5 &amp; CSS3</li>
-        <li>JavaScript cơ bản</li>
-        <li>Quản lý phiên bản với Git/GitHub</li>
-        <li>Thiết kế giao diện Responsive</li>
-      </ul>
-    </section>
+  <main class="trang__main">
 
-    <section id="thoi-khoa-bieu">
-      <h2>Thời khóa biểu</h2>
-      <div class="table-container">
-        <table>
+    <h1 class="tieu-de-trang">Giới thiệu thành viên Nhóm 11</h1>
+
+    <!-- 2 nút chức năng -->
+    <div class="thanh-cong-cu">
+      <button type="button" id="nut-che-do-toi" class="nut-cong-cu" aria-label="Bật chế độ tối">
+        <span id="bieu-tuong-che-do">🌙</span>
+        <span id="chu-che-do">Chế độ tối</span>
+      </button>
+      <button type="button" id="nut-copy-email" class="nut-cong-cu"
+              data-email="truongnguyenngocphu@gmail.com"
+              aria-label="Copy địa chỉ email">
+        <span>📧</span>
+        <span>Copy email</span>
+      </button>
+      <span id="thong-bao-copy" class="thong-bao-copy" role="status" aria-live="polite"></span>
+    </div>
+
+    <!-- Card hồ sơ chính -->
+    <article class="the-ho-so">
+      <div class="the-ho-so__avatar">
+        <img src="avatar.jpg"
+             alt="Ảnh chân dung của Trương Nguyễn Ngọc Phú"
+             class="the-ho-so__anh">
+      </div>
+      <div class="the-ho-so__thong-tin">
+        <h2 class="the-ho-so__ten">Trương Nguyễn Ngọc Phú</h2>
+        <p class="the-ho-so__dong"><strong>Vai trò:</strong> Thành viên nhóm</p>
+        <p class="the-ho-so__dong"><strong>Mã sinh viên:</strong> 3120224111</p>
+        <p class="the-ho-so__dong"><strong>Nhiệm vụ:</strong> Phụ trách giao diện CSS responsive và trang giới thiệu cá nhân.</p>
+      </div>
+    </article>
+
+    <!-- Lưới 2 cột -->
+    <div class="luoi-hai-cot">
+
+      <article class="the-nho">
+        <h3 class="the-nho__tieu-de">Giới thiệu bản thân</h3>
+        <p class="the-nho__doan">Xin chào, tôi là Trương Nguyễn Ngọc Phú. Tôi sinh ngày 28-04-2006 và hiện đang là sinh viên Công nghệ thông tin tại Trường Đại học Bách khoa - Đại học Đà Nẵng. Tôi là người yêu thích lập trình và đặc biệt quan tâm đến phát triển web.</p>
+      </article>
+
+      <article class="the-nho">
+        <h3 class="the-nho__tieu-de">Kỹ năng</h3>
+        <div class="danh-sach-nhan">
+          <span class="nhan">HTML5 &amp; CSS3</span>
+          <span class="nhan">JavaScript cơ bản</span>
+          <span class="nhan">Git &amp; GitHub</span>
+          <span class="nhan">Responsive Design</span>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- Card thời khóa biểu full width -->
+    <article class="the-nho the-nho--full">
+      <h3 class="the-nho__tieu-de">Thời khóa biểu</h3>
+      <div class="bang-bao">
+        <table class="bang-thoi-khoa-bieu">
           <thead>
             <tr>
               <th>Thứ</th>
@@ -54,23 +94,83 @@
           </tbody>
         </table>
       </div>
-    </section>
+    </article>
 
-    <section id="lien-he">
-      <h2>Liên hệ</h2>
-      <p>
-        Email liên hệ:
-        <span id="email-ca-nhan">phutruong317@gmail.com</span>
-        <button type="button" id="nut-sao-chep-email">📋 Sao chép</button>
-      </p>
-      <p id="thong-bao-sao-chep" role="status" aria-live="polite"></p>
-    </section>
   </main>
 
-  <footer>
-    <p>&copy; 2026 Trương Nguyễn Ngọc Phú. <a href="#gioi-thieu">Về đầu trang</a></p>
+  <footer class="trang__footer">
+    <p>&copy; 2026 Trương Nguyễn Ngọc Phú – Nhóm 11, Khoa Toán Tin, ĐH Sư phạm Đà Nẵng.</p>
+    <p><a href="../../thanh-vien.html">← Về danh sách thành viên</a></p>
   </footer>
 
-  <script src="js/canhan.js" defer></script>
+  <script>
+    (function () {
+      // ==================== CHẾ ĐỘ TỐI ====================
+      var nutCheDo = document.getElementById('nut-che-do-toi');
+      var bieuTuong = document.getElementById('bieu-tuong-che-do');
+      var chuCheDo = document.getElementById('chu-che-do');
+
+      function capNhatNut(toi) {
+        bieuTuong.textContent = toi ? '☀️' : '🌙';
+        chuCheDo.textContent = toi ? 'Chế độ sáng' : 'Chế độ tối';
+      }
+
+      // Khôi phục lựa chọn đã lưu
+      var daLuu = localStorage.getItem('che-do-toi') === '1';
+      if (daLuu) {
+        document.body.classList.add('dark-mode');
+      }
+      capNhatNut(daLuu);
+
+      nutCheDo.addEventListener('click', function () {
+        document.body.classList.toggle('dark-mode');
+        var toi = document.body.classList.contains('dark-mode');
+        localStorage.setItem('che-do-toi', toi ? '1' : '0');
+        capNhatNut(toi);
+      });
+
+      // ==================== COPY EMAIL ====================
+      var nutCopy = document.getElementById('nut-copy-email');
+      var thongBao = document.getElementById('thong-bao-copy');
+
+      function hienThongBao(text) {
+        thongBao.textContent = text;
+        thongBao.classList.add('hien');
+        setTimeout(function () {
+          thongBao.classList.remove('hien');
+        }, 2000);
+      }
+
+      nutCopy.addEventListener('click', function () {
+        var email = nutCopy.getAttribute('data-email');
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(email).then(function () {
+            hienThongBao('Đã copy: ' + email);
+          }).catch(function () {
+            copyFallback(email);
+          });
+        } else {
+          copyFallback(email);
+        }
+      });
+
+      function copyFallback(text) {
+        var tam = document.createElement('textarea');
+        tam.value = text;
+        tam.style.position = 'fixed';
+        tam.style.opacity = '0';
+        document.body.appendChild(tam);
+        tam.select();
+        try {
+          document.execCommand('copy');
+          hienThongBao('Đã copy: ' + text);
+        } catch (e) {
+          hienThongBao('Không copy được, email là: ' + text);
+        }
+        document.body.removeChild(tam);
+      }
+    })();
+  </script>
+
 </body>
 </html>
