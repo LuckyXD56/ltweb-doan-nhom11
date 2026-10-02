@@ -103,3 +103,94 @@ footer { text-align: center; padding: var(--spacing-unit); background-color: var
     #thoi-khoa-bieu { grid-column: 1 / -1; }
     .skills-list { columns: 2; column-gap: var(--spacing-unit); }
 }
+
+
+
+
+
+/* ============================================================
+   TƯƠNG TÁC 1 — Giao diện tối (đổi giá trị CSS variables)
+   Khi <body> có class .giao-dien-toi, toàn bộ trang tự đổi màu
+   vì các thành phần đều dùng var(--...)
+   ============================================================ */
+body.giao-dien-toi {
+    --primary-color: #4da3ff;
+    --secondary-color: #1f1f1f;
+    --text-color: #f0f0f0;
+    --bg-color: #121212;
+    color-scheme: dark;
+}
+
+/* Bo góc và viền cho section trong chế độ tối để dễ nhìn */
+body.giao-dien-toi section {
+    box-shadow: 0 2px 8px rgba(255, 255, 255, 0.05);
+}
+body.giao-dien-toi tr:nth-child(even) {
+    background-color: #1a1a1a;
+}
+body.giao-dien-toi th,
+body.giao-dien-toi td {
+    border-color: #333;
+}
+
+/* ============================================================
+   Nút "Chế độ tối" và "Sao chép email" — style riêng cho nổi bật
+   ============================================================ */
+#nut-doi-giao-dien,
+#nut-sao-chep-email {
+    padding: 0.5rem 1rem;
+    margin: 0.5rem 0;
+    font-size: 1rem;
+}
+
+/* Nút "Sao chép" nằm cùng dòng với email */
+#nut-sao-chep-email {
+    margin-left: 0.5rem;
+    vertical-align: middle;
+}
+
+/* Viền focus rõ ràng cho bàn phím */
+#nut-doi-giao-dien:focus-visible,
+#nut-sao-chep-email:focus-visible {
+    outline: 3px solid #ffc107;
+    outline-offset: 2px;
+}
+
+/* ============================================================
+   TƯƠNG TÁC 2 — Vùng thông báo sao chép email
+   ============================================================ */
+#thong-bao-sao-chep {
+    min-height: 1.4em;
+    margin-top: 0.5rem;
+    font-weight: 600;
+    transition: opacity 0.3s ease;
+}
+.thong-bao--thanh-cong { color: #1e7a3a; }
+.thong-bao--loi        { color: #b32d2d; }
+
+/* Màu thông báo trong chế độ tối */
+body.giao-dien-toi .thong-bao--thanh-cong { color: #6ee7a0; }
+body.giao-dien-toi .thong-bao--loi        { color: #ff9090; }
+
+/* ============================================================
+   Responsive — mobile 360px
+   ============================================================ */
+@media (max-width: 400px) {
+    body { font-size: 16px; }
+
+    #nut-doi-giao-dien,
+    #nut-sao-chep-email {
+        display: block;
+        width: 100%;
+        margin: 0.5rem 0;
+    }
+
+    #nut-sao-chep-email {
+        margin-left: 0;
+    }
+
+    /* Email dài thì xuống dòng gọn gàng */
+    #email-ca-nhan {
+        word-break: break-all;
+    }
+}
