@@ -153,6 +153,29 @@
             </div>
         </section>
 
+        
+        <!-- BẮT ĐẦU: Code Gallery và Nút Like thêm vào -->
+        <section class="full-box">
+            <h2>Bộ sưu tập ảnh (Gallery)</h2>
+            <div style="text-align: center; margin-bottom: 15px;">
+                <button class="nut filter-btn active" data-filter="all">Tất cả</button>
+                <button class="nut filter-btn nut--phu" data-filter="san">Sân bóng</button>
+                <button class="nut filter-btn nut--phu" data-filter="hoatdong">Hoạt động</button>
+            </div>
+            <div class="gallery d-flex gap-1 flex-wrap justify-center">
+                <img src="../../images/san-a1.jpg" alt="Sân A1" class="gallery-item" data-category="san" style="width: 150px; height: 100px; object-fit: cover; border-radius: 8px;">
+                <img src="../../images/san-b1.jpg" alt="Sân B1" class="gallery-item" data-category="san" style="width: 150px; height: 100px; object-fit: cover; border-radius: 8px;">
+                <img src="../../images/hoang.jpg" alt="Hoàng" class="gallery-item" data-category="hoatdong" style="width: 150px; height: 100px; object-fit: cover; border-radius: 8px;">
+            </div>
+        </section>
+
+        <section class="full-box" style="text-align: center;">
+            <button id="btn-like" class="nut" style="font-size: 1.2rem; background-color: #ef4444; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; transition: transform 0.2s;">
+                ❤️ Thích trang này (<span id="like-count">0</span>)
+            </button>
+        </section>
+        <!-- KẾT THÚC: Code Gallery và Nút Like -->
+
         <p class="back-link">
             <a href="../../gioi-thieu.html">← Quay lại trang giới thiệu nhóm</a>
         </p>
