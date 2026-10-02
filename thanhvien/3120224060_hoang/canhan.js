@@ -1,90 +1,59 @@
 /*
- * Tệp JavaScript tạo các tương tác cho trang cá nhân.
- * Chức năng 1: chuyển giao diện sáng/tối và lưu lựa chọn bằng localStorage.
- * Chức năng 2: thu gọn/mở rộng các mục thông tin bằng accordion.
- * Cách thử: dùng chuột hoặc phím Tab, Enter/Space để thao tác các nút.
+ * Tệp JavaScript tạo các tương tác cho trang cá nhân của Hoàng.
+ * Chức năng 1: Bộ lọc ảnh (Gallery Filter) theo danh mục.
+ * Chức năng 2: Nút Like đếm số lần bấm và lưu vào sessionStorage.
  */
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener('DOMContentLoaded', () => {
     // =========================
-    // 1. NÚT CHUYỂN SÁNG / TỐI
+    // 1. Bộ lọc ảnh (Gallery)
     // =========================
-    const darkModeContainer = document.createElement("div");
-    darkModeContainer.id = "dark-mode-container";
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const galleryItems = document.querySelectorAll('.gallery-item');
 
-    const darkModeButton = document.createElement("button");
-    darkModeButton.type = "button";
-    darkModeButton.id = "dark-mode-button";
-    darkModeButton.textContent = "🌙 Chế độ tối";
-    darkModeButton.setAttribute("aria-label", "Chuyển sang chế độ tối");
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Đổi màu nút đang chọn
+            filterBtns.forEach(b => {
+                b.classList.remove('active');
+                b.classList.add('nut--phu');
+            });
+            btn.classList.add('active');
+            btn.classList.remove('nut--phu');
 
-    darkModeContainer.appendChild(darkModeButton);
-    document.body.prepend(darkModeContainer);
-
-    const savedTheme = localStorage.getItem("theme");
-
-    if (savedTheme === "dark") {
-        document.body.classList.add("dark-mode");
-        darkModeButton.textContent = "☀️ Chế độ sáng";
-        darkModeButton.setAttribute("aria-label", "Chuyển sang chế độ sáng");
-    }
-
-    darkModeButton.addEventListener("click", function () {
-        const isDark = document.body.classList.toggle("dark-mode");
-
-        if (isDark) {
-            localStorage.setItem("theme", "dark");
-            darkModeButton.textContent = "☀️ Chế độ sáng";
-            darkModeButton.setAttribute(
-                "aria-label",
-                "Chuyển sang chế độ sáng"
-            );
-        } else {
-            localStorage.setItem("theme", "light");
-            darkModeButton.textContent = "🌙 Chế độ tối";
-            darkModeButton.setAttribute(
-                "aria-label",
-                "Chuyển sang chế độ tối"
-            );
-        }
-    });
-
-    // =========================
-    // 2. ACCORDION
-    // =========================
-    const boxes = document.querySelectorAll(".info-box, .full-box");
-
-    boxes.forEach(function (box) {
-        const heading = box.querySelector("h2");
-
-        if (!heading) {
-            return;
-        }
-
-        if (heading.textContent.includes("Thời khóa biểu")) {
-            return;
-        }
-
-        const accordionButton = document.createElement("button");
-
-        accordionButton.type = "button";
-        accordionButton.classList.add("accordion-button");
-        accordionButton.textContent = "Thu gọn ▲";
-        accordionButton.setAttribute("aria-expanded", "true");
-
-        heading.insertAdjacentElement("afterend", accordionButton);
-
-        accordionButton.addEventListener("click", function () {
-            const isCollapsed = box.classList.toggle("is-collapsed");
-
-            accordionButton.textContent = isCollapsed
-                ? "Mở rộng ▼"
-                : "Thu gọn ▲";
-
-            accordionButton.setAttribute(
-                "aria-expanded",
-                String(!isCollapsed)
-            );
+            // Lọc ảnh theo data-category
+            const filterValue = btn.getAttribute('data-filter');
+            galleryItems.forEach(item => {
+                if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
         });
     });
+
+    // =========================
+    // 2. Nút Like đếm số
+    // =========================
+    const btnLike = document.getElementById('btn-like');
+    const likeCountSpan = document.getElementById('like-count');
+
+    if (btnLike && likeCountSpan) {
+        // Lấy số like cũ từ sessionStorage (chỉ lưu tạm thời)
+        let luotLike = parseInt(sessionStorage.getItem('hoang_likes')) || 0;
+        likeCountSpan.textContent = luotLike;
+
+        btnLike.addEventListener('click', () => {
+            luotLike++;
+            likeCountSpan.textContent = luotLike;
+            sessionStorage.setItem('hoang_likes', luotLike);
+            
+            // Hiệu ứng phóng to nhẹ khi bấm
+            btnLike.style.transform = 'scale(1.1)';
+            setTimeout(() => {
+                btnLike.style.transform = 'scale(1)';
+            }, 200);
+        });
+    }
 });
