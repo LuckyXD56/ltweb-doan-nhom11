@@ -1,66 +1,95 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Trang chủ Hệ thống Quản lý sân bóng mini, cung cấp dịch vụ đặt sân bóng cỏ nhân tạo chuyên nghiệp, uy tín và nhanh chóng.">
-    <title>Trang chủ | Sân Bóng Thắng Lợi</title>
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đặt Sân Bóng Đá Trực Tuyến | Sân Bóng Thắng Lợi</title>
+  <meta name="description" content="Đặt sân bóng đá 5, 7 và 11 người trực tuyến nhanh chóng tại hệ thống Sân Bóng Thắng Lợi, xem lịch trống và bảng giá theo giờ.">
+  <link rel="stylesheet" href="css/chung.css">
+  <link rel="stylesheet" href="css/thanh-phan.css">
 </head>
-<body class="trang">
-    <header class="trang__header">
-        <h1>Sân Bóng Thắng Lợi</h1>
-        <p>Uy tín - Tiện lợi - Sức khỏe là vàng</p>
-    </header>
-
-    <nav class="trang__nav">
-        <ul class="menu__danh-sach">
-            <li class="menu__muc"><a class="menu__lien-ket" href="index.html">Trang chủ</a></li>
-            <li class="menu__muc"><a class="menu__lien-ket" href="danh-sach.html">Danh sách sân bóng</a></li>
-            <li class="menu__muc"><a class="menu__lien-ket" href="chi-tiet.html">Chi tiết sân</a></li>
-            <li class="menu__muc"><a class="menu__lien-ket" href="gioi-thieu.html">Giới thiệu nhóm</a></li>
-            <li class="menu__muc"><a class="menu__lien-ket" href="lien-he.html">Liên hệ & Đặt sân</a></li>
-            <li class="menu__muc"><a class="menu__lien-ket" href="dang-nhap.html">Đăng nhập</a></li>
-        </ul>
+<body>
+  <header class="dau-trang">
+    <p class="ten-he-thong"><a href="index.html">Sân Bóng Thắng Lợi</a></p>
+    <button type="button" class="nut-mo-menu" aria-expanded="false" aria-controls="danh-sach-dieu-huong-chinh">
+      <span class="nut-mo-menu__nhan">Mở menu</span>
+    </button>
+    <noscript>
+      <style>.dieu-huong__danh-sach { display: flex !important; }</style>
+    </noscript>
+    <nav class="dieu-huong" aria-label="Điều hướng chính">
+      <ul class="dieu-huong__danh-sach" id="danh-sach-dieu-huong-chinh">
+        <li class="dieu-huong__muc"><a class="dieu-huong__lien-ket" href="index.html" aria-current="page">Trang chủ</a></li>
+        <li class="dieu-huong__muc"><a class="dieu-huong__lien-ket" href="san-lich.html">Sân &amp; lịch trống</a></li>
+        <li class="dieu-huong__muc"><a class="dieu-huong__lien-ket" href="dat-san.html">Đặt sân</a></li>
+        <li class="dieu-huong__muc"><a class="dieu-huong__lien-ket" href="tai-khoan.html">Đăng nhập / Đăng ký</a></li>
+        <li class="dieu-huong__muc"><a class="dieu-huong__lien-ket" href="lich-su.html">Lịch sử đặt sân</a></li>
+        <li class="dieu-huong__muc"><a class="dieu-huong__lien-ket" href="quan-tri.html">Quản trị</a></li>
+        <li class="dieu-huong__muc"><a class="dieu-huong__lien-ket" href="thanh-vien.html">Thành viên</a></li>
+        <li class="dieu-huong__muc"><a class="dieu-huong__lien-ket" href="lien-he.html">Liên hệ</a></li>
+      </ul>
     </nav>
+  </header>
 
-    <main class="trang__main">
-        <section class="chu-canh-giua mb-1">
-            <h2>Chào mừng đến với hệ thống đặt sân bóng</h2>
-            <p class="gioi-han-dong">Chúng tôi cung cấp hệ thống sân bóng cỏ nhân tạo đạt chuẩn quốc tế, giúp bạn có những giây phút thể thao tuyệt vời cùng bạn bè và đồng nghiệp.</p>
-            <img src="images/san-bong-chinh.jpg" alt="Toàn cảnh sân bóng cỏ nhân tạo nhìn từ trên cao" width="1200" height="600" loading="lazy" class="hinh-anh-chinh mt-1">
-        </section>
+  <main class="khu-vuc-chinh">
+    <h1>Đặt sân bóng đá trực tuyến – nhanh chóng, tiện lợi</h1>
 
-        <section>
-            <h2 class="chu-canh-giua mt-1">Các dịch vụ nổi bật</h2>
-            <div class="luoi-the">
-                <article class="the">
-                    <img class="the__anh" src="images/dich-vu-1.jpg" alt="Sân bóng 5 người và 7 người" width="400" height="300" loading="lazy">
-                    <div class="the__noi-dung">
-                        <h3 class="the__tieu-de">Sân 5 và 7 người</h3>
-                        <p>Hệ thống 10 sân bóng hiện đại, mặt cỏ chất lượng cao.</p>
-                    </div>
-                </article>
-                <article class="the">
-                    <img class="the__anh" src="images/dich-vu-2.jpg" alt="Hệ thống chiếu sáng LED" width="400" height="300" loading="lazy">
-                    <div class="the__noi-dung">
-                        <h3 class="the__tieu-de">Chiếu sáng chuẩn thi đấu</h3>
-                        <p>Hệ thống đèn LED 400W đảm bảo độ sáng ban đêm.</p>
-                    </div>
-                </article>
-                <article class="the">
-                    <img class="the__anh" src="images/dich-vu-3.jpg" alt="Cho thuê dụng cụ thi đấu" width="400" height="300" loading="lazy">
-                    <div class="the__noi-dung">
-                        <h3 class="the__tieu-de">Thuê dụng cụ</h3>
-                        <p>Dịch vụ cho thuê bóng, áo bib và trọng tài chuyên nghiệp.</p>
-                    </div>
-                </article>
-            </div>
-        </section>
-    </main>
+    <p class="gioi-thieu">Sân Bóng Thắng Lợi cung cấp dịch vụ cho thuê sân cỏ nhân tạo với ba loại sân 5 người,
+      7 người và 11 người, phục vụ nhu cầu tập luyện và thi đấu giao hữu của các đội bóng phong trào.
+      Khách hàng có thể xem lịch trống theo thời gian thực và đặt sân trực tuyến chỉ trong vài bước,
+      không cần gọi điện đặt chỗ như trước đây.</p>
 
-    <footer class="trang__footer">
-        <p>© 2026 Nhóm 11 — Khoa Toán - Tin, Đại học Sư phạm Đà Nẵng</p>
-    </footer>
+    <h2>Các loại sân hiện có</h2>
+    <ul class="danh-sach-the">
+      <li class="the">Sân 5 người – phù hợp nhóm bạn, giá từ 200.000đ/giờ</li>
+      <li class="the">Sân 7 người – phù hợp giải phong trào, giá từ 350.000đ/giờ</li>
+      <li class="the the--noi-bat">Sân 11 người – phù hợp thi đấu chính thức, giá từ 700.000đ/giờ</li>
+    </ul>
+
+    <h2>Sân nổi bật</h2>
+    <div class="khung-sap-xep">
+      <label class="truong__nhan" for="sap-xep-noi-bat">Sắp xếp theo</label>
+      <select id="sap-xep-noi-bat" class="truong__nhap">
+        <option value="gia">Giá thấp nhất</option>
+        <option value="danh-gia">Đánh giá cao nhất</option>
+      </select>
+    </div>
+    <p id="thong-bao-noi-bat" class="vung-thong-bao" aria-live="polite"></p>
+    <ul id="danh-sach-noi-bat" class="danh-sach-the"></ul>
+    <noscript>
+      <p>Danh sách sân nổi bật cần JavaScript để tải tự động. Bạn vẫn có thể xem đầy đủ
+        thông tin các sân tại trang <a href="san-lich.html">Sân &amp; lịch trống</a>.</p>
+    </noscript>
+
+    <h2>Hình ảnh sân bóng</h2>
+    <figure class="khoi-anh">
+      <img class="khoi-anh__anh" src="images/san-co-nhan-tao-5-nguoi.jpg"
+           alt="Sân cỏ nhân tạo 5 người với hệ thống đèn chiếu sáng ban đêm"
+           width="640" height="360" loading="lazy">
+      <figcaption class="khoi-anh__chu-thich">Sân 5 người tại cơ sở Sân Bóng Thắng Lợi, có đèn chiếu sáng phục vụ khung giờ tối.</figcaption>
+    </figure>
+
+    <h2>Tiện ích đi kèm</h2>
+    <ul class="danh-sach-tien-ich">
+      <li>Phòng thay đồ và tủ khóa cá nhân</li>
+      <li>Bãi giữ xe miễn phí cho khách đặt sân</li>
+      <li>Quầy nước giải khát ngay tại sân</li>
+      <li>Cho thuê áo bib, bóng và cọc tiêu tập luyện</li>
+    </ul>
+  </main>
+
+  <footer class="chan-trang">
+    <p class="chan-trang__dong">Sân Bóng Thắng Lợi – 123 Đường Ngô Quyền, Quận Sơn Trà, Đà Nẵng</p>
+    <p class="chan-trang__dong">Điện thoại: 0905 123 456 · Email: lienhe@sanbongthangloi.vn</p>
+    <ul class="chan-trang__lien-ket">
+      <li><a href="index.html">Trang chủ</a></li>
+      <li><a href="thanh-vien.html">Thành viên</a></li>
+      <li><a href="lien-he.html">Liên hệ</a></li>
+      <li><a href="quan-tri.html">Quản trị</a></li>
+    </ul>
+    <p class="chan-trang__dong">&copy; 2026 Sân Bóng Thắng Lợi. Đồ án học phần Lập trình Web.</p>
+  </footer>
+
+  <script type="module" src="js/trang-index.js"></script>
 </body>
 </html>

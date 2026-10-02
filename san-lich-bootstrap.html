@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Danh Sách Sân &amp; Lịch Trống (Bootstrap) | Sân Bóng Thắng Lợi</title>
+  <meta name="description" content="Bản song song dùng Bootstrap 5: xem danh sách sân bóng đá và lịch trống theo khung giờ tại Sân Bóng Thắng Lợi.">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/bootstrap-tuy-chinh.css">
+</head>
+<body class="bg-body-tertiary">
+  <nav class="navbar navbar-expand-lg navbar-thang-loi" aria-label="Điều hướng chính">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="index.html">Sân Bóng Thắng Lợi</a>
+      <button class="navbar-toggler border-light" type="button"
+              data-bs-toggle="collapse" data-bs-target="#menu-chinh"
+              aria-controls="menu-chinh" aria-expanded="false" aria-label="Mở menu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="menu-chinh">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link" href="index.html">Trang chủ</a></li>
+          <li class="nav-item"><a class="nav-link active" aria-current="page" href="san-lich-bootstrap.html">Sân &amp; lịch trống</a></li>
+          <li class="nav-item"><a class="nav-link" href="dat-san.html">Đặt sân</a></li>
+          <li class="nav-item"><a class="nav-link" href="tai-khoan.html">Đăng nhập / Đăng ký</a></li>
+          <li class="nav-item"><a class="nav-link" href="lich-su.html">Lịch sử đặt sân</a></li>
+          <li class="nav-item"><a class="nav-link" href="quan-tri.html">Quản trị</a></li>
+          <li class="nav-item"><a class="nav-link" href="thanh-vien.html">Thành viên</a></li>
+          <li class="nav-item"><a class="nav-link" href="lien-he.html">Liên hệ</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container py-4 py-md-5">
+    <div class="row g-4">
+      <div class="col-12">
+        <h1 class="text-success-emphasis mb-2">Danh sách sân và lịch trống hôm nay</h1>
+        <p class="text-secondary">Bảng dưới đây hiển thị tình trạng các sân theo từng khung giờ trong ngày. Khung giờ còn trống có thể được đặt trực tiếp tại trang Đặt sân.</p>
+      </div>
+
+      <div class="col-12">
+        <div class="alert alert-success border-0 shadow-sm" role="alert">
+          <strong>Ưu đãi:</strong> Đặt từ 3 giờ trở lên được giảm 10% tổng hoá đơn.
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-4">
+        <article class="card h-100 shadow-sm border-0">
+          <div class="card-body">
+            <h2 class="card-title h5 text-success-emphasis mb-1">Sân A1</h2>
+            <p class="card-subtitle text-secondary mb-2 small">Loại 5 người</p>
+            <p class="card-text mb-2"><span class="badge text-bg-success">Đang trống</span> 200.000đ/giờ</p>
+            <p class="card-text small text-secondary mb-0">Khung giờ trống gần nhất: 17:00 – 18:00</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-4">
+        <article class="card h-100 shadow-sm border-0">
+          <div class="card-body">
+            <h2 class="card-title h5 text-success-emphasis mb-1">Sân B2</h2>
+            <p class="card-subtitle text-secondary mb-2 small">Loại 7 người</p>
+            <p class="card-text mb-2"><span class="badge text-bg-success">Đang trống</span> 350.000đ/giờ</p>
+            <p class="card-text small text-secondary mb-0">Khung giờ trống gần nhất: 18:00 – 19:00</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-4">
+        <article class="card h-100 shadow-sm border-0">
+          <div class="card-body">
+            <h2 class="card-title h5 text-success-emphasis mb-1">Sân C1</h2>
+            <p class="card-subtitle text-secondary mb-2 small">Loại 11 người</p>
+            <p class="card-text mb-2"><span class="badge text-bg-warning">Đã kín</span> 700.000đ/giờ</p>
+            <p class="card-text small text-secondary mb-0">Gợi ý: đặt trước 2 ngày cho khung giờ vàng.</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="col-12">
+        <h2 class="h4 mt-3 text-success-emphasis">Bảng lịch chi tiết</h2>
+        <div class="table-responsive shadow-sm rounded">
+          <table class="table table-striped table-hover align-middle bg-white mb-0">
+            <caption class="px-3 pt-2 small text-secondary">Lịch sân ngày 11/09/2026</caption>
+            <thead class="table-success">
+              <tr>
+                <th scope="col">Tên sân</th>
+                <th scope="col">Loại sân</th>
+                <th scope="col">Giá/giờ</th>
+                <th scope="col">Khung giờ</th>
+                <th scope="col">Trạng thái</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Sân A1</td><td>5 người</td><td>200.000đ</td><td>17:00 – 18:00</td><td><span class="trang-thai-trong">Trống</span></td></tr>
+              <tr><td>Sân A1</td><td>5 người</td><td>250.000đ</td><td>19:00 – 20:00</td><td><span class="trang-thai-da-dat">Đã đặt</span></td></tr>
+              <tr><td>Sân B2</td><td>7 người</td><td>350.000đ</td><td>18:00 – 19:00</td><td><span class="trang-thai-trong">Trống</span></td></tr>
+              <tr><td>Sân B2</td><td>7 người</td><td>400.000đ</td><td>20:00 – 21:00</td><td><span class="trang-thai-trong">Trống</span></td></tr>
+              <tr><td>Sân C1</td><td>11 người</td><td>700.000đ</td><td>16:00 – 18:00</td><td><span class="trang-thai-da-dat">Đã đặt</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <nav aria-label="Phân trang lịch sân">
+          <ul class="pagination justify-content-center mt-3">
+            <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1" aria-disabled="true">Trước</a></li>
+            <li class="page-item active" aria-current="page"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" href="#">Sau</a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <div class="col-12 d-flex flex-wrap gap-2">
+        <a class="btn btn-primary" href="dat-san.html">Đặt sân ngay</a>
+        <a class="btn btn-outline-primary" href="index.html">Về trang chủ</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="bg-dark text-white-50 py-4 mt-5">
+    <div class="container text-center small">
+      <p class="mb-1 text-white">Sân Bóng Thắng Lợi – 123 Đường Ngô Quyền, Quận Sơn Trà, Đà Nẵng</p>
+      <p class="mb-1">Điện thoại: 0905 123 456 · Email: lienhe@sanbongthangloi.vn</p>
+      <p class="mb-0">&copy; 2026 Sân Bóng Thắng Lợi. Đồ án học phần Lập trình Web.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

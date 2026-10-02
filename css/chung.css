@@ -1,0 +1,83 @@
+/* ==== Biến toàn cục ==== */
+:root {
+  --mau-chinh: #0b6e3c;
+  --mau-chinh-dam: #084d29;
+  --mau-nhan: #f4b400;
+  --mau-chu: #1c1c1c;
+  --mau-nen: #ffffff;
+  --mau-nen-phu: #f2f6f2;
+  --mau-vien: #d7ddd7;
+
+  --co-chu-goc: 16px;
+  --co-chu-nho: 0.875rem;
+  --co-chu-lon: 1.125rem;
+  --co-chu-tieu-de-1: 1.75rem;
+  --co-chu-tieu-de-2: 1.35rem;
+
+  --khoang: 1rem;
+  --khoang-lon: 1.5rem;
+  --khoang-nho: 0.5rem;
+
+  --bo-goc: 8px;
+  --bo-goc-lon: 14px;
+  --bong: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --bong-lon: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* ==== Chuẩn hoá ==== */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--co-chu-goc);
+  line-height: 1.6;
+  color: var(--mau-chu);
+  background-color: var(--mau-nen);
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+
+a { color: var(--mau-chinh); text-decoration: none; }
+a:hover,
+a:focus-visible { text-decoration: underline; }
+
+:focus-visible {
+  outline: 3px solid var(--mau-nhan);
+  outline-offset: 2px;
+}
+
+h1, h2, h3 { line-height: 1.25; margin-top: 0; }
+h1 { font-size: var(--co-chu-tieu-de-1); }
+h2 { font-size: var(--co-chu-tieu-de-2); margin-top: var(--khoang-lon); }
+
+p { margin: 0 0 var(--khoang); }
+
+/* ==== Layout trang ==== */
+.khu-vuc-chinh {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: var(--khoang-lon) var(--khoang);
+}
+
+/* ==== Responsive ==== */
+@media (min-width: 600px) {
+  :root { --co-chu-goc: 17px; }
+  .khu-vuc-chinh { padding: var(--khoang-lon); }
+}
+
+@media (min-width: 960px) {
+  :root {
+    --co-chu-goc: 18px;
+    --co-chu-tieu-de-1: 2rem;
+    --co-chu-tieu-de-2: 1.5rem;
+  }
+}

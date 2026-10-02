@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trang Quản Trị | Sân Bóng Thắng Lợi</title>
+  <meta name="description" content="Trang quản trị dành cho nhân viên: quản lý sơ đồ sân, bảng giá và thống kê doanh thu tại Sân Bóng Thắng Lợi.">
+  <link rel="stylesheet" href="css/chung.css">
+  <link rel="stylesheet" href="css/thanh-phan.css">
+</head>
+<body>
+  <header class="dau-trang">
+    <p class="ten-he-thong"><a href="index.html">Sân Bóng Thắng Lợi</a></p>
+    <button type="button" class="nut-mo-menu" aria-expanded="false" aria-controls="danh-sach-dieu-huong-chinh">
+      <span class="nut-mo-menu__nhan">Mở menu</span>
+    </button>
+    <noscript>
+      <style>.dieu-huong__danh-sach { display: flex !important; }</style>
+    </noscript>
+    <nav class="dieu-huong" aria-label="Điều hướng chính">
+      <ul class="dieu-huong__danh-sach" id="danh-sach-dieu-huong-chinh">
+        <li class="dieu-huong__muc"><a class="dieu-huong__lien-ket" href="index.html">Trang chủ</a></li>
+        <li class="dieu-huong__muc"><a class="dieu-huong__lien-ket" href="san-lich.html">Sân &amp; lịch trống</a></li>
+        <li class="dieu-huong__muc"><a class="dieu-huong__lien-ket" href="dat-san.html">Đặt sân</a></li>
+        <li class="dieu-huong__muc"><a class="dieu-huong__lien-ket" href="tai-khoan.html">Đăng nhập / Đăng ký</a></li>
+        <li class="dieu-huong__muc"><a class="dieu-huong__lien-ket" href="lich-su.html">Lịch sử đặt sân</a></li>
+        <li class="dieu-huong__muc"><a class="dieu-huong__lien-ket" href="quan-tri.html" aria-current="page">Quản trị</a></li>
+        <li class="dieu-huong__muc"><a class="dieu-huong__lien-ket" href="thanh-vien.html">Thành viên</a></li>
+        <li class="dieu-huong__muc"><a class="dieu-huong__lien-ket" href="lien-he.html">Liên hệ</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="khu-vuc-chinh">
+    <h1>Trang quản trị hệ thống</h1>
+    <p>Khu vực dành riêng cho quản lý sân, dùng để cập nhật sơ đồ sân, bảng giá và xem báo cáo hoạt động.</p>
+
+    <h2>Sơ đồ sân thực tế</h2>
+    <ul class="danh-sach-the">
+      <li class="the">Sân A1 – loại 5 người – khu vực phía Đông</li>
+      <li class="the">Sân A2 – loại 5 người – khu vực phía Đông</li>
+      <li class="the">Sân B2 – loại 7 người – khu vực trung tâm</li>
+      <li class="the the--noi-bat">Sân C1 – loại 11 người – khu vực phía Tây, có khán đài</li>
+    </ul>
+
+    <h2>Bảng giá hiện hành</h2>
+    <table class="bang">
+      <caption class="bang__tieu-de">Bảng giá áp dụng từ 01/09/2026</caption>
+      <thead>
+        <tr>
+          <th scope="col">Loại sân</th>
+          <th scope="col">Giờ thường (06:00–18:00)</th>
+          <th scope="col">Giờ vàng (18:00–22:00)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>5 người</td><td>200.000đ/giờ</td><td>250.000đ/giờ</td></tr>
+        <tr><td>7 người</td><td>300.000đ/giờ</td><td>350.000đ/giờ</td></tr>
+        <tr><td>11 người</td><td>600.000đ/giờ</td><td>700.000đ/giờ</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Thống kê tháng 09/2026</h2>
+    <table class="bang">
+      <caption class="bang__tieu-de">Số liệu thống kê hoạt động</caption>
+      <thead>
+        <tr>
+          <th scope="col">Chỉ số</th>
+          <th scope="col">Giá trị</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Tổng lượt đặt sân</td><td>128 lượt</td></tr>
+        <tr><td>Doanh thu ước tính</td><td>34.500.000đ</td></tr>
+        <tr><td>Tỷ lệ lấp đầy sân giờ vàng</td><td>87%</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Video hướng dẫn sử dụng hệ thống quản trị</h2>
+    <iframe class="khung-nhung"
+            src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+            title="Video hướng dẫn sử dụng trang quản trị Sân Bóng Thắng Lợi"
+            loading="lazy" allowfullscreen></iframe>
+  </main>
+
+  <footer class="chan-trang">
+    <p class="chan-trang__dong">Sân Bóng Thắng Lợi – 123 Đường Ngô Quyền, Quận Sơn Trà, Đà Nẵng</p>
+    <p class="chan-trang__dong">Điện thoại: 0905 123 456 · Email: lienhe@sanbongthangloi.vn</p>
+    <ul class="chan-trang__lien-ket">
+      <li><a href="index.html">Trang chủ</a></li>
+      <li><a href="thanh-vien.html">Thành viên</a></li>
+      <li><a href="lien-he.html">Liên hệ</a></li>
+      <li><a href="quan-tri.html">Quản trị</a></li>
+    </ul>
+    <p class="chan-trang__dong">&copy; 2026 Sân Bóng Thắng Lợi. Đồ án học phần Lập trình Web.</p>
+  </footer>
+
+  <script type="module" src="js/trang-chung.js"></script>
+</body>
+</html>

@@ -1,0 +1,333 @@
+/* ==== Header ==== */
+.dau-trang {
+  background: linear-gradient(90deg, var(--mau-chinh-dam), var(--mau-chinh));
+  color: #fff;
+  padding: var(--khoang) var(--khoang-nho);
+}
+
+.ten-he-thong {
+  margin: 0 0 var(--khoang-nho);
+  font-size: var(--co-chu-lon);
+  font-weight: 700;
+  text-align: center;
+}
+.ten-he-thong a { color: #fff; }
+
+/* ==== Menu điều hướng ==== */
+.dieu-huong__danh-sach {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--khoang-nho);
+}
+
+.dieu-huong__lien-ket {
+  display: inline-block;
+  color: #fff;
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--bo-goc);
+  font-size: var(--co-chu-nho);
+}
+.dieu-huong__lien-ket:hover,
+.dieu-huong__lien-ket:focus-visible {
+  background-color: rgba(255, 255, 255, 0.15);
+  text-decoration: none;
+}
+.dieu-huong__lien-ket[aria-current="page"] {
+  background-color: rgba(255, 255, 255, 0.25);
+  font-weight: 700;
+}
+
+/* ==== Footer ==== */
+.chan-trang {
+  background-color: var(--mau-nen-phu);
+  border-top: 1px solid var(--mau-vien);
+  padding: var(--khoang-lon) var(--khoang);
+  text-align: center;
+  font-size: var(--co-chu-nho);
+}
+.chan-trang__dong { margin: 0.25rem 0; }
+.chan-trang__lien-ket {
+  list-style: none;
+  margin: var(--khoang) 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--khoang);
+}
+
+/* ==== Thẻ nội dung ==== */
+.danh-sach-the {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: var(--khoang);
+  grid-template-columns: 1fr;
+}
+
+.the {
+  background-color: var(--mau-nen);
+  border: 1px solid var(--mau-vien);
+  border-radius: var(--bo-goc-lon);
+  padding: var(--khoang-lon);
+  box-shadow: var(--bong);
+}
+
+.the--noi-bat {
+  border-color: var(--mau-chinh);
+  border-width: 2px;
+  box-shadow: var(--bong-lon);
+}
+
+@media (min-width: 600px) {
+  .danh-sach-the { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 960px) {
+  .danh-sach-the { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* ==== Danh sách tiện ích ==== */
+.danh-sach-tien-ich {
+  list-style: none;
+  padding: 0;
+}
+.danh-sach-tien-ich li {
+  padding: 0.5rem 0 0.5rem 1.6rem;
+  position: relative;
+  border-bottom: 1px solid var(--mau-vien);
+}
+.danh-sach-tien-ich li::before {
+  content: "✓";
+  color: var(--mau-chinh);
+  position: absolute;
+  left: 0;
+  font-weight: 700;
+}
+.danh-sach-tien-ich li:last-child { border-bottom: none; }
+
+/* ==== Form ==== */
+.bieu-mau { display: grid; gap: var(--khoang); }
+
+.nhom-truong {
+  border: 1px solid var(--mau-vien);
+  border-radius: var(--bo-goc-lon);
+  padding: var(--khoang-lon);
+  background-color: var(--mau-nen-phu);
+}
+
+.nhom-truong__tieu-de {
+  font-weight: 700;
+  color: var(--mau-chinh-dam);
+  padding: 0 var(--khoang-nho);
+}
+
+.truong__nhan {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.truong__nhap {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  font: inherit;
+  border: 1px solid var(--mau-vien);
+  border-radius: var(--bo-goc);
+  background-color: #fff;
+  margin-bottom: var(--khoang);
+}
+.truong__nhap:focus-visible {
+  border-color: var(--mau-chinh);
+}
+
+.truong__chon { margin-right: 0.4rem; }
+
+.truong__tieu-de {
+  font-weight: 600;
+  margin: var(--khoang) 0 var(--khoang-nho);
+}
+
+/* ==== Nút ==== */
+.nut {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  font: inherit;
+  font-weight: 600;
+  border-radius: var(--bo-goc);
+  border: 2px solid transparent;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.15s, color 0.15s;
+}
+.nut--chinh {
+  background-color: var(--mau-chinh);
+  color: #fff;
+}
+.nut--chinh:hover,
+.nut--chinh:focus-visible {
+  background-color: var(--mau-chinh-dam);
+  text-decoration: none;
+  color: #fff;
+}
+.nut--phu {
+  background-color: transparent;
+  color: var(--mau-chinh);
+  border-color: var(--mau-chinh);
+}
+.nut--phu:hover,
+.nut--phu:focus-visible {
+  background-color: var(--mau-chinh);
+  color: #fff;
+  text-decoration: none;
+}
+
+/* ==== Bảng ==== */
+.bang {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  margin: var(--khoang) 0;
+  font-size: var(--co-chu-nho);
+}
+.bang__tieu-de {
+  text-align: left;
+  font-style: italic;
+  color: #555;
+  padding: 0.25rem 0;
+}
+.bang th,
+.bang td {
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--mau-vien);
+  text-align: left;
+}
+.bang thead th {
+  background-color: var(--mau-chinh);
+  color: #fff;
+}
+.bang tbody tr:nth-child(even) { background-color: var(--mau-nen-phu); }
+
+/* ==== Khối ảnh ==== */
+.khoi-anh {
+  margin: var(--khoang-lon) 0;
+  text-align: center;
+}
+.khoi-anh__anh {
+  border-radius: var(--bo-goc-lon);
+  margin: 0 auto;
+  box-shadow: var(--bong);
+}
+.khoi-anh__chu-thich {
+  font-size: var(--co-chu-nho);
+  color: #555;
+  margin-top: var(--khoang-nho);
+  font-style: italic;
+}
+
+/* ==== Khung nhúng (iframe) ==== */
+.khung-nhung {
+  width: 100%;
+  min-height: 320px;
+  border: 1px solid var(--mau-vien);
+  border-radius: var(--bo-goc-lon);
+  margin: var(--khoang) 0;
+}
+
+/* ==== Đoạn giới thiệu ==== */
+.gioi-thieu {
+  font-size: var(--co-chu-lon);
+  color: #444;
+  max-width: 65ch;
+}
+/* ==== Nút mở menu (chỉ hiện trên màn hình hẹp, cần JavaScript để hoạt động) ==== */
+.nut-mo-menu {
+  display: none;
+  margin: 0 auto var(--khoang-nho);
+  background: transparent;
+  color: #fff;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  border-radius: var(--bo-goc);
+  padding: 0.4rem 0.9rem;
+  font: inherit;
+  cursor: pointer;
+}
+.nut-mo-menu:hover,
+.nut-mo-menu:focus-visible { background-color: rgba(255, 255, 255, 0.15); }
+
+@media (max-width: 640px) {
+  .nut-mo-menu { display: block; }
+  .dieu-huong__danh-sach {
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .dieu-huong__danh-sach.dieu-huong--dang-mo { display: flex; }
+}
+
+/* ==== Vùng thông báo trạng thái (đang tải / lỗi / rỗng / thành công) ==== */
+.vung-thong-bao {
+  padding: 0.6rem 0.9rem;
+  border-radius: var(--bo-goc);
+  margin: var(--khoang-nho) 0 var(--khoang);
+  font-size: var(--co-chu-nho);
+  min-height: 1.4em;
+}
+.vung-thong-bao:empty { padding: 0; margin: 0; min-height: 0; }
+.vung-thong-bao[data-trang-thai="dang-tai"] { background-color: var(--mau-nen-phu); color: #555; }
+.vung-thong-bao[data-trang-thai="loi"] { background-color: #fdecea; color: #a33a2e; }
+.vung-thong-bao[data-trang-thai="rong"] { background-color: var(--mau-nen-phu); color: #777; }
+.vung-thong-bao[data-trang-thai="thanh-cong"] { background-color: #e7f6ec; color: #0b6e3c; }
+.thong-bao__noi-dung--loi { margin: 0 0 var(--khoang-nho); }
+
+/* ==== Bộ lọc danh sách sân ==== */
+.bo-loc-san {
+  display: grid;
+  gap: var(--khoang);
+  margin: var(--khoang) 0;
+}
+@media (min-width: 600px) {
+  .bo-loc-san { grid-template-columns: repeat(2, 1fr); align-items: end; }
+}
+
+/* ==== Nút nhỏ dùng trong bảng ==== */
+.nut--nho { padding: 0.35rem 0.75rem; font-size: var(--co-chu-nho); }
+
+/* ==== Hộp thoại chi tiết sân ==== */
+.hop-thoai {
+  border: none;
+  border-radius: var(--bo-goc-lon);
+  box-shadow: var(--bong-lon);
+  padding: var(--khoang-lon);
+  max-width: 420px;
+  width: 92vw;
+}
+.hop-thoai::backdrop { background-color: rgba(0, 0, 0, 0.5); }
+.hop-thoai__anh {
+  width: 100%;
+  border-radius: var(--bo-goc);
+  margin-bottom: var(--khoang);
+}
+.hop-thoai__noi-dung ul { padding-left: 1.2rem; }
+.hop-thoai__nut-dong { margin-top: var(--khoang); }
+
+/* ==== Ghi chú nhỏ dưới trường nhập ==== */
+.truong__ghi-chu {
+  font-size: var(--co-chu-nho);
+  color: #666;
+  margin-top: -0.5rem;
+}
+
+/* ==== Khung điều khiển sắp xếp (trang chủ) ==== */
+.khung-sap-xep {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--khoang-nho);
+  margin: var(--khoang) 0;
+}
+.khung-sap-xep .truong__nhan { margin-bottom: 0; }

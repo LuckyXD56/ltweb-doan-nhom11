@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đặt Sân Trực Tuyến | Sân Bóng Thắng Lợi</title>
+  <meta name="description" content="Điền thông tin để đặt sân bóng đá trực tuyến tại Sân Bóng Thắng Lợi, chọn loại sân, ngày giờ và phương thức đặt cọc.">
+  <link rel="stylesheet" href="css/chung.css">
+  <link rel="stylesheet" href="css/thanh-phan.css">
+</head>
+<body>
+  <header class="dau-trang">
+    <p class="ten-he-thong"><a href="index.html">Sân Bóng Thắng Lợi</a></p>
+    <button type="button" class="nut-mo-menu" aria-expanded="false" aria-controls="danh-sach-dieu-huong-chinh">
+      <span class="nut-mo-menu__nhan">Mở menu</span>
+    </button>
+    <noscript>
+      <style>.dieu-huong__danh-sach { display: flex !important; }</style>
+    </noscript>
+    <nav class="dieu-huong" aria-label="Điều hướng chính">
+      <ul class="dieu-huong__danh-sach" id="danh-sach-dieu-huong-chinh">
+        <li class="dieu-huong__muc"><a class="dieu-huong__lien-ket" href="index.html">Trang chủ</a></li>
+        <li class="dieu-huong__muc"><a class="dieu-huong__lien-ket" href="san-lich.html">Sân &amp; lịch trống</a></li>
+        <li class="dieu-huong__muc"><a class="dieu-huong__lien-ket" href="dat-san.html" aria-current="page">Đặt sân</a></li>
+        <li class="dieu-huong__muc"><a class="dieu-huong__lien-ket" href="tai-khoan.html">Đăng nhập / Đăng ký</a></li>
+        <li class="dieu-huong__muc"><a class="dieu-huong__lien-ket" href="lich-su.html">Lịch sử đặt sân</a></li>
+        <li class="dieu-huong__muc"><a class="dieu-huong__lien-ket" href="quan-tri.html">Quản trị</a></li>
+        <li class="dieu-huong__muc"><a class="dieu-huong__lien-ket" href="thanh-vien.html">Thành viên</a></li>
+        <li class="dieu-huong__muc"><a class="dieu-huong__lien-ket" href="lien-he.html">Liên hệ</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="khu-vuc-chinh">
+    <h1>Đặt sân bóng đá</h1>
+    <p class="gioi-thieu">Vui lòng điền đầy đủ thông tin bên dưới. Các trường có dấu (*) là bắt buộc.
+      Đơn đặt sân sẽ được xác nhận qua số điện thoại hoặc email trong vòng 30 phút.</p>
+
+    <form class="bieu-mau" id="form-dat-san" action="#" method="post">
+      <fieldset class="nhom-truong">
+        <legend class="nhom-truong__tieu-de">Thông tin khách hàng</legend>
+
+        <label class="truong__nhan" for="ho-ten">Họ và tên (*)</label>
+        <input class="truong__nhap" type="text" id="ho-ten" name="ho_ten" required minlength="2" maxlength="60">
+
+        <label class="truong__nhan" for="sdt">Số điện thoại (*)</label>
+        <input class="truong__nhap" type="tel" id="sdt" name="so_dien_thoai" required pattern="0[0-9]{9}"
+               title="Nhập số điện thoại Việt Nam gồm 10 chữ số, bắt đầu bằng 0">
+
+        <label class="truong__nhan" for="email">Email</label>
+        <input class="truong__nhap" type="email" id="email" name="email">
+      </fieldset>
+
+      <fieldset class="nhom-truong">
+        <legend class="nhom-truong__tieu-de">Thông tin đặt sân</legend>
+
+        <label class="truong__nhan" for="loai-san">Loại sân (*)</label>
+        <select class="truong__nhap" id="loai-san" name="loai_san" required>
+          <option value="">-- Chọn loại sân --</option>
+          <option value="5">Sân 5 người</option>
+          <option value="7">Sân 7 người</option>
+          <option value="11">Sân 11 người</option>
+        </select>
+
+        <label class="truong__nhan" for="san-cu-the">Sân cụ thể (tự động hiện theo loại sân khi bật JavaScript)</label>
+        <select class="truong__nhap" id="san-cu-the" name="san_cu_the" disabled>
+          <option value="">-- Vui lòng chọn loại sân trước --</option>
+        </select>
+        <noscript>
+          <p class="truong__ghi-chu">JavaScript đang tắt: nhân viên sẽ gọi điện xác nhận sân cụ thể theo loại sân bạn đã chọn.</p>
+        </noscript>
+
+        <label class="truong__nhan" for="ngay-dat">Ngày đặt (*)</label>
+        <input class="truong__nhap" type="date" id="ngay-dat" name="ngay_dat" required min="2026-09-11">
+
+        <label class="truong__nhan" for="gio-bat-dau">Giờ bắt đầu (*)</label>
+        <input class="truong__nhap" type="time" id="gio-bat-dau" name="gio_bat_dau" required>
+
+        <label class="truong__nhan" for="gio-ket-thuc">Giờ kết thúc (*)</label>
+        <input class="truong__nhap" type="time" id="gio-ket-thuc" name="gio_ket_thuc" required>
+
+        <p class="truong__tieu-de">Phương thức đặt cọc (*)</p>
+        <input class="truong__chon" type="radio" id="coc-chuyen-khoan" name="phuong_thuc_coc" value="chuyen_khoan" required>
+        <label class="truong__nhan" for="coc-chuyen-khoan">Chuyển khoản ngân hàng</label><br>
+        <input class="truong__chon" type="radio" id="coc-tien-mat" name="phuong_thuc_coc" value="tien_mat" required>
+        <label class="truong__nhan" for="coc-tien-mat">Tiền mặt tại sân</label>
+
+        <label class="truong__nhan" for="ghi-chu">Ghi chú thêm</label>
+        <textarea class="truong__nhap" id="ghi-chu" name="ghi_chu" rows="4" cols="40" maxlength="300"></textarea>
+      </fieldset>
+
+      <p id="thong-bao-dat-san" class="vung-thong-bao" aria-live="polite"></p>
+
+      <button class="nut nut--chinh" type="submit">Xác nhận đặt sân</button>
+      <button class="nut nut--phu" type="reset">Nhập lại</button>
+    </form>
+  </main>
+
+  <footer class="chan-trang">
+    <p class="chan-trang__dong">Sân Bóng Thắng Lợi – 123 Đường Ngô Quyền, Quận Sơn Trà, Đà Nẵng</p>
+    <p class="chan-trang__dong">Điện thoại: 0905 123 456 · Email: lienhe@sanbongthangloi.vn</p>
+    <ul class="chan-trang__lien-ket">
+      <li><a href="index.html">Trang chủ</a></li>
+      <li><a href="thanh-vien.html">Thành viên</a></li>
+      <li><a href="lien-he.html">Liên hệ</a></li>
+      <li><a href="quan-tri.html">Quản trị</a></li>
+    </ul>
+    <p class="chan-trang__dong">&copy; 2026 Sân Bóng Thắng Lợi. Đồ án học phần Lập trình Web.</p>
+  </footer>
+
+  <script type="module" src="js/trang-dat-san.js"></script>
+</body>
+</html>
