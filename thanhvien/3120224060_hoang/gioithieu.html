@@ -1,192 +1,147 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Trang giới thiệu thành viên Nguyễn Quý Minh Hoàng của Nhóm 11.">
-    <title>Nguyễn Quý Minh Hoàng | Nhóm 11</title>
-    <link rel="stylesheet" href="../../css/style.css">
-    <link rel="stylesheet" href="profile.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Giới thiệu bản thân - Nguyễn Quý Minh Hoàng</title>
+  <meta name="description" content="Trang giới thiệu cá nhân của Nguyễn Quý Minh Hoàng, thành viên Nhóm 11, Khoa Toán Tin, Đại học Sư phạm Đà Nẵng.">
+  <link rel="stylesheet" href="profile.css">
 </head>
+<body class="trang">
 
-<body>
-    <header class="trang__header">
-    <h1>Sân Bóng Thắng Lợi</h1>
-    <p>Uy tín - Tiện lợi - Sức khỏe là vàng</p>
-</header>
-
-<nav class="trang__nav" aria-label="Điều hướng chính">
+  <nav class="trang__nav">
     <ul class="menu__danh-sach">
-        <li class="menu__muc">
-            <a href="../../index.html" class="menu__lien-ket">Trang chủ</a>
-        </li>
-
-        <li class="menu__muc">
-            <a href="../../danh-sach.html" class="menu__lien-ket">Danh sách sân</a>
-        </li>
-
-        <li class="menu__muc">
-            <a href="../../chi-tiet.html" class="menu__lien-ket">Chi tiết sân</a>
-        </li>
-
-        <li class="menu__muc">
-            <a href="../../gioi-thieu.html" class="menu__lien-ket active">
-                Giới thiệu nhóm
-            </a>
-        </li>
-
-        <li class="menu__muc">
-            <a href="../../lien-he.html" class="menu__lien-ket">
-                Liên hệ / Đặt sân
-            </a>
-        </li>
+      <li class="menu__muc"><a class="menu__lien-ket" href="../../index.html">Trang chủ</a></li>
+      <li class="menu__muc"><a class="menu__lien-ket" href="../../danh-sach.html">Danh sách sân</a></li>
+      <li class="menu__muc"><a class="menu__lien-ket" href="../../chi-tiet.html">Chi tiết sân</a></li>
+      <li class="menu__muc"><a class="menu__lien-ket active" href="../../thanh-vien.html">Giới thiệu nhóm</a></li>
+      <li class="menu__muc"><a class="menu__lien-ket" href="../../lien-he.html">Liên hệ / Đặt sân</a></li>
     </ul>
-</nav>
+  </nav>
 
-    <main class="page-shell content">
-        <h1>Giới thiệu thành viên</h1>
+  <main class="trang__main">
 
-        <section class="profile-card" aria-label="Thông tin cá nhân">
-            <figure>
-                <img
-                    class="avatar"
-                    src="../../images/hoang.jpg"
-                    alt="Ảnh chân dung của Nguyễn Quý Minh Hoàng"
-                    width="130"
-                    height="130">
-                <figcaption>Nguyễn Quý Minh Hoàng</figcaption>
-            </figure>
+    <h1 class="tieu-de-trang">Giới thiệu thành viên Nhóm 11</h1>
 
-            <div class="profile-meta">
-                <span class="label">Thành viên Nhóm 11</span>
-                <h2>Nguyễn Quý Minh Hoàng</h2>
-                <p><strong>Mã sinh viên:</strong> 3120224060</p>
-                <p><strong>Vai trò:</strong> Thành viên nhóm</p>
-                <p><strong>Nhiệm vụ:</strong> Phụ trách trang tài khoản, đăng nhập và lịch sử đặt sân.</p>
-            </div>
-        </section>
+    <!-- Thanh công cụ: 2 nút (khớp id với canhan.js) -->
+    <div class="thanh-cong-cu">
+      <button type="button" id="nut-doi-giao-dien" class="nut-cong-cu"
+              aria-pressed="false">🌙 Chế độ tối</button>
+      <button type="button" id="nut-sao-chep-email" class="nut-cong-cu"
+              aria-label="Sao chép địa chỉ email">📧 Sao chép email</button>
+      <span id="thong-bao-sao-chep" class="thong-bao-copy" role="status" aria-live="polite"></span>
+    </div>
 
-        <div class="info-grid">
-            <article class="info-box">
-                <h2>Thông tin cá nhân</h2>
-                <ul>
-                    <li>Họ và tên: Nguyễn Quý Minh Hoàng</li>
-                    <li>Khoa: Toán - Tin</li>
-                    <li>Chuyên ngành: Công nghệ thông tin</li>
-                </ul>
-            </article>
-
-            <article class="info-box">
-                <h2>Kỹ năng</h2>
-                <ul>
-                    <li>HTML5 form và validation</li>
-                    <li>CSS layout</li>
-<li>Thiết kế cơ sở dữ liệu</li>
-                    <li>Làm việc nhóm với GitHub</li>
-                </ul>
-            </article>
-        </div>
-
-        <article class="full-box">
-            <h2>Sở thích và mục tiêu</h2>
-            <p>
-                Hoàng yêu thích bóng đá, công nghệ và tìm hiểu về bảo mật web.
-                Mục tiêu là hoàn thành tốt các trang tài khoản và lịch sử đặt sân
-                trong dự án website Sân Bóng Thắng Lợi.
-            </p>
-        </article>
-
-        <section class="full-box">
-            <h2>Thời khóa biểu tuần</h2>
-            <div class="table-responsive">
-            <table class="schedule-table">
-                <caption>
-                    Lịch học và hoạt động trong tuần của Nguyễn Quý Minh Hoàng
-                </caption>
-
-                <thead>
-                    <tr>
-                        <th scope="col">Ngày</th>
-                        <th scope="col">Hoạt động</th>
-                        <th scope="col">Thời gian</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <tr>
-                        <th scope="row">Thứ Hai</th>
-                        <td>Học trên lớp</td>
-                        <td>07:00 - 11:00</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Thứ Ba</th>
-                        <td>Học chuyên ngành</td>
-                        <td>07:00 - 11:00</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Thứ Tư</th>
-                        <td>Học chuyên ngành</td>
-                        <td>07:00 - 11:00</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Thứ Năm</th>
-                        <td>Làm dự án nhóm</td>
-                        <td>13:30 - 17:00</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Thứ Sáu</th>
-                        <td>Học trên lớp</td>
-                        <td>07:00 - 11:00</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Thứ Bảy</th>
-                        <td>Học chuyên ngành</td>
-                        <td>07:00 - 11:00</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Chủ Nhật</th>
-                        <td>Ôn tập và kiểm tra tiến độ</td>
-                        <td>19:00 - 21:00</td>
-                    </tr>
-                </tbody>
-            </table>
-            </div>
-        </section>
-
-        
-        <!-- BẮT ĐẦU: Code Gallery và Nút Like thêm vào -->
-        <section class="full-box">
-            <h2>Bộ sưu tập ảnh (Gallery)</h2>
-            <div style="text-align: center; margin-bottom: 15px;">
-                <button class="nut filter-btn active" data-filter="all">Tất cả</button>
-                <button class="nut filter-btn nut--phu" data-filter="san">Sân bóng</button>
-                <button class="nut filter-btn nut--phu" data-filter="hoatdong">Hoạt động</button>
-            </div>
-            <div class="gallery d-flex gap-1 flex-wrap justify-center">
-                <img src="../../images/san-a1.jpg" alt="Sân A1" class="gallery-item" data-category="san" style="width: 150px; height: 100px; object-fit: cover; border-radius: 8px;">
-                <img src="../../images/san-b1.jpg" alt="Sân B1" class="gallery-item" data-category="san" style="width: 150px; height: 100px; object-fit: cover; border-radius: 8px;">
-                <img src="../../images/hoang.jpg" alt="Hoàng" class="gallery-item" data-category="hoatdong" style="width: 150px; height: 100px; object-fit: cover; border-radius: 8px;">
-            </div>
-        </section>
-
-        <section class="full-box" style="text-align: center;">
-            <button id="btn-like" class="nut" style="font-size: 1.2rem; background-color: #ef4444; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; transition: transform 0.2s;">
-                ❤️ Thích trang này (<span id="like-count">0</span>)
-            </button>
-        </section>
-        <!-- KẾT THÚC: Code Gallery và Nút Like -->
-
-        <p class="back-link">
-            <a href="../../gioi-thieu.html">← Quay lại trang giới thiệu nhóm</a>
+    <!-- Card hồ sơ chính -->
+    <article class="the-ho-so">
+      <div class="the-ho-so__avatar">
+        <img src="../../images/hoang.jpg"
+             alt="Ảnh chân dung của Nguyễn Quý Minh Hoàng"
+             class="the-ho-so__anh">
+      </div>
+      <div class="the-ho-so__thong-tin">
+        <h2 class="the-ho-so__ten">Nguyễn Quý Minh Hoàng</h2>
+        <p class="the-ho-so__dong"><strong>Vai trò:</strong> Thành viên nhóm</p>
+        <p class="the-ho-so__dong"><strong>Mã sinh viên:</strong> 3120224060</p>
+        <p class="the-ho-so__dong">
+          <strong>Email:</strong>
+          <span id="email-ca-nhan">hoangnqm.22@st.bkdn.edu.vn</span>
         </p>
-    </main>
+        <p class="the-ho-so__dong"><strong>Nhiệm vụ:</strong> Phụ trách trang tài khoản, đăng nhập và lịch sử đặt sân.</p>
+      </div>
+    </article>
 
-    <footer>
-        <p>
-            &copy; 2026 Nhóm 11 -
-            <a href="../../index.html">Quay về trang chủ</a>
-</p>
-    </footer>
-    <script src="js/canhan.js"></script>
+    <!-- 2 cột: Thông tin cá nhân + Kỹ năng -->
+    <div class="luoi-hai-cot">
+      <article class="the-nho">
+        <h3 class="the-nho__tieu-de">Thông tin cá nhân</h3>
+        <ul class="danh-sach-cham">
+          <li><strong>Họ và tên:</strong> Nguyễn Quý Minh Hoàng</li>
+          <li><strong>Khoa:</strong> Toán – Tin</li>
+          <li><strong>Chuyên ngành:</strong> Công nghệ thông tin</li>
+        </ul>
+      </article>
+
+      <article class="the-nho">
+        <h3 class="the-nho__tieu-de">Kỹ năng</h3>
+        <div class="danh-sach-nhan">
+          <span class="nhan">HTML5 form &amp; validation</span>
+          <span class="nhan">CSS layout</span>
+          <span class="nhan">Thiết kế cơ sở dữ liệu</span>
+          <span class="nhan">Làm việc nhóm với GitHub</span>
+        </div>
+      </article>
+    </div>
+
+    <!-- Sở thích và mục tiêu -->
+    <article class="the-nho the-nho--full">
+      <h3 class="the-nho__tieu-de">Sở thích và mục tiêu</h3>
+      <p class="the-nho__doan">Hoàng yêu thích bóng đá, công nghệ và tìm hiểu về bảo mật web. Mục tiêu là hoàn thành tốt các trang tài khoản và lịch sử đặt sân trong dự án website Sân Bóng Thắng Lợi.</p>
+    </article>
+
+    <!-- Thời khóa biểu -->
+    <article class="the-nho the-nho--full">
+      <h3 class="the-nho__tieu-de">Thời khóa biểu tuần</h3>
+      <div class="bang-bao">
+        <table class="bang-thoi-khoa-bieu">
+          <caption style="text-align:left; padding: 0.5rem 0; color: #4b5563;">Lịch học và hoạt động trong tuần của Nguyễn Quý Minh Hoàng</caption>
+          <thead>
+            <tr>
+              <th scope="col">Ngày</th>
+              <th scope="col">Hoạt động</th>
+              <th scope="col">Thời gian</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Thứ Hai</th><td>Học trên lớp</td><td>07:00 – 11:00</td></tr>
+            <tr><th scope="row">Thứ Ba</th><td>Học chuyên ngành</td><td>07:00 – 11:00</td></tr>
+            <tr><th scope="row">Thứ Tư</th><td>Học chuyên ngành</td><td>07:00 – 11:00</td></tr>
+            <tr><th scope="row">Thứ Năm</th><td>Làm dự án nhóm</td><td>13:30 – 17:00</td></tr>
+            <tr><th scope="row">Thứ Sáu</th><td>Học trên lớp</td><td>07:00 – 11:00</td></tr>
+            <tr><th scope="row">Thứ Bảy</th><td>Học chuyên ngành</td><td>07:00 – 11:00</td></tr>
+            <tr><th scope="row">Chủ Nhật</th><td>Ôn tập và kiểm tra tiến độ</td><td>19:00 – 21:00</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </article>
+
+    <!-- Gallery ảnh (giữ từ upstream) -->
+    <article class="the-nho the-nho--full">
+      <h3 class="the-nho__tieu-de">Bộ sưu tập ảnh</h3>
+      <div style="text-align: center; margin-bottom: 15px; display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap;">
+        <button type="button" class="nut nut--chinh nut-loc-anh" data-filter="all">Tất cả</button>
+        <button type="button" class="nut nut--phu nut-loc-anh" data-filter="san">Sân bóng</button>
+        <button type="button" class="nut nut--phu nut-loc-anh" data-filter="hoatdong">Hoạt động</button>
+      </div>
+      <div class="gallery" style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;">
+        <img src="../../images/san-a1.jpg" alt="Sân A1" class="gallery-item"
+             data-category="san"
+             style="width: 150px; height: 100px; object-fit: cover; border-radius: 8px;">
+        <img src="../../images/san-b1.jpg" alt="Sân B1" class="gallery-item"
+             data-category="san"
+             style="width: 150px; height: 100px; object-fit: cover; border-radius: 8px;">
+        <img src="../../images/hoang.jpg" alt="Hoàng" class="gallery-item"
+             data-category="hoatdong"
+             style="width: 150px; height: 100px; object-fit: cover; border-radius: 8px;">
+      </div>
+    </article>
+
+    <!-- Nút Like (giữ từ upstream) -->
+    <article class="the-nho the-nho--full" style="text-align: center;">
+      <button type="button" id="btn-like" class="nut"
+              style="font-size: 1.1rem; background-color: #ef4444; color: #fff; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer;">
+        ❤️ Thích trang này (<span id="like-count">0</span>)
+      </button>
+    </article>
+
+  </main>
+
+  <footer class="trang__footer">
+    <p>&copy; 2026 Nguyễn Quý Minh Hoàng – Nhóm 11, Khoa Toán Tin, ĐH Sư phạm Đà Nẵng.</p>
+    <p><a href="../../thanh-vien.html">← Về danh sách thành viên</a></p>
+  </footer>
+
+  <script src="js/canhan.js"></script>
+
 </body>
 </html>

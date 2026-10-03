@@ -1,66 +1,66 @@
-(function () {
-      // ==================== CHẾ ĐỘ TỐI ====================
-      var nutCheDo = document.getElementById('nut-che-do-toi');
-      var bieuTuong = document.getElementById('bieu-tuong-che-do');
-      var chuCheDo = document.getElementById('chu-che-do');
+/**
+ * canhan.js — Trang cá nhân Trương Nguyễn Ngọc Phú (MSSV 3120224111)
+ *
+ * Tương tác 1: Chế độ tối (đổi giao diện sáng/tối, lưu vào localStorage)
+ * Tương tác 2: Sao chép email vào clipboard
+ */
 
-      function capNhatNut(toi) {
-        bieuTuong.textContent = toi ? '☀️' : '🌙';
-        chuCheDo.textContent = toi ? 'Chế độ sáng' : 'Chế độ tối';
-      }
+document.addEventListener('DOMContentLoaded', function () {
 
-      // Khôi phục lựa chọn đã lưu
-      var daLuu = localStorage.getItem('che-do-toi') === '1';
-      if (daLuu) {
-        document.body.classList.add('dark-mode');
-      }
-      capNhatNut(daLuu);
+  // ============================================================
+  // 1. CHẾ ĐỘ TỐI
+  // ============================================================
+  const nutDoiGiaoDien = document.getElementById('nut-doi-giao-dien');
+  const KHOA_LUU = 'phu-giao-dien';
 
-      nutCheDo.addEventListener('click', function () {
-        document.body.classList.toggle('dark-mode');
-        var toi = document.body.classList.contains('dark-mode');
-        localStorage.setItem('che-do-toi', toi ? '1' : '0');
-        capNhatNut(toi);
-      });
+  function apDungGiaoDien(trangThai) {
+    const laToi = trangThai === 'toi';
+    document.body.classList.toggle('giao-dien-toi', laToi);
+    if (nutDoiGiaoDien) {
+      nutDoiGiaoDien.textContent = laToi ? '☀️ Chế độ sáng' : '🌙 Chế độ tối';
+      nutDoiGiaoDien.setAttribute('aria-pressed', String(laToi));
+    }
+  }
 
-      // ==================== COPY EMAIL ====================
-      var nutCopy = document.getElementById('nut-copy-email');
-      var thongBao = document.getElementById('thong-bao-copy');
+  if (nutDoiGiaoDien) {
+    const trangThaiBanDau = localStorage.getItem(KHOA_LUU) || 'sang';
+    apDungGiaoDien(trangThaiBanDau);
 
-      function hienThongBao(text) {
-        thongBao.textContent = text;
-        thongBao.classList.add('hien');
+    nutDoiGiaoDien.addEventListener('click', function () {
+      const dangToi = document.body.classList.contains('giao-dien-toi');
+      const trangThaiMoi = dangToi ? 'sang' : 'toi';
+      localStorage.setItem(KHOA_LUU, trangThaiMoi);
+      apDungGiaoDien(trangThaiMoi);
+    });
+  }
+
+  // ============================================================
+  // 2. SAO CHÉP EMAIL
+  // ============================================================
+  const nutSaoChep = document.getElementById('nut-sao-chep-email');
+  const emailEl = document.getElementById('email-ca-nhan');
+  const thongBao = document.getElementById('thong-bao-sao-chep');
+
+  if (nutSaoChep && emailEl && thongBao) {
+    nutSaoChep.addEventListener('click', async function () {
+      const email = emailEl.textContent.trim();
+      try {
+        await navigator.clipboard.writeText(email);
+        thongBao.textContent = '✅ Đã sao chép: ' + email;
+        thongBao.classList.add('thong-bao--thanh-cong');
         setTimeout(function () {
-          thongBao.classList.remove('hien');
+          thongBao.textContent = '';
+          thongBao.classList.remove('thong-bao--thanh-cong');
         }, 2000);
+      } catch (loi) {
+        thongBao.textContent = '❌ Không sao chép được. Vui lòng chọn thủ công.';
+        thongBao.classList.add('thong-bao--loi');
+        setTimeout(function () {
+          thongBao.textContent = '';
+          thongBao.classList.remove('thong-bao--loi');
+        }, 2500);
       }
+    });
+  }
 
-      nutCopy.addEventListener('click', function () {
-        var email = nutCopy.getAttribute('data-email');
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(email).then(function () {
-            hienThongBao('Đã copy: ' + email);
-          }).catch(function () {
-            copyFallback(email);
-          });
-        } else {
-          copyFallback(email);
-        }
-      });
-
-      function copyFallback(text) {
-        var tam = document.createElement('textarea');
-        tam.value = text;
-        tam.style.position = 'fixed';
-        tam.style.opacity = '0';
-        document.body.appendChild(tam);
-        tam.select();
-        try {
-          document.execCommand('copy');
-          hienThongBao('Đã copy: ' + text);
-        } catch (e) {
-          hienThongBao('Không copy được, email là: ' + text);
-        }
-        document.body.removeChild(tam);
-      }
-    })();
+});
