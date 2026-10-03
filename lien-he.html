@@ -21,11 +21,13 @@
       <ul class="dieu-huong__danh-sach" id="danh-sach-dieu-huong-chinh">
         <li class="dieu-huong__muc"><a class="dieu-huong__lien-ket" href="index.html">Trang chủ</a></li>
         <li class="dieu-huong__muc"><a class="dieu-huong__lien-ket" href="san-lich.html">Sân &amp; lịch trống</a></li>
+        <li class="dieu-huong__muc"><a class="dieu-huong__lien-ket" href="danh-sach.html">Danh sách sân</a></li>
         <li class="dieu-huong__muc"><a class="dieu-huong__lien-ket" href="dat-san.html">Đặt sân</a></li>
         <li class="dieu-huong__muc"><a class="dieu-huong__lien-ket" href="tai-khoan.html">Đăng nhập / Đăng ký</a></li>
         <li class="dieu-huong__muc"><a class="dieu-huong__lien-ket" href="lich-su.html">Lịch sử đặt sân</a></li>
         <li class="dieu-huong__muc"><a class="dieu-huong__lien-ket" href="quan-tri.html">Quản trị</a></li>
         <li class="dieu-huong__muc"><a class="dieu-huong__lien-ket" href="thanh-vien.html">Thành viên</a></li>
+        <li class="dieu-huong__muc"><a class="dieu-huong__lien-ket" href="danh-sach.html" id="menu-yeu-thich">Yêu thích (<span id="dem-yeu-thich">0</span>)</a></li>
         <li class="dieu-huong__muc"><a class="dieu-huong__lien-ket" href="lien-he.html" aria-current="page">Liên hệ</a></li>
       </ul>
     </nav>
@@ -47,15 +49,15 @@
     <form class="bieu-mau" id="form-lien-he" action="#" method="post" novalidate>
       <label class="truong__nhan" for="lh-ho-ten">Họ và tên (*)</label>
       <input class="truong__nhap" type="text" id="lh-ho-ten" name="ho_ten" required minlength="2">
-        <span id="loi-ho-ten" style="color: red; font-size: 0.9em; display: block; margin-bottom: 10px;"></span>
+      <span id="loi-ho-ten" style="color: red; font-size: 0.9em; display: block; margin-bottom: 10px;"></span>
 
       <label class="truong__nhan" for="lh-email">Email (*)</label>
       <input class="truong__nhap" type="email" id="lh-email" name="email" required>
-        <span id="loi-email" style="color: red; font-size: 0.9em; display: block; margin-bottom: 10px;"></span>
+      <span id="loi-email" style="color: red; font-size: 0.9em; display: block; margin-bottom: 10px;"></span>
 
       <label class="truong__nhan" for="lh-noi-dung">Nội dung (*)</label>
       <textarea class="truong__nhap" id="lh-noi-dung" name="noi_dung" rows="4" required minlength="10"></textarea>
-        <span id="loi-noi-dung" style="color: red; font-size: 0.9em; display: block; margin-bottom: 10px;"></span>
+      <span id="loi-noi-dung" style="color: red; font-size: 0.9em; display: block; margin-bottom: 10px;"></span>
 
       <p id="thong-bao-lien-he" class="vung-thong-bao" aria-live="polite"></p>
 
@@ -89,6 +91,8 @@
     <p class="chan-trang__dong">&copy; 2026 Sân Bóng Thắng Lợi. Đồ án học phần Lập trình Web.</p>
   </footer>
 
+  <script type="module" src="js/trang-chung.js"></script>
+  <script type="module" src="js/yeu-thich.js"></script>
   <script type="module" src="js/trang-lien-he.js"></script>
 </body>
 </html>

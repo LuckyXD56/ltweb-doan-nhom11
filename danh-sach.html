@@ -4,23 +4,30 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Danh Sách Sân Bóng | Sân Bóng Thắng Lợi</title>
-  <meta name="description" content="Danh sách sân bóng mini cỏ nhân tạo 5 người và 7 người kèm bảng giá tại Sân Bóng Thắng Lợi.">
+  <meta name="description" content="Danh sách sân bóng mini cỏ nhân tạo 5 người, 7 người và 11 người kèm bảng giá tại Sân Bóng Thắng Lợi.">
   <link rel="stylesheet" href="css/chung.css">
   <link rel="stylesheet" href="css/thanh-phan.css">
 </head>
 <body>
   <header class="dau-trang">
     <p class="ten-he-thong"><a href="index.html">Sân Bóng Thắng Lợi</a></p>
+    <button type="button" class="nut-mo-menu" aria-expanded="false" aria-controls="danh-sach-dieu-huong-chinh">
+      <span class="nut-mo-menu__nhan">Mở menu</span>
+    </button>
+    <noscript>
+      <style>.dieu-huong__danh-sach { display: flex !important; }</style>
+    </noscript>
     <nav class="dieu-huong" aria-label="Điều hướng chính">
-      <ul class="dieu-huong__danh-sach">
+      <ul class="dieu-huong__danh-sach" id="danh-sach-dieu-huong-chinh">
         <li class="dieu-huong__muc"><a class="dieu-huong__lien-ket" href="index.html">Trang chủ</a></li>
         <li class="dieu-huong__muc"><a class="dieu-huong__lien-ket" href="san-lich.html">Sân &amp; lịch trống</a></li>
+        <li class="dieu-huong__muc"><a class="dieu-huong__lien-ket" href="danh-sach.html" aria-current="page">Danh sách sân</a></li>
         <li class="dieu-huong__muc"><a class="dieu-huong__lien-ket" href="dat-san.html">Đặt sân</a></li>
         <li class="dieu-huong__muc"><a class="dieu-huong__lien-ket" href="tai-khoan.html">Đăng nhập / Đăng ký</a></li>
         <li class="dieu-huong__muc"><a class="dieu-huong__lien-ket" href="lich-su.html">Lịch sử đặt sân</a></li>
         <li class="dieu-huong__muc"><a class="dieu-huong__lien-ket" href="quan-tri.html">Quản trị</a></li>
         <li class="dieu-huong__muc"><a class="dieu-huong__lien-ket" href="thanh-vien.html">Thành viên</a></li>
-        <li class="dieu-huong__muc"><a class="dieu-huong__lien-ket" href="san-lich.html" id="menu-yeu-thich">Yêu thích (<span id="dem-yeu-thich">0</span>)</a></li>
+        <li class="dieu-huong__muc"><a class="dieu-huong__lien-ket" href="danh-sach.html" id="menu-yeu-thich">Yêu thích (<span id="dem-yeu-thich">0</span>)</a></li>
         <li class="dieu-huong__muc"><a class="dieu-huong__lien-ket" href="lien-he.html">Liên hệ</a></li>
       </ul>
     </nav>
@@ -39,7 +46,7 @@
         <p>Khu vực: Khu A<br>
            Giá trước 17h: 150.000đ/giờ<br>
            Giá sau 17h: 300.000đ/giờ</p>
-        <a class="nut nut--chinh" href="chi-tiet.html">Xem chi tiết</a>
+        <a class="nut nut--chinh" href="chi-tiet.html?id=A1">Xem chi tiết</a>
       </li>
 
       <li class="the">
@@ -47,7 +54,7 @@
         <p>Khu vực: Khu A<br>
            Giá trước 17h: 150.000đ/giờ<br>
            Giá sau 17h: 300.000đ/giờ</p>
-        <a class="nut nut--chinh" href="chi-tiet.html">Xem chi tiết</a>
+        <a class="nut nut--chinh" href="chi-tiet.html?id=A2">Xem chi tiết</a>
       </li>
 
       <li class="the the--noi-bat">
@@ -55,7 +62,7 @@
         <p>Khu vực: Khu B<br>
            Giá trước 17h: 250.000đ/giờ<br>
            Giá sau 17h: 450.000đ/giờ</p>
-        <a class="nut nut--chinh" href="chi-tiet.html">Xem chi tiết</a>
+        <a class="nut nut--chinh" href="chi-tiet.html?id=B1">Xem chi tiết</a>
       </li>
 
       <li class="the">
@@ -63,7 +70,7 @@
         <p>Khu vực: Khu B<br>
            Giá trước 17h: 250.000đ/giờ<br>
            Giá sau 17h: 450.000đ/giờ</p>
-        <a class="nut nut--chinh" href="chi-tiet.html">Xem chi tiết</a>
+        <a class="nut nut--chinh" href="chi-tiet.html?id=B2">Xem chi tiết</a>
       </li>
 
       <li class="the">
@@ -71,7 +78,7 @@
         <p>Khu vực: Khu C<br>
            Giá trước 17h: 600.000đ/giờ<br>
            Giá sau 17h: 700.000đ/giờ</p>
-        <a class="nut nut--chinh" href="chi-tiet.html">Xem chi tiết</a>
+        <a class="nut nut--chinh" href="chi-tiet.html?id=C1">Xem chi tiết</a>
       </li>
 
     </ul>
@@ -95,5 +102,8 @@
     </ul>
     <p class="chan-trang__dong">&copy; 2026 Sân Bóng Thắng Lợi. Đồ án học phần Lập trình Web.</p>
   </footer>
+
+  <script type="module" src="js/trang-chung.js"></script>
+  <script type="module" src="js/yeu-thich.js"></script>
 </body>
 </html>
