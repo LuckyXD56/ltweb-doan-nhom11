@@ -35,30 +35,51 @@ function taoHangSan(san, khiXemChiTiet) {
   oTrangThai.textContent = san.dangHoatDong ? "Đang hoạt động" : "Đang bảo trì";
 
   const oChiTiet = document.createElement("td");
-  const nutChiTiet = document.createElement("button");
-  nutChiTiet.type = "button";
+  const nutChiTiet = document.createElement("a");
+  nutChiTiet.href = "chi-tiet.html?id=" + san.id;
   nutChiTiet.className = "nut nut--phu nut--nho";
   nutChiTiet.textContent = "Xem chi tiết";
-  nutChiTiet.addEventListener("click", () => khiXemChiTiet(san.id));
+  
   oChiTiet.append(nutChiTiet);
 
-  hang.append(oTen, oLoai, oGia, oKhuVuc, oTrangThai, oChiTiet);
+  
+  const oYeuThich = document.createElement("td");
+  const nutYeuThich = document.createElement("button");
+  nutYeuThich.type = "button";
+  nutYeuThich.className = "nut nut--nho nut-yeu-thich";
+  nutYeuThich.setAttribute("data-id", san.id.toString());
+  capNhatNutYeuThich(nutYeuThich, san.id.toString());
+  oYeuThich.append(nutYeuThich);
+
+  hang.append(oTen, oLoai, oGia, oKhuVuc, oTrangThai, oChiTiet, oYeuThich);
+    
   return hang;
 }
 
 /**
  * Lọc danh sách theo loại sân và từ khoá tìm kiếm (tên hoặc khu vực).
  */
-function locDanhSach(loaiSan, tuKhoa) {
-  const tuKhoaChuanHoa = tuKhoa.trim().toLowerCase();
-  return danhSachSanGoc.filter((san) => {
-    const khopLoai = loaiSan === "tat-ca" || String(san.loaiSan) === loaiSan;
-    const khopTuKhoa =
-      tuKhoaChuanHoa === "" ||
-      san.ten.toLowerCase().includes(tuKhoaChuanHoa) ||
-      san.khuVuc.toLowerCase().includes(tuKhoaChuanHoa);
-    return khopLoai && khopTuKhoa;
-  });
+
+  function xoaDau(str) {
+    return str.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+  }
+
+  function locDanhSach(loaiSan, tuKhoa) {
+    const tuKhoaChuanHoa = xoaDau(tuKhoa.trim());
+    return danhSachSanGoc.filter((san) => {
+      const khopLoai = loaiSan === "tat-ca" || String(san.loaiSan) === loaiSan;
+      const khopTuKhoa =
+        tuKhoaChuanHoa === "" ||
+        xoaDau(san.ten).includes(tuKhoaChuanHoa) ||
+        xoaDau(san.khuVuc).includes(tuKhoaChuanHoa);
+      return khopLoai && khopTuKhoa;
+    });
+  }
+
+  function sapXepTheoTen(mangSan) {
+    return mangSan.sort((a, b) => xoaDau(a.ten).localeCompare(xoaDau(b.ten)));
+  }
+);
 }
 
 /**

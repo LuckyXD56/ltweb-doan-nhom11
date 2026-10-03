@@ -1,60 +1,66 @@
-/**
- * canhan.js — Trang cá nhân Trương Nguyễn Ngọc Phú (MSSV 3120224111)
- *
- * Tương tác 1: Nút "Chế độ tối" bật/tắt giao diện sáng-tối, ghi nhớ lựa chọn
- *              bằng localStorage để lần sau mở trang vẫn giữ nguyên.
- * Tương tác 2: Nút "Sao chép email" dùng navigator.clipboard.writeText để
- *              sao chép email, hiện thông báo và tự tắt sau 2 giây.
- *
- * Cách thử: Mở gioithieu.html bằng Live Server → bấm "Chế độ tối" → tải lại (F5)
- *           → giao diện vẫn tối. Nhấn Tab để focus, Enter/Space để kích hoạt.
- *           Bấm "Sao chép email" → dán vào Notepad để kiểm tra.
- */
+(function () {
+      // ==================== CHẾ ĐỘ TỐI ====================
+      var nutCheDo = document.getElementById('nut-che-do-toi');
+      var bieuTuong = document.getElementById('bieu-tuong-che-do');
+      var chuCheDo = document.getElementById('chu-che-do');
 
-// ============ TƯƠNG TÁC 1: ĐỔI GIAO DIỆN SÁNG / TỐI ============
+      function capNhatNut(toi) {
+        bieuTuong.textContent = toi ? '☀️' : '🌙';
+        chuCheDo.textContent = toi ? 'Chế độ sáng' : 'Chế độ tối';
+      }
 
-const nutDoiGiaoDien = document.getElementById('nut-doi-giao-dien');
-const KHOA_LUU = 'phu-giao-dien';
+      // Khôi phục lựa chọn đã lưu
+      var daLuu = localStorage.getItem('che-do-toi') === '1';
+      if (daLuu) {
+        document.body.classList.add('dark-mode');
+      }
+      capNhatNut(daLuu);
 
-function apDungGiaoDien(trangThai) {
-  const laToi = trangThai === 'toi';
-  document.body.classList.toggle('giao-dien-toi', laToi);
-  nutDoiGiaoDien.textContent = laToi ? '☀️ Chế độ sáng' : '🌙 Chế độ tối';
-  nutDoiGiaoDien.setAttribute('aria-pressed', String(laToi));
-}
+      nutCheDo.addEventListener('click', function () {
+        document.body.classList.toggle('dark-mode');
+        var toi = document.body.classList.contains('dark-mode');
+        localStorage.setItem('che-do-toi', toi ? '1' : '0');
+        capNhatNut(toi);
+      });
 
-const trangThaiBanDau = localStorage.getItem(KHOA_LUU) || 'sang';
-apDungGiaoDien(trangThaiBanDau);
+      // ==================== COPY EMAIL ====================
+      var nutCopy = document.getElementById('nut-copy-email');
+      var thongBao = document.getElementById('thong-bao-copy');
 
-nutDoiGiaoDien.addEventListener('click', () => {
-  const dangToi = document.body.classList.contains('giao-dien-toi');
-  const trangThaiMoi = dangToi ? 'sang' : 'toi';
-  localStorage.setItem(KHOA_LUU, trangThaiMoi);
-  apDungGiaoDien(trangThaiMoi);
-});
+      function hienThongBao(text) {
+        thongBao.textContent = text;
+        thongBao.classList.add('hien');
+        setTimeout(function () {
+          thongBao.classList.remove('hien');
+        }, 2000);
+      }
 
-// ============ TƯƠNG TÁC 2: SAO CHÉP EMAIL ============
+      nutCopy.addEventListener('click', function () {
+        var email = nutCopy.getAttribute('data-email');
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(email).then(function () {
+            hienThongBao('Đã copy: ' + email);
+          }).catch(function () {
+            copyFallback(email);
+          });
+        } else {
+          copyFallback(email);
+        }
+      });
 
-const nutSaoChep = document.getElementById('nut-sao-chep-email');
-const emailEl = document.getElementById('email-ca-nhan');
-const thongBao = document.getElementById('thong-bao-sao-chep');
-
-nutSaoChep.addEventListener('click', async () => {
-  const email = emailEl.textContent.trim();
-  try {
-    await navigator.clipboard.writeText(email);
-    thongBao.textContent = '✅ Đã sao chép: ' + email;
-    thongBao.classList.add('thong-bao--thanh-cong');
-    setTimeout(() => {
-      thongBao.textContent = '';
-      thongBao.classList.remove('thong-bao--thanh-cong');
-    }, 2000);
-  } catch (loi) {
-    thongBao.textContent = '❌ Không sao chép được. Vui lòng chọn thủ công.';
-    thongBao.classList.add('thong-bao--loi');
-    setTimeout(() => {
-      thongBao.textContent = '';
-      thongBao.classList.remove('thong-bao--loi');
-    }, 2500);
-  }
-});
+      function copyFallback(text) {
+        var tam = document.createElement('textarea');
+        tam.value = text;
+        tam.style.position = 'fixed';
+        tam.style.opacity = '0';
+        document.body.appendChild(tam);
+        tam.select();
+        try {
+          document.execCommand('copy');
+          hienThongBao('Đã copy: ' + text);
+        } catch (e) {
+          hienThongBao('Không copy được, email là: ' + text);
+        }
+        document.body.removeChild(tam);
+      }
+    })();

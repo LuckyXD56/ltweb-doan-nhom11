@@ -77,3 +77,19 @@ export async function khoiTaoTrangChu({ danhSachNoiBat, vungThongBao, oSapXep })
   if (oSapXep) oSapXep.addEventListener("change", ve);
   await taiDuLieu();
 }
+
+
+export async function khoiTaoThoiTiet() {
+  const widget = document.getElementById('thoi-tiet-widget');
+  if (!widget) return;
+  try {
+    const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=16.05&longitude=108.2&current=temperature_2m,relative_humidity_2m');
+    if (!res.ok) throw new Error('API Error');
+    const data = await res.json();
+    const nhietDo = data.current.temperature_2m;
+    const doAm = data.current.relative_humidity_2m;
+    widget.innerHTML = <p style="font-size: 1.2rem;">🌡️ Nhiệt độ: <strong>°C</strong> | 💧 Độ ẩm: <strong>%</strong></p>;
+  } catch (error) {
+    widget.innerHTML = '<p style="color: red;">Không thể tải thời tiết lúc này.</p>';
+  }
+}

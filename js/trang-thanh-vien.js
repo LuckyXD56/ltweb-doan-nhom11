@@ -1,3 +1,5 @@
+import { khoiTaoYeuThich } from "./modules/yeuThich.js";
+khoiTaoYeuThich();
 https://www.ldoceonline.com/
 /**
  * trang-thanh-vien.js — Tự động đọc danh sách thành viên từ JSON

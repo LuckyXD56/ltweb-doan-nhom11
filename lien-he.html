@@ -44,15 +44,18 @@
     </ul>
 
     <h2>Gửi câu hỏi cho chúng tôi</h2>
-    <form class="bieu-mau" id="form-lien-he" action="#" method="post">
+    <form class="bieu-mau" id="form-lien-he" action="#" method="post" novalidate>
       <label class="truong__nhan" for="lh-ho-ten">Họ và tên (*)</label>
       <input class="truong__nhap" type="text" id="lh-ho-ten" name="ho_ten" required minlength="2">
+        <span id="loi-ho-ten" style="color: red; font-size: 0.9em; display: block; margin-bottom: 10px;"></span>
 
       <label class="truong__nhan" for="lh-email">Email (*)</label>
       <input class="truong__nhap" type="email" id="lh-email" name="email" required>
+        <span id="loi-email" style="color: red; font-size: 0.9em; display: block; margin-bottom: 10px;"></span>
 
       <label class="truong__nhan" for="lh-noi-dung">Nội dung (*)</label>
       <textarea class="truong__nhap" id="lh-noi-dung" name="noi_dung" rows="4" required minlength="10"></textarea>
+        <span id="loi-noi-dung" style="color: red; font-size: 0.9em; display: block; margin-bottom: 10px;"></span>
 
       <p id="thong-bao-lien-he" class="vung-thong-bao" aria-live="polite"></p>
 

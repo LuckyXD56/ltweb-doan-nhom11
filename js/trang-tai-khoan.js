@@ -1,3 +1,5 @@
+import { khoiTaoYeuThich } from "./modules/yeuThich.js";
+khoiTaoYeuThich();
 // trang-tai-khoan.js
 // Điểm nạp JavaScript cho tai-khoan.html.
 import { khoiTaoMenu } from "./modules/menu.js";

@@ -31,12 +31,14 @@ export function khoiTaoMenu(dauTrang) {
   nutMoMenu.addEventListener("click", moHoacDong);
 
   // Đóng menu bằng phím Esc, trả tiêu điểm về nút mở menu.
+  
   danhSachDieuHuong.addEventListener("keydown", (suKien) => {
-    if (suKien.key === "Escape") {
-      dong();
-      nutMoMenu.focus();
-    }
+    if (suKien.key === "Escape") { dong(); nutMoMenu.focus(); }
   });
+  nutMoMenu.addEventListener("keydown", (suKien) => {
+    if (suKien.key === "Escape" && danhSachDieuHuong.classList.contains(LOP_DANG_MO)) { dong(); }
+  });
+
 
   // Đóng menu khi bấm ra ngoài (chỉ áp dụng lúc menu đang mở).
   document.addEventListener("click", (suKien) => {
