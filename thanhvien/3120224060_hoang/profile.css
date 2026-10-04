@@ -1,258 +1,375 @@
+/* 
+   BẢNG MÀU & BIẾN HỆ THỐNG
+    */
 :root {
-  --mau-trang: #ffffff;
-  --mau-nen: #f8faf9;
-  --mau-vien: #e5e7eb;
-  --mau-chinh: #0b6e3c;
-  --mau-nhan: #f4b400;
-  --bo-goc: 12px;
-  --bong-do: 0 2px 10px rgba(0, 0, 0, 0.06);
-  --khoang-cach: 1rem;
+  --mau-chinh: #059669;         /* Green Emerald */
+  --mau-chinh-dam: #047857;
+  --mau-phu: #10b981;
+  --mau-nen: #f8fafc;
+  --mau-the: #ffffff;
+  --mau-chu: #0f172a;
+  --mau-chu-phu: #475569;
+  --mau-vien: #e2e8f0;
+  --bo-goc-lg: 16px;
+  --bo-goc-md: 10px;
+  --bo-goc-sm: 6px;
+  --bong-do: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+  --bong-do-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+  --chuyen-dong: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Giới thiệu bản thân - Nguyễn Quý Minh Hoàng</title>
-  <meta name="description" content="Trang giới thiệu cá nhân của Nguyễn Quý Minh Hoàng, thành viên Nhóm 11, Khoa Toán Tin, Đại học Sư phạm Đà Nẵng.">
-  <link rel="stylesheet" href="../../css/chung.css">
-  <link rel="stylesheet" href="profile.css">
-</head>
-<body class="trang">
+/* Dark Mode Variables */
+body.giao-dien-toi {
+  --mau-chinh: #10b981;
+  --mau-chinh-dam: #34d399;
+  --mau-nen: #0f172a;
+  --mau-the: #1e293b;
+  --mau-chu: #f8fafc;
+  --mau-chu-phu: #94a3b8;
+  --mau-vien: #334155;
+  --bong-do: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+  --bong-do-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.4);
+}
 
-  <nav class="trang__nav">
-    <ul class="menu__danh-sach">
-      <li class="menu__muc"><a class="menu__lien-ket" href="../../index.html">Trang chủ</a></li>
-      <li class="menu__muc"><a class="menu__lien-ket" href="../../danh-sach.html">Danh sách sân</a></li>
-      <li class="menu__muc"><a class="menu__lien-ket" href="../../chi-tiet.html">Chi tiết sân</a></li>
-      <li class="menu__muc"><a class="menu__lien-ket active" href="../../thanh-vien.html">Giới thiệu nhóm</a></li>
-      <li class="menu__muc"><a class="menu__lien-ket" href="../../lien-he.html">Liên hệ / Đặt sân</a></li>
-    </ul>
-  </nav>
+/* 
+   CẤU TRÚC TRANG CHÍNH
+   */
+body {
+  background-color: var(--mau-nen);
+  color: var(--mau-chu);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  transition: var(--chuyen-dong);
+}
 
-  <main class="page-shell content">
+/* Navigation Bar Căn giữa & Sắc nét */
+.trang__nav {
+  background-color: var(--mau-the);
+  border-bottom: 1px solid var(--mau-vien);
+  padding: 0.75rem 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(8px);
+}
 
-    <h1>Giới thiệu thành viên Nhóm 11</h1>
+.menu__danh-sach {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
 
-    <!-- Thanh công cụ: 2 nút (khớp id với canhan.js) -->
-    <div class="thanh-cong-cu">
-      <button type="button" id="nut-doi-giao-dien" class="nut-cong-cu"
-              aria-pressed="false">🌙 Chế độ tối</button>
-      <button type="button" id="nut-sao-chep-email" class="nut-cong-cu"
-              aria-label="Sao chép địa chỉ email">📧 Sao chép email</button>
-      <span id="thong-bao-sao-chep" class="thong-bao-copy" role="status" aria-live="polite"></span>
-    </div>
+.menu__lien-ket {
+  text-decoration: none;
+  color: var(--mau-chu-phu);
+  font-weight: 500;
+  font-size: 0.95rem;
+  padding: 0.5rem 0.25rem;
+  position: relative;
+  transition: var(--chuyen-dong);
+}
 
-    <!-- Card hồ sơ chính -->
-    <section class="profile-card" aria-label="Thông tin cá nhân">
-      <figure>
-        <img class="avatar"
-             src="../../images/hoang.jpg"
-             alt="Ảnh chân dung của Nguyễn Quý Minh Hoàng"
-             width="130" height="130">
-        <figcaption>Nguyễn Quý Minh Hoàng</figcaption>
-      </figure>
-      <div class="profile-meta">
-        <span class="label">Thành viên Nhóm 11</span>
-        <h2>Nguyễn Quý Minh Hoàng</h2>
-        <p><strong>Mã sinh viên:</strong> 3120224060</p>
-        <p><strong>Vai trò:</strong> Thành viên nhóm</p>
-        <p><strong>Email:</strong> <span id="email-ca-nhan">hoangnqm.22@st.bkdn.edu.vn</span></p>
-        <p><strong>Nhiệm vụ:</strong> Phụ trách trang tài khoản, đăng nhập và lịch sử đặt sân.</p>
-      </div>
-    </section>
+.menu__lien-ket:hover,
+.menu__lien-ket.active {
+  color: var(--mau-chinh);
+  font-weight: 600;
+}
 
-    <!-- 2 cột: Thông tin + Kỹ năng -->
-    <div class="info-grid">
-      <article class="info-box">
-        <h2>Thông tin cá nhân</h2>
-        <ul>
-          <li><strong>Họ và tên:</strong> Nguyễn Quý Minh Hoàng</li>
-          <li><strong>Khoa:</strong> Toán – Tin</li>
-          <li><strong>Chuyên ngành:</strong> Công nghệ thông tin</li>
-        </ul>
-      </article>
+.menu__lien-ket.active::after {
+  content: '';
+  position: absolute;
+  bottom: -0.85rem;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: var(--mau-chinh);
+  border-radius: 2px;
+}
 
-      <article class="info-box">
-        <h2>Kỹ năng</h2>
-        <ul>
-          <li>HTML5 form và validation</li>
-          <li>CSS layout</li>
-          <li>Thiết kế cơ sở dữ liệu</li>
-          <li>Làm việc nhóm với GitHub</li>
-        </ul>
-      </article>
-    </div>
+/* Main Container */
+.trang__main {
+  max-width: 960px;
+  margin: 2.5rem auto;
+  padding: 0 1.5rem;
+}
 
-    <!-- Sở thích và mục tiêu -->
-    <article class="full-box">
-      <h2>Sở thích và mục tiêu</h2>
-      <p>Hoàng yêu thích bóng đá, công nghệ và tìm hiểu về bảo mật web. Mục tiêu là hoàn thành tốt các trang tài khoản và lịch sử đặt sân trong dự án website Sân Bóng Thắng Lợi.</p>
-    </article>
-
-    <!-- Thời khóa biểu -->
-    <section class="full-box">
-      <h2>Thời khóa biểu tuần</h2>
-      <div class="table-responsive">
-        <table class="schedule-table">
-          <caption>Lịch học và hoạt động trong tuần của Nguyễn Quý Minh Hoàng</caption>
-          <thead>
-            <tr>
-              <th scope="col">Ngày</th>
-              <th scope="col">Hoạt động</th>
-              <th scope="col">Thời gian</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><th scope="row">Thứ Hai</th><td>Học trên lớp</td><td>07:00 – 11:00</td></tr>
-            <tr><th scope="row">Thứ Ba</th><td>Học chuyên ngành</td><td>07:00 – 11:00</td></tr>
-            <tr><th scope="row">Thứ Tư</th><td>Học chuyên ngành</td><td>07:00 – 11:00</td></tr>
-            <tr><th scope="row">Thứ Năm</th><td>Làm dự án nhóm</td><td>13:30 – 17:00</td></tr>
-            <tr><th scope="row">Thứ Sáu</th><td>Học trên lớp</td><td>07:00 – 11:00</td></tr>
-            <tr><th scope="row">Thứ Bảy</th><td>Học chuyên ngành</td><td>07:00 – 11:00</td></tr>
-            <tr><th scope="row">Chủ Nhật</th><td>Ôn tập và kiểm tra tiến độ</td><td>19:00 – 21:00</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- Gallery ảnh -->
-    <section class="full-box">
-      <h2>Bộ sưu tập ảnh</h2>
-      <div style="text-align: center; margin-bottom: 15px; display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap;">
-        <button type="button" class="nut nut--chinh nut-loc-anh" data-filter="all">Tất cả</button>
-        <button type="button" class="nut nut--phu nut-loc-anh" data-filter="san">Sân bóng</button>
-        <button type="button" class="nut nut--phu nut-loc-anh" data-filter="hoatdong">Hoạt động</button>
-      </div>
-      <div class="gallery" style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;">
-        <img src="../../images/san-a1.jpg" alt="Sân A1" class="gallery-item" data-category="san"
-             style="width: 150px; height: 100px; object-fit: cover; border-radius: 8px;">
-        <img src="../../images/san-b1.jpg" alt="Sân B1" class="gallery-item" data-category="san"
-             style="width: 150px; height: 100px; object-fit: cover; border-radius: 8px;">
-        <img src="../../images/hoang.jpg" alt="Hoàng" class="gallery-item" data-category="hoatdong"
-             style="width: 150px; height: 100px; object-fit: cover; border-radius: 8px;">
-      </div>
-    </section>
-
-    <!-- Nút Like -->
-    <section class="full-box" style="text-align: center;">
-      <button type="button" id="btn-like" class="nut"
-              style="font-size: 1.1rem; background-color: #ef4444; color: #fff; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer;">
-        ❤️ Thích trang này (<span id="like-count">0</span>)
-      </button>
-    </section>
-
-    <p class="back-link" style="text-align: center; margin-top: 1.5rem;">
-      <a href="../../thanh-vien.html">← Quay lại trang giới thiệu nhóm</a>
-    </p>
-  </main>
-
-  <footer class="trang__footer" style="text-align:center; padding: 1.5rem;">
-    <p>&copy; 2026 Nguyễn Quý Minh Hoàng – Nhóm 11, Khoa Toán Tin, ĐH Sư phạm Đà Nẵng.</p>
-    <p><a href="../../thanh-vien.html">← Về danh sách thành viên</a></p>
-  </footer>
-
-  <script src="js/canhan.js"></script>
-
-</body>
-</html>
-
-
-/* ==== Bổ sung cho HTML mới ==== */
-.page-shell h1 {
+.tieu-de-trang {
   text-align: center;
-  font-size: 1.75rem;
-  color: #0b6e3c;
+  color: var(--mau-chinh);
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
   margin-bottom: 1.5rem;
 }
 
-body.giao-dien-toi .page-shell h1 { color: #34d399; }
+/* Thanh công cụ */
+.thanh-cong-cu {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+  align-items: center;
+}
+
+.nut-cong-cu {
+  background-color: var(--mau-the);
+  border: 1px solid var(--mau-vien);
+  color: var(--mau-chu);
+  padding: 0.5rem 1.25rem;
+  border-radius: 9999px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.875rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  transition: var(--chuyen-dong);
+}
+
+.nut-cong-cu:hover {
+  border-color: var(--mau-chinh);
+  color: var(--mau-chinh);
+  transform: translateY(-1px);
+  box-shadow: var(--bong-do);
+}
+
+.thong-bao-copy {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--mau-chinh);
+}
+
+/*
+   PROFILE CARD (THẺ HỒ SƠ)
+  */
+.the-ho-so {
+  background-color: var(--mau-the);
+  border: 1px solid var(--mau-vien);
+  border-radius: var(--bo-goc-lg);
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  box-shadow: var(--bong-do);
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+  transition: var(--chuyen-dong);
+}
+
+.the-ho-so::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 6px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--mau-chinh), var(--mau-phu));
+}
+
+.the-ho-so:hover {
+  box-shadow: var(--bong-do-hover);
+  transform: translateY(-2px);
+}
+
+.the-ho-so__anh {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid var(--mau-the);
+  outline: 3px solid var(--mau-chinh);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.the-ho-so__ten {
+  margin: 0 0 0.75rem 0;
+  color: var(--mau-chinh);
+  font-size: 1.65rem;
+  font-weight: 700;
+}
+
+.the-ho-so__dong {
+  margin: 0.4rem 0;
+  color: var(--mau-chu-phu);
+  font-size: 0.95rem;
+}
+
+.the-ho-so__dong strong {
+  color: var(--mau-chu);
+}
+
+/*
+   LƯỚI & THẺ THÔNG TIN
+  */
+.luoi-hai-cot {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 768px) {
+  .luoi-hai-cot { grid-template-columns: 1fr; }
+  .the-ho-so { flex-direction: column; text-align: center; }
+}
+
+.the-nho {
+  background-color: var(--mau-the);
+  border: 1px solid var(--mau-vien);
+  border-radius: var(--bo-goc-lg);
+  padding: 1.5rem;
+  box-shadow: var(--bong-do);
+  transition: var(--chuyen-dong);
+}
+
+.the-nho:hover {
+  box-shadow: var(--bong-do-hover);
+  transform: translateY(-2px);
+}
+
+.the-nho--full {
+  margin-bottom: 2rem;
+}
+
+.the-nho__tieu-de {
+  margin: 0 0 1.25rem 0;
+  color: var(--mau-chinh);
+  font-size: 1.15rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.danh-sach-cham {
+  padding-left: 1.25rem;
+  margin: 0;
+  color: var(--mau-chu-phu);
+}
+
+.danh-sach-cham li {
+  margin-bottom: 0.6rem;
+}
+
+.danh-sach-cham strong {
+  color: var(--mau-chu);
+}
+
+/* Badge Kỹ Năng */
+.danh-sach-nhan {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.nhan {
+  background-color: rgba(5, 150, 105, 0.1);
+  color: var(--mau-chinh);
+  border: 1px solid rgba(5, 150, 105, 0.2);
+  padding: 0.4rem 0.85rem;
+  border-radius: var(--bo-goc-md);
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: var(--chuyen-dong);
+}
+
+.nhan:hover {
+  background-color: var(--mau-chinh);
+  color: #ffffff;
+}
+
+/*
+   BẢNG THỜI KHÓA BIỂU
+    */
+.bang-bao {
+  overflow-x: auto;
+  border-radius: var(--bo-goc-md);
+  border: 1px solid var(--mau-vien);
+}
+
+.bang-thoi-khoa-bieu {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.95rem;
+}
+
+.bang-thoi-khoa-bieu caption {
+  caption-side: top;
+  text-align: left;
+  padding: 0.5rem 0.25rem 0.75rem;
+  color: var(--mau-chu-phu);
+  font-size: 0.875rem;
+}
+
+.bang-thoi-khoa-bieu th, 
+.bang-thoi-khoa-bieu td {
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--mau-vien);
+}
+
+.bang-thoi-khoa-bieu thead {
+  background-color: var(--mau-chinh);
+  color: #ffffff;
+}
+
+.bang-thoi-khoa-bieu thead th {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.bang-thoi-khoa-bieu tbody tr:last-child td,
+.bang-thoi-khoa-bieu tbody tr:last-child th {
+  border-bottom: none;
+}
+
+.bang-thoi-khoa-bieu tbody tr:hover {
+  background-color: rgba(5, 150, 105, 0.03);
+}
+
+/* 
+   NÚT LIKE & FOOTER
+ */
+.giua { text-align: center; }
+
+.nut-like {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: #ffffff;
+  border: none;
+  padding: 0.75rem 1.75rem;
+  border-radius: 9999px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);
+  transition: var(--chuyen-dong);
+}
+
+.nut-like:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(239, 68, 68, 0.35);
+}
 
 .trang__footer {
-  background-color: #f8faf9;
-  border-top: 1px solid #e5e7eb;
-  color: #4b5563;
-  font-size: 0.9rem;
+  text-align: center;
+  padding: 2rem 1rem;
+  border-top: 1px solid var(--mau-vien);
+  margin-top: 3rem;
+  color: var(--mau-chu-phu);
+  font-size: 0.875rem;
 }
 
 .trang__footer a {
-  color: #0b6e3c;
+  color: var(--mau-chinh);
   text-decoration: none;
   font-weight: 600;
 }
 
-.trang__footer a:hover { text-decoration: underline; }
-
-body.giao-dien-toi .trang__footer {
-  background-color: #1f2937;
-  color: #9ca3af;
-  border-top-color: #374151;
-}
-
-body.giao-dien-toi .trang__footer a { color: #34d399; }
-
-
-
-/* ============================================================
-   DARK MODE — override các biến để trang đổi màu
-   ============================================================ */
-body.giao-dien-toi {
-  --mau-trang: #1f2937;
-  --mau-nen: #111827;
-  --mau-vien: #374151;
-  --mau-chinh: #10b981;
-  --mau-nhan: #fbbf24;
-}
-
-body.giao-dien-toi {
-  background-color: var(--mau-nen) !important;
-  color: #e5e7eb !important;
-}
-
-body.giao-dien-toi .page-shell h1,
-body.giao-dien-toi .profile-meta h2,
-body.giao-dien-toi .info-box h2,
-body.giao-dien-toi .full-box h2 {
-  color: #34d399 !important;
-}
-
-body.giao-dien-toi .profile-card,
-body.giao-dien-toi .info-box,
-body.giao-dien-toi .full-box {
-  background-color: #1f2937 !important;
-  color: #e5e7eb !important;
-}
-
-body.giao-dien-toi .profile-meta p,
-body.giao-dien-toi .info-box li,
-body.giao-dien-toi .full-box p,
-body.giao-dien-toi .full-box li {
-  color: #e5e7eb !important;
-}
-
-body.giao-dien-toi .label {
-  color: #34d399 !important;
-}
-
-body.giao-dien-toi .schedule-table {
-  background-color: #1f2937 !important;
-  color: #e5e7eb !important;
-  border-color: #374151 !important;
-}
-
-body.giao-dien-toi .schedule-table caption {
-  color: #e5e7eb !important;
-}
-
-body.giao-dien-toi .schedule-table th,
-body.giao-dien-toi .schedule-table td {
-  background-color: #1f2937 !important;
-  color: #e5e7eb !important;
-  border-color: #374151 !important;
-}
-
-body.giao-dien-toi .schedule-table thead th {
-  background-color: #374151 !important;
-  color: #ffffff !important;
+.trang__footer a:hover {
+  text-decoration: underline;
 }

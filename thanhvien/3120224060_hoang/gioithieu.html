@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Giới thiệu bản thân - Nguyễn Quý Minh Hoàng</title>
   <meta name="description" content="Trang giới thiệu cá nhân của Nguyễn Quý Minh Hoàng, thành viên Nhóm 11, Khoa Toán Tin, Đại học Sư phạm Đà Nẵng.">
+  <link rel="stylesheet" href="../../css/chung.css">
   <link rel="stylesheet" href="profile.css">
 </head>
 <body class="trang">
@@ -23,21 +24,17 @@
 
     <h1 class="tieu-de-trang">Giới thiệu thành viên Nhóm 11</h1>
 
-    <!-- Thanh công cụ: 2 nút (khớp id với canhan.js) -->
+    <!-- Thanh công cụ -->
     <div class="thanh-cong-cu">
-      <button type="button" id="nut-doi-giao-dien" class="nut-cong-cu"
-              aria-pressed="false">🌙 Chế độ tối</button>
-      <button type="button" id="nut-sao-chep-email" class="nut-cong-cu"
-              aria-label="Sao chép địa chỉ email">📧 Sao chép email</button>
+      <button type="button" id="nut-doi-giao-dien" class="nut-cong-cu" aria-pressed="false">🌙 Chế độ tối</button>
+      <button type="button" id="nut-sao-chep-email" class="nut-cong-cu" aria-label="Sao chép địa chỉ email">📧 Sao chép email</button>
       <span id="thong-bao-sao-chep" class="thong-bao-copy" role="status" aria-live="polite"></span>
     </div>
 
-    <!-- Card hồ sơ chính -->
+    <!-- Thẻ hồ sơ chính -->
     <article class="the-ho-so">
       <div class="the-ho-so__avatar">
-        <img src="../../images/hoang.jpg"
-             alt="Ảnh chân dung của Nguyễn Quý Minh Hoàng"
-             class="the-ho-so__anh">
+        <img src="../../images/hoang.jpg" alt="Ảnh chân dung của Nguyễn Quý Minh Hoàng" class="the-ho-so__anh">
       </div>
       <div class="the-ho-so__thong-tin">
         <h2 class="the-ho-so__ten">Nguyễn Quý Minh Hoàng</h2>
@@ -45,13 +42,13 @@
         <p class="the-ho-so__dong"><strong>Mã sinh viên:</strong> 3120224060</p>
         <p class="the-ho-so__dong">
           <strong>Email:</strong>
-          <span id="email-ca-nhan">hoangnqm.22@st.bkdn.edu.vn</span>
+          <span id="email-ca-nhan">nguyenquyminhhoang@gmail.com</span>
         </p>
         <p class="the-ho-so__dong"><strong>Nhiệm vụ:</strong> Phụ trách trang tài khoản, đăng nhập và lịch sử đặt sân.</p>
       </div>
     </article>
 
-    <!-- 2 cột: Thông tin cá nhân + Kỹ năng -->
+    <!-- 2 Cột: Thông tin cá nhân & Kỹ năng -->
     <div class="luoi-hai-cot">
       <article class="the-nho">
         <h3 class="the-nho__tieu-de">Thông tin cá nhân</h3>
@@ -84,7 +81,7 @@
       <h3 class="the-nho__tieu-de">Thời khóa biểu tuần</h3>
       <div class="bang-bao">
         <table class="bang-thoi-khoa-bieu">
-          <caption style="text-align:left; padding: 0.5rem 0; color: #4b5563;">Lịch học và hoạt động trong tuần của Nguyễn Quý Minh Hoàng</caption>
+          <caption>Lịch học và hoạt động trong tuần của Nguyễn Quý Minh Hoàng</caption>
           <thead>
             <tr>
               <th scope="col">Ngày</th>
@@ -105,31 +102,9 @@
       </div>
     </article>
 
-    <!-- Gallery ảnh (giữ từ upstream) -->
-    <article class="the-nho the-nho--full">
-      <h3 class="the-nho__tieu-de">Bộ sưu tập ảnh</h3>
-      <div style="text-align: center; margin-bottom: 15px; display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap;">
-        <button type="button" class="nut nut--chinh nut-loc-anh" data-filter="all">Tất cả</button>
-        <button type="button" class="nut nut--phu nut-loc-anh" data-filter="san">Sân bóng</button>
-        <button type="button" class="nut nut--phu nut-loc-anh" data-filter="hoatdong">Hoạt động</button>
-      </div>
-      <div class="gallery" style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;">
-        <img src="../../images/san-a1.jpg" alt="Sân A1" class="gallery-item"
-             data-category="san"
-             style="width: 150px; height: 100px; object-fit: cover; border-radius: 8px;">
-        <img src="../../images/san-b1.jpg" alt="Sân B1" class="gallery-item"
-             data-category="san"
-             style="width: 150px; height: 100px; object-fit: cover; border-radius: 8px;">
-        <img src="../../images/hoang.jpg" alt="Hoàng" class="gallery-item"
-             data-category="hoatdong"
-             style="width: 150px; height: 100px; object-fit: cover; border-radius: 8px;">
-      </div>
-    </article>
-
-    <!-- Nút Like (giữ từ upstream) -->
-    <article class="the-nho the-nho--full" style="text-align: center;">
-      <button type="button" id="btn-like" class="nut"
-              style="font-size: 1.1rem; background-color: #ef4444; color: #fff; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer;">
+    <!-- Nút Like -->
+    <article class="the-nho the-nho--full giua">
+      <button type="button" id="btn-like" class="nut-like">
         ❤️ Thích trang này (<span id="like-count">0</span>)
       </button>
     </article>
