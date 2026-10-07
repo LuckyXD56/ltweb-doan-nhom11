@@ -1,9 +1,16 @@
+<?php
+/**
+ * san-lich-bootstrap.php — Bản song song dùng Bootstrap 5
+ * Không dùng inc/header.php vì có navbar riêng
+ */
+$tieuDeTrang = 'Danh sách sân & lịch trống (Bootstrap)';
+?>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Danh Sách Sân &amp; Lịch Trống (Bootstrap) | Sân Bóng Thắng Lợi</title>
+  <title><?= htmlspecialchars($tieuDeTrang) ?> | Sân Bóng Thắng Lợi</title>
   <meta name="description" content="Bản song song dùng Bootstrap 5: xem danh sách sân bóng đá và lịch trống theo khung giờ tại Sân Bóng Thắng Lợi.">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="css/bootstrap-tuy-chinh.css">
@@ -11,7 +18,7 @@
 <body class="bg-body-tertiary">
   <nav class="navbar navbar-expand-lg navbar-thang-loi" aria-label="Điều hướng chính">
     <div class="container">
-      <a class="navbar-brand fw-bold" href="index.html">Sân Bóng Thắng Lợi</a>
+      <a class="navbar-brand fw-bold" href="index.php">Sân Bóng Thắng Lợi</a>
       <button class="navbar-toggler border-light" type="button"
               data-bs-toggle="collapse" data-bs-target="#menu-chinh"
               aria-controls="menu-chinh" aria-expanded="false" aria-label="Mở menu">
@@ -19,16 +26,15 @@
       </button>
       <div class="collapse navbar-collapse" id="menu-chinh">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-          <li class="nav-item"><a class="nav-link" href="index.html">Trang chủ</a></li>
-          <li class="nav-item"><a class="nav-link active" aria-current="page" href="san-lich-bootstrap.html">Sân &amp; lịch trống</a></li>
-          <li class="nav-item"><a class="nav-link" href="danh-sach.html">Danh sách sân</a></li>
-          <li class="nav-item"><a class="nav-link" href="dat-san.html">Đặt sân</a></li>
-          <li class="nav-item"><a class="nav-link" href="tai-khoan.html">Đăng nhập / Đăng ký</a></li>
-          <li class="nav-item"><a class="nav-link" href="lich-su.html">Lịch sử đặt sân</a></li>
-          <li class="nav-item"><a class="nav-link" href="quan-tri.html">Quản trị</a></li>
-          <li class="nav-item"><a class="nav-link" href="thanh-vien.html">Thành viên</a></li>
-          <li class="nav-item"><a class="nav-link" href="danh-sach.html" id="menu-yeu-thich">Yêu thích (<span id="dem-yeu-thich">0</span>)</a></li>
-          <li class="nav-item"><a class="nav-link" href="lien-he.html">Liên hệ</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.php">Trang chủ</a></li>
+          <li class="nav-item"><a class="nav-link active" aria-current="page" href="san-lich-bootstrap.php">Sân &amp; lịch trống</a></li>
+          <li class="nav-item"><a class="nav-link" href="danh-sach.php">Danh sách sân</a></li>
+          <li class="nav-item"><a class="nav-link" href="dat-san.php">Đặt sân</a></li>
+          <li class="nav-item"><a class="nav-link" href="tai-khoan.php">Đăng nhập / Đăng ký</a></li>
+          <li class="nav-item"><a class="nav-link" href="lich-su.php">Lịch sử đặt sân</a></li>
+          <li class="nav-item"><a class="nav-link" href="quan-tri.php">Quản trị</a></li>
+          <li class="nav-item"><a class="nav-link" href="thanh-vien.php">Thành viên</a></li>
+          <li class="nav-item"><a class="nav-link" href="lien-he.php">Liên hệ</a></li>
         </ul>
       </div>
     </div>
@@ -108,7 +114,7 @@
       <div class="col-12">
         <nav aria-label="Phân trang lịch sân">
           <ul class="pagination justify-content-center mt-3">
-            <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1" aria-disabled="true">Trước</a></li>
+            <li class="page-item disabled"><span class="page-link" aria-disabled="true">Trước</span></li>
             <li class="page-item active" aria-current="page"><a class="page-link" href="#">1</a></li>
             <li class="page-item"><a class="page-link" href="#">2</a></li>
             <li class="page-item"><a class="page-link" href="#">3</a></li>
@@ -118,8 +124,8 @@
       </div>
 
       <div class="col-12 d-flex flex-wrap gap-2">
-        <a class="btn btn-primary" href="dat-san.html">Đặt sân ngay</a>
-        <a class="btn btn-outline-primary" href="index.html">Về trang chủ</a>
+        <a class="btn btn-primary" href="dat-san.php">Đặt sân ngay</a>
+        <a class="btn btn-outline-primary" href="index.php">Về trang chủ</a>
       </div>
     </div>
   </main>
