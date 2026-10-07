@@ -1,10 +1,11 @@
 <?php
 /**
- * inc/header.php — Phần đầu trang dùng chung cho mọi trang PHP
+ * inc/header.php — Phần đầu trang dùng chung
  */
 if (!isset($tieuDeTrang)) {
     $tieuDeTrang = 'Sân Bóng Thắng Lợi';
 }
+
 $trangHienTai = basename($_SERVER['PHP_SELF']);
 ?>
 <!DOCTYPE html>
@@ -12,7 +13,7 @@ $trangHienTai = basename($_SERVER['PHP_SELF']);
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><?= htmlspecialchars($tieuDeTrang) ?> | Sân Bóng Thắng Lợi</title>
+  <title><?= e($tieuDeTrang) ?> | Sân Bóng Thắng Lợi</title>
   <link rel="stylesheet" href="css/chung.css">
   <link rel="stylesheet" href="css/thanh-phan.css">
 </head>
@@ -33,6 +34,7 @@ $trangHienTai = basename($_SERVER['PHP_SELF']);
             'san-lich.php'   => 'Sân & lịch trống',
             'danh-sach.php'  => 'Danh sách sân',
             'dat-san.php'    => 'Đặt sân',
+            'gio-hang.php'   => 'Giỏ hàng',
             'tai-khoan.php'  => 'Đăng nhập / Đăng ký',
             'lich-su.php'    => 'Lịch sử đặt sân',
             'quan-tri.php'   => 'Quản trị',
@@ -43,14 +45,16 @@ $trangHienTai = basename($_SERVER['PHP_SELF']);
             $active = ($trangHienTai === $file) ? ' aria-current="page"' : '';
         ?>
           <li class="dieu-huong__muc">
-            <a class="dieu-huong__lien-ket" href="<?= $file ?>"<?= $active ?>><?= htmlspecialchars($nhan) ?></a>
+            <a class="dieu-huong__lien-ket" href="<?= $file ?>"<?= $active ?>><?= e($nhan) ?></a>
           </li>
         <?php endforeach; ?>
-        <li class="dieu-huong__muc">
-          <a class="dieu-huong__lien-ket" href="danh-sach.php" id="menu-yeu-thich">
-            Yêu thích (<span id="dem-yeu-thich">0</span>)
-          </a>
-        </li>
       </ul>
     </nav>
   </header>
+
+  <?php $flash = layFlash(); if ($flash): ?>
+    <div class="vung-thong-bao vung-thong-bao--<?= e($flash['loai']) ?>" role="alert"
+         style="max-width: 1100px; margin: 1rem auto; padding: 0.75rem 1rem;">
+      <?= e($flash['noiDung']) ?>
+    </div>
+  <?php endif; ?>
