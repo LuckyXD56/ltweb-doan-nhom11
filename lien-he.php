@@ -1,7 +1,23 @@
 <?php
 /**
- * lien-he.php — Liên hệ
+ * lien-he.php — Form liên hệ có upload ảnh
  */
+require __DIR__ . '/inc/config.php';
+require __DIR__ . '/inc/ham.php';
+require __DIR__ . '/inc/xu-ly-lien-he.php';
+
+$du  = ['ho_ten' => '', 'email' => '', 'noi_dung' => ''];
+$loi = [];
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $thanhCong = xuLyLienHe($du, $loi);
+
+    if ($thanhCong) {
+        datFlash('thanh-cong', 'Đã gửi liên hệ. Chúng tôi sẽ phản hồi trong 24 giờ.');
+        chuyenHuong('lien-he.php');
+    }
+}
+
 $tieuDeTrang = 'Liên hệ';
 require __DIR__ . '/inc/header.php';
 ?>
@@ -19,20 +35,35 @@ require __DIR__ . '/inc/header.php';
   </ul>
 
   <h2>Gửi câu hỏi cho chúng tôi</h2>
-  <form class="bieu-mau" id="form-lien-he" action="#" method="post" novalidate>
+  <form class="bieu-mau" id="form-lien-he" method="post"
+        action="lien-he.php" enctype="multipart/form-data" novalidate>
+
     <label class="truong__nhan" for="lh-ho-ten">Họ và tên (*)</label>
-    <input class="truong__nhap" type="text" id="lh-ho-ten" name="ho_ten" required minlength="2">
-    <span id="loi-ho-ten" style="color: red; font-size: 0.9em; display: block; margin-bottom: 10px;"></span>
+    <input class="truong__nhap" type="text" id="lh-ho-ten" name="ho_ten"
+           value="<?= e($du['ho_ten']) ?>" required minlength="2">
+    <?php if (!empty($loi['ho_ten'])): ?>
+      <span style="color: #b91c1c; font-size: 0.9em; display:block; margin-bottom: 0.5rem;"><?= e($loi['ho_ten']) ?></span>
+    <?php endif; ?>
 
     <label class="truong__nhan" for="lh-email">Email (*)</label>
-    <input class="truong__nhap" type="email" id="lh-email" name="email" required>
-    <span id="loi-email" style="color: red; font-size: 0.9em; display: block; margin-bottom: 10px;"></span>
+    <input class="truong__nhap" type="email" id="lh-email" name="email"
+           value="<?= e($du['email']) ?>" required>
+    <?php if (!empty($loi['email'])): ?>
+      <span style="color: #b91c1c; font-size: 0.9em; display:block; margin-bottom: 0.5rem;"><?= e($loi['email']) ?></span>
+    <?php endif; ?>
 
     <label class="truong__nhan" for="lh-noi-dung">Nội dung (*)</label>
-    <textarea class="truong__nhap" id="lh-noi-dung" name="noi_dung" rows="4" required minlength="10"></textarea>
-    <span id="loi-noi-dung" style="color: red; font-size: 0.9em; display: block; margin-bottom: 10px;"></span>
+    <textarea class="truong__nhap" id="lh-noi-dung" name="noi_dung" rows="4" required minlength="10"><?= e($du['noi_dung']) ?></textarea>
+    <?php if (!empty($loi['noi_dung'])): ?>
+      <span style="color: #b91c1c; font-size: 0.9em; display:block; margin-bottom: 0.5rem;"><?= e($loi['noi_dung']) ?></span>
+    <?php endif; ?>
 
-    <p id="thong-bao-lien-he" class="vung-thong-bao" aria-live="polite"></p>
+    <label class="truong__nhan" for="lh-anh">Đính kèm ảnh (không bắt buộc, tối đa 2 MB)</label>
+    <input class="truong__nhap" type="file" id="lh-anh" name="anh"
+           accept="image/jpeg,image/png,image/gif,image/webp">
+    <?php if (!empty($loi['anh'])): ?>
+      <span style="color: #b91c1c; font-size: 0.9em; display:block; margin-bottom: 0.5rem;"><?= e($loi['anh']) ?></span>
+    <?php endif; ?>
 
     <button class="nut nut--chinh" type="submit">Gửi liên hệ</button>
   </form>
@@ -52,7 +83,4 @@ require __DIR__ . '/inc/header.php';
           loading="lazy"></iframe>
 </main>
 
-<?php
-$scriptRieng = '<script type="module" src="js/trang-lien-he.js"></script>';
-require __DIR__ . '/inc/footer.php';
-?>
+<?php require __DIR__ . '/inc/footer.php'; ?>
