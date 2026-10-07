@@ -2,8 +2,14 @@
 /**
  * index.php — Trang chủ Sân Bóng Thắng Lợi
  */
+require __DIR__ . '/inc/config.php';
+require __DIR__ . '/inc/ham.php';
+
 $tieuDeTrang = 'Đặt sân bóng đá trực tuyến';
 require __DIR__ . '/inc/header.php';
+
+$sanNoiBat = $kho->sapXep($kho->tatCa(), 'gia-tang');
+$sanNoiBat = array_slice($sanNoiBat, 0, 3);
 ?>
 
 <main class="khu-vuc-chinh">
@@ -17,9 +23,7 @@ require __DIR__ . '/inc/header.php';
   <h1>Đặt sân bóng đá trực tuyến – nhanh chóng, tiện lợi</h1>
 
   <p class="gioi-thieu">Sân Bóng Thắng Lợi cung cấp dịch vụ cho thuê sân cỏ nhân tạo với ba loại sân 5 người,
-    7 người và 11 người, phục vụ nhu cầu tập luyện và thi đấu giao hữu của các đội bóng phong trào.
-    Khách hàng có thể xem lịch trống theo thời gian thực và đặt sân trực tuyến chỉ trong vài bước,
-    không cần gọi điện đặt chỗ như trước đây.</p>
+    7 người và 11 người, phục vụ nhu cầu tập luyện và thi đấu giao hữu của các đội bóng phong trào.</p>
 
   <h2>Các loại sân hiện có</h2>
   <ul class="danh-sach-the">
@@ -29,19 +33,16 @@ require __DIR__ . '/inc/header.php';
   </ul>
 
   <h2>Sân nổi bật</h2>
-  <div class="khung-sap-xep">
-    <label class="truong__nhan" for="sap-xep-noi-bat">Sắp xếp theo</label>
-    <select id="sap-xep-noi-bat" class="truong__nhap">
-      <option value="gia">Giá thấp nhất</option>
-      <option value="danh-gia">Đánh giá cao nhất</option>
-    </select>
-  </div>
-  <p id="thong-bao-noi-bat" class="vung-thong-bao" aria-live="polite"></p>
-  <ul id="danh-sach-noi-bat" class="danh-sach-the"></ul>
-  <noscript>
-    <p>Danh sách sân nổi bật cần JavaScript để tải tự động. Bạn vẫn có thể xem đầy đủ
-      thông tin các sân tại trang <a href="san-lich.php">Sân &amp; lịch trống</a>.</p>
-  </noscript>
+  <ul class="danh-sach-the">
+    <?php foreach ($sanNoiBat as $san): ?>
+      <li class="the">
+        <h3><?= e($san->getTen()) ?> (<?= $san->getLoaiSan() ?> người)</h3>
+        <p>Khu vực: <?= e($san->getKhuVuc()) ?><br>
+           Giá: <?= vnd($san->getGiaThuong()) ?>/giờ</p>
+        <a class="nut nut--chinh" href="chi-tiet.php?id=<?= urlencode($san->getId()) ?>">Xem chi tiết</a>
+      </li>
+    <?php endforeach; ?>
+  </ul>
 
   <h2>Hình ảnh sân bóng</h2>
   <figure class="khoi-anh">
