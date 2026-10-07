@@ -44,6 +44,25 @@ $sanNoiBat = array_slice($sanNoiBat, 0, 3);
     <?php endforeach; ?>
   </ul>
 
+
+    <?php
+  $daXem = danhSachDaXem();
+  if (count($daXem) > 0):
+  ?>
+    <h2>Đã xem gần đây</h2>
+    <ul class="danh-sach-the">
+      <?php foreach ($daXem as $idCu): $sanCu = $kho->timTheoId((string) $idCu); if ($sanCu === null) continue; ?>
+        <li class="the">
+          <h3><?= e($sanCu->getTen()) ?> (<?= $sanCu->getLoaiSan() ?> người)</h3>
+          <p>Giá: <?= vnd($sanCu->getGiaThuong()) ?>/giờ</p>
+          <a class="nut nut--phu" href="chi-tiet.php?id=<?= urlencode($sanCu->getId()) ?>">Xem lại</a>
+        </li>
+      <?php endforeach; ?>
+    </ul>
+  <?php endif; ?>
+
+
+
   <h2>Hình ảnh sân bóng</h2>
   <figure class="khoi-anh">
     <img class="khoi-anh__anh" src="images/san-co-nhan-tao-5-nguoi.jpg"
