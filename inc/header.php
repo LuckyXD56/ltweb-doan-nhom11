@@ -50,6 +50,16 @@ $trangHienTai = basename($_SERVER['PHP_SELF']);
         <?php endforeach; ?>
       </ul>
     </nav>
+      <p class="trang-thai-tai-khoan"
+     style="text-align:center; padding: 0.5rem; font-size: 0.9rem;">
+    <?php if (!empty($_SESSION['da_dang_nhap'])): ?>
+      Xin chào <strong><?= e($_SESSION['username'] ?? '') ?></strong> ·
+      <a href="quan-tri.php">Quản trị</a> ·
+      <a href="dang-xuat.php">Đăng xuất</a>
+    <?php else: ?>
+      <a href="dang-nhap.php">Đăng nhập quản trị</a>
+    <?php endif; ?>
+    </p>
   </header>
 
   <?php $flash = layFlash(); if ($flash): ?>
