@@ -71,7 +71,12 @@ require __DIR__ . '/inc/header.php';
     </div>
 
     <p class="chu-canh-giua mt-2">
-      <a class="nut nut--chinh" href="dat-san.php?id=<?= urlencode($san->getId()) ?>">Đặt sân này</a>
+      <form method="post" action="them-gio.php" style="display:inline;">
+  <input type="hidden" name="id" value="<?= e($san->getId()) ?>">
+  <input type="hidden" name="so_luong" value="1">
+  <input type="hidden" name="quay_lai" value="chi-tiet.php?id=<?= urlencode($san->getId()) ?>">
+  <button type="submit" class="nut nut--chinh">🛒 Thêm vào giỏ</button>
+</form>
       <a class="nut nut--phu" href="danh-sach.php">← Về danh sách sân</a>
     </p>
   </div>
