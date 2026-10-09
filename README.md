@@ -34,13 +34,13 @@ Mở Terminal / PowerShell tại thư mục gốc của dự án và chạy các
 
 **1. Cài đặt các phụ thuộc (Autoload PSR-4):**
 `ash
-composer install
+ composer install
 `
 *(Hoặc composer dump-autoload nếu không có file composer.lock)*
 
 **2. Chạy Server cục bộ của PHP:**
 `ash
-php -S localhost:8000
+ php -S localhost:8000
 `
 
 **3. Xem trang web:**
