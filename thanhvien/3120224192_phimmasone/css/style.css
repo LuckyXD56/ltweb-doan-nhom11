@@ -1,0 +1,387 @@
+﻿/* ==== Trang cá nhân Phimmasone — style giống Phú ==== */
+:root {
+  --mau-xanh: #0b6e3c;
+  --mau-xanh-dam: #084d29;
+  --mau-chu: #1f2937;
+  --mau-chu-nhat: #4b5563;
+  --mau-nen: #f8faf9;
+  --mau-card: #ffffff;
+  --mau-vien: #e5e7eb;
+  --bo-goc: 12px;
+  --bong: 0 2px 10px rgba(0, 0, 0, 0.06);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body.trang {
+  font-family: "Segoe UI", Roboto, system-ui, sans-serif;
+  background-color: var(--mau-nen);
+  color: var(--mau-chu);
+  line-height: 1.6;
+  min-height: 100vh;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+
+/* ==== Dark mode ==== */
+body.giao-dien-toi {
+  --mau-xanh: #10b981;
+  --mau-xanh-dam: #34d399;
+  --mau-chu: #e5e7eb;
+  --mau-chu-nhat: #9ca3af;
+  --mau-nen: #111827;
+  --mau-card: #1f2937;
+  --mau-vien: #374151;
+  --bong: 0 2px 10px rgba(0, 0, 0, 0.4);
+}
+
+/* ==== Nav ==== */
+.trang__nav {
+  background-color: var(--mau-card);
+  border-bottom: 1px solid var(--mau-vien);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.menu__danh-sach {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.25rem;
+  padding: 0.5rem 1rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.menu__lien-ket {
+  display: inline-block;
+  padding: 0.6rem 1rem;
+  color: var(--mau-chu);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s;
+}
+
+.menu__lien-ket:hover { color: var(--mau-xanh); }
+
+.menu__lien-ket.active {
+  color: var(--mau-xanh-dam);
+  font-weight: 700;
+  border-bottom-color: var(--mau-xanh);
+}
+
+body.giao-dien-toi .menu__lien-ket.active { color: #10b981; }
+
+/* ==== Tiêu đề trang ==== */
+.tieu-de-trang {
+  text-align: center;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--mau-xanh-dam);
+  margin: 2rem 0 1.5rem;
+}
+
+body.giao-dien-toi .tieu-de-trang { color: #10b981; }
+
+/* ==== Main ==== */
+.trang__main {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 1rem 3rem;
+}
+
+/* ==== Nút công cụ ==== */
+.thanh-cong-cu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.nut-cong-cu {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: var(--mau-card);
+  border: 1px solid var(--mau-vien);
+  border-radius: 999px;
+  color: var(--mau-xanh-dam);
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s;
+}
+
+.nut-cong-cu:hover {
+  background-color: var(--mau-xanh);
+  color: #fff;
+  border-color: var(--mau-xanh);
+}
+
+body.giao-dien-toi .nut-cong-cu { color: #34d399; }
+body.giao-dien-toi .nut-cong-cu:hover {
+  background-color: #10b981;
+  color: #fff;
+}
+
+.thong-bao-copy {
+  display: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+}
+
+.thong-bao-copy.hien {
+  display: inline-block;
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+body.giao-dien-toi .thong-bao-copy.hien {
+  background-color: #064e3b;
+  color: #6ee7b7;
+}
+
+/* ==== Card hồ sơ chính ==== */
+.the-ho-so {
+  background-color: var(--mau-card);
+  border-radius: var(--bo-goc);
+  border-top: 5px solid var(--mau-xanh);
+  box-shadow: var(--bong);
+  padding: 2rem;
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.the-ho-so__avatar { flex-shrink: 0; }
+
+.the-ho-so__anh {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  object-position: center top;
+  border-radius: 50%;
+  border: 4px solid var(--mau-xanh);
+  box-shadow: 0 4px 12px rgba(11, 110, 60, 0.2);
+}
+
+.the-ho-so__thong-tin { flex-grow: 1; }
+
+.the-ho-so__ten {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--mau-xanh-dam);
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+body.giao-dien-toi .the-ho-so__ten { color: #10b981; }
+
+.the-ho-so__dong {
+  margin-bottom: 0.4rem;
+  color: var(--mau-chu);
+}
+
+.the-ho-so__dong strong { color: var(--mau-chu-nhat); }
+
+/* ==== Lưới 2 cột ==== */
+.luoi-hai-cot {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 700px) {
+  .luoi-hai-cot { grid-template-columns: 1fr 1fr; }
+}
+
+/* ==== Card nhỏ ==== */
+.the-nho {
+  background-color: var(--mau-card);
+  border-radius: var(--bo-goc);
+  border-top: 5px solid var(--mau-xanh);
+  box-shadow: var(--bong);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.the-nho__tieu-de {
+  color: var(--mau-xanh-dam);
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+body.giao-dien-toi .the-nho__tieu-de { color: #10b981; }
+
+.the-nho__doan {
+  color: var(--mau-chu);
+  line-height: 1.7;
+}
+
+/* ==== Skill tags ==== */
+.danh-sach-nhan {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.nhan {
+  display: inline-block;
+  padding: 0.4rem 0.9rem;
+  background-color: var(--mau-xanh);
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: 999px;
+  transition: background-color 0.2s;
+}
+
+.nhan:hover { background-color: var(--mau-xanh-dam); }
+body.giao-dien-toi .nhan { background-color: #10b981; }
+
+/* ==== Form input trong card ==== */
+.the-nho input[type="text"],
+.the-nho input[type="number"] {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--mau-vien);
+  border-radius: 8px;
+  background-color: var(--mau-card);
+  color: var(--mau-chu);
+  font: inherit;
+  margin-bottom: 0.75rem;
+}
+
+.the-nho input:focus {
+  outline: none;
+  border-color: var(--mau-xanh);
+  box-shadow: 0 0 0 3px rgba(11, 110, 60, 0.15);
+}
+
+/* ==== Nút nhỏ ==== */
+.nut {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  font-family: inherit;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s;
+  font-size: 0.9rem;
+}
+
+.nut--chinh {
+  background-color: var(--mau-xanh);
+  color: #fff;
+}
+
+.nut--chinh:hover {
+  background-color: var(--mau-xanh-dam);
+  color: #fff;
+}
+
+.nut--phu {
+  background-color: transparent;
+  color: var(--mau-xanh);
+  border: 2px solid var(--mau-xanh);
+}
+
+.nut--phu:hover {
+  background-color: var(--mau-xanh);
+  color: #fff;
+}
+
+/* ==== TodoList item ==== */
+.viec-item {
+  background-color: var(--mau-nen);
+  padding: 0.6rem 0.9rem;
+  margin-bottom: 0.5rem;
+  border-left: 4px solid var(--mau-xanh);
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.viec-item__xoa {
+  color: #b91c1c;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+body.giao-dien-toi .viec-item__xoa { color: #fca5a5; }
+
+/* ==== Kết quả BMI ==== */
+.ket-qua-bmi {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #f0fdf4;
+  border-left: 4px solid var(--mau-xanh);
+  border-radius: 4px;
+}
+
+body.giao-dien-toi .ket-qua-bmi {
+  background-color: #064e3b;
+}
+
+.ket-qua-bmi__so {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--mau-xanh-dam);
+}
+
+body.giao-dien-toi .ket-qua-bmi__so { color: #34d399; }
+
+/* ==== Footer ==== */
+.trang__footer {
+  text-align: center;
+  padding: 1.5rem 1rem;
+  background-color: var(--mau-card);
+  border-top: 1px solid var(--mau-vien);
+  color: var(--mau-chu-nhat);
+  font-size: 0.9rem;
+}
+
+.trang__footer p { margin-bottom: 0.4rem; }
+
+.trang__footer a {
+  color: var(--mau-xanh);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+body.giao-dien-toi .trang__footer a { color: #10b981; }
+.trang__footer a:hover { text-decoration: underline; }
+
+/* ==== Responsive mobile ==== */
+@media (max-width: 600px) {
+  .the-ho-so {
+    flex-direction: column;
+    text-align: center;
+    padding: 1.5rem;
+  }
+  .the-ho-so__anh { width: 140px; height: 140px; }
+  .the-ho-so__ten { font-size: 1.4rem; }
+  .menu__lien-ket { padding: 0.5rem 0.7rem; font-size: 0.85rem; }
+  .tieu-de-trang { font-size: 1.4rem; }
+}
