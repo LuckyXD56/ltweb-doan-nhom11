@@ -2,11 +2,12 @@
 /**
  * inc/header.php — Phần đầu trang dùng chung
  */
-if (!isset($tieuDeTrang)) {
-    $tieuDeTrang = 'Sân Bóng Thắng Lợi';
+$goc ??= '';
+$tieuDeTrang ??= $tieuDe ?? 'Sân Bóng Thắng Lợi';
+$trangHienTai = basename($_SERVER['PHP_SELF'] ?? '');
+if ($trangHienTai === 'gioithieu.php') {
+    $trangHienTai = 'thanh-vien.php';
 }
-
-$trangHienTai = basename($_SERVER['PHP_SELF']);
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -14,12 +15,19 @@ $trangHienTai = basename($_SERVER['PHP_SELF']);
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?= e($tieuDeTrang) ?> | Sân Bóng Thắng Lợi</title>
-  <link rel="stylesheet" href="css/chung.css">
-  <link rel="stylesheet" href="css/thanh-phan.css">
+  <link rel="stylesheet"
+        href="<?= e($goc ?? '') ?>css/style.css">
+
+  <link rel="stylesheet"
+        href="<?= e($goc ?? '') ?>css/thanh-phan.css">
+
+  <?php if (!empty($cssRieng)): ?>
+      <link rel="stylesheet" href="<?= e($cssRieng) ?>">
+  <?php endif; ?>
 </head>
 <body>
   <header class="dau-trang">
-    <p class="ten-he-thong"><a href="index.php">Sân Bóng Thắng Lợi</a></p>
+    <p class="ten-he-thong"><a href="<?= e($goc) ?>index.php">Sân Bóng Thắng Lợi</a></p>
     <button type="button" class="nut-mo-menu" aria-expanded="false" aria-controls="danh-sach-dieu-huong-chinh">
       <span class="nut-mo-menu__nhan">Mở menu</span>
     </button>
@@ -45,7 +53,7 @@ $trangHienTai = basename($_SERVER['PHP_SELF']);
             $active = ($trangHienTai === $file) ? ' aria-current="page"' : '';
         ?>
           <li class="dieu-huong__muc">
-            <a class="dieu-huong__lien-ket" href="<?= $file ?>"<?= $active ?>><?= e($nhan) ?></a>
+            <a class="dieu-huong__lien-ket" href="<?= e($goc . $file) ?>"<?= $active ?>><?= e($nhan) ?></a>
           </li>
         <?php endforeach; ?>
       </ul>
@@ -54,17 +62,17 @@ $trangHienTai = basename($_SERVER['PHP_SELF']);
      style="text-align:center; padding: 0.5rem; font-size: 0.9rem;">
     <?php if (!empty($_SESSION['da_dang_nhap'])): ?>
       Xin chào <strong><?= e($_SESSION['username'] ?? '') ?></strong> ·
-      <a href="quan-tri.php">Quản trị</a> ·
-      <a href="dang-xuat.php">Đăng xuất</a>
+      <a href="<?= e($goc) ?>quan-tri.php">Quản trị</a> ·
+      <a href="<?= e($goc) ?>dang-xuat.php">Đăng xuất</a>
     <?php else: ?>
-      <a href="dang-nhap.php">Đăng nhập quản trị</a>
+      <a href="<?= e($goc) ?>dang-nhap.php">Đăng nhập quản trị</a>
     <?php endif; ?>
     </p>
   </header>
 
-  <?php $flash = layFlash(); if ($flash): ?>
-    <div class="vung-thong-bao vung-thong-bao--<?= e($flash['loai']) ?>" role="alert"
+  <?php $flashHeader = layFlash(); if ($flashHeader): ?>
+    <div class="vung-thong-bao vung-thong-bao--<?= e($flashHeader['loai']) ?>" role="alert"
          style="max-width: 1100px; margin: 1rem auto; padding: 0.75rem 1rem;">
-      <?= e($flash['noiDung']) ?>
+      <?= e($flashHeader['noiDung']) ?>
     </div>
   <?php endif; ?>

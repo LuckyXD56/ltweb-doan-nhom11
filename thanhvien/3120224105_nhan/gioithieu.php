@@ -10,28 +10,52 @@ require_once __DIR__ . '/../../inc/config.php';
 require_once __DIR__ . '/../../inc/ham.php';
 
 $goc = '../../';
-$tieuDe = 'Trang cá nhân';
-$trang = 'gioi-thieu';
+$tieuDeTrang = 'Lê Nguyễn Gia Nhân';
+$trang = 'thanh-vien';
+$cssRieng = 'css/canhan.css';
 
 // --- XỬ LÝ SỔ LƯU BÚT ---
 $fileLuubut = DUONG_DAN_STORAGE . '/3120224105_luubut.jsonl';
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && postChuoi('action') === 'luubut') {
-    $ten = postChuoi('ten');
-    $loi_nhan = postChuoi('loi_nhan');
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && is_string($_POST['action']) && $_POST['action'] === 'luubut') {
+    $ten = $_POST['ten'] ?? '';
+    $loi_nhan = $_POST['loi_nhan'] ?? '';
 
-    if ($ten === '' || $loi_nhan === '') {
-        datFlash('danger', 'Vui lòng nhập đầy đủ tên và lời nhắn.');
+    if (is_array($ten) || is_array($loi_nhan)) {
+        datFlash('danger', 'Dữ liệu không hợp lệ.');
     } else {
-        $entry = json_encode([
-            'ten' => $ten,
-            'loi_nhan' => $loi_nhan,
-            'thoi_gian' => date('Y-m-d H:i:s')
-        ], JSON_UNESCAPED_UNICODE) . PHP_EOL;
-        file_put_contents($fileLuubut, $entry, FILE_APPEND | LOCK_EX);
-        datFlash('success', 'Đã lưu lời nhắn của bạn.');
+        $ten = trim((string)$ten);
+        $loi_nhan = trim((string)$loi_nhan);
+
+        if (
+            $ten === '' ||
+            mb_strlen($ten) > 100 ||
+            $loi_nhan === '' ||
+            mb_strlen($loi_nhan) > 500
+        ) {
+            datFlash(
+                'danger',
+                'Tên tối đa 100 ký tự, lời nhắn tối đa 500 ký tự.'
+            );
+        } else {
+            $entry = json_encode([
+                'ten' => $ten,
+                'loi_nhan' => $loi_nhan,
+                'thoi_gian' => date('Y-m-d H:i:s')
+            ], JSON_UNESCAPED_UNICODE) . PHP_EOL;
+            if (file_put_contents($fileLuubut, $entry, FILE_APPEND | LOCK_EX) !== false) {
+                datFlash('success', 'Đã lưu lời nhắn của bạn.');
+            } else {
+                datFlash('danger', 'Lỗi hệ thống: Không thể lưu lời nhắn.');
+            }
+        }
     }
-    chuyenHuong('gioithieu.php');
+    if (!headers_sent()) {
+        chuyenHuong('gioithieu.php');
+    } else {
+        echo "<script>window.location.href='gioithieu.php';</script>";
+        exit;
     }
+}
 
 // Đọc sổ lưu bút
 $dsLuubut = [];
@@ -48,20 +72,33 @@ $dsLuubut = array_reverse($dsLuubut);
 $dsLuubut = array_slice($dsLuubut, 0, 5);
 
 // --- XỬ LÝ MÁY TÍNH ĐIỂM ---
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && postChuoi('action') === 'tinhdiem') {
-    $a1 = postChuoi('a1');
-    $a2 = postChuoi('a2');
-    $a3 = postChuoi('a3');
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && is_string($_POST['action']) && $_POST['action'] === 'tinhdiem') {
+    $a1 = $_POST['a1'] ?? '';
+    $a2 = $_POST['a2'] ?? '';
+    $a3 = $_POST['a3'] ?? '';
 
-    if ($a1 === '' || $a2 === '' || $a3 === '') {
-        datFlash('danger', 'Vui lòng nhập đủ 3 cột điểm.');
-    } elseif (!is_numeric($a1) || !is_numeric($a2) || !is_numeric($a3) || $a1 < 0 || $a1 > 10 || $a2 < 0 || $a2 > 10 || $a3 < 0 || $a3 > 10) {
-        datFlash('danger', 'Điểm phải là số từ 0 đến 10.');
+    if (is_array($a1) || is_array($a2) || is_array($a3)) {
+        datFlash('danger', 'Dữ liệu không hợp lệ.');
     } else {
-        $diem_tb = 0.2 * (float)$a1 + 0.3 * (float)$a2 + 0.5 * (float)$a3;
-        datFlash('success', 'Điểm học phần của bạn là: ' . number_format($diem_tb, 2));
+        $a1 = trim((string)$a1);
+        $a2 = trim((string)$a2);
+        $a3 = trim((string)$a3);
+
+        if ($a1 === '' || $a2 === '' || $a3 === '') {
+            datFlash('danger', 'Vui lòng nhập đủ 3 cột điểm.');
+        } elseif (!is_numeric($a1) || !is_numeric($a2) || !is_numeric($a3) || $a1 < 0 || $a1 > 10 || $a2 < 0 || $a2 > 10 || $a3 < 0 || $a3 > 10) {
+            datFlash('danger', 'Điểm phải là số từ 0 đến 10.');
+        } else {
+            $diem_tb = 0.2 * (float)$a1 + 0.3 * (float)$a2 + 0.5 * (float)$a3;
+            datFlash('success', 'Điểm học phần của bạn là: ' . number_format($diem_tb, 2, ',', '.'));
+        }
     }
-    chuyenHuong('gioithieu.php');
+    if (!headers_sent()) {
+        chuyenHuong('gioithieu.php');
+    } else {
+        echo "<script>window.location.href='gioithieu.php';</script>";
+        exit;
+    }
 }
 
 $flash = layFlash();
@@ -69,8 +106,7 @@ $flash = layFlash();
 require __DIR__ . '/../../inc/header.php';
 ?>
 
-<!-- CSS riêng của trang cá nhân -->
-<link rel="stylesheet" href="css/canhan.css">
+
 
 <div class="theme-control">
     <button
@@ -301,62 +337,89 @@ require __DIR__ . '/../../inc/header.php';
             </div>
 
         </section>
-        <!-- ================= MÁY TÍNH ĐIỂM ================= -->
-        <section class="full-box">
+        <!-- CHỨC NĂNG 2: MÁY TÍNH ĐIỂM HỌC PHẦN -->
+        <section class="full-box grade-section" id="tinh-diem">
             <h2>Máy tính điểm học phần</h2>
-            <form action="gioithieu.php" method="POST" class="custom-form">
+
+            <p class="grade-description">
+                Nhập điểm A1, A2, A3 từ 0 đến 10 để tính điểm tổng kết.
+            </p>
+
+            <form action="gioithieu.php" method="POST" class="grade-form">
                 <input type="hidden" name="action" value="tinhdiem">
-                <div style="margin-bottom: 10px;">
-                    <label for="a1">Điểm A1 (20%):</label>
-                    <input type="number" step="0.1" name="a1" id="a1" min="0" max="10" required>
+
+                <div class="grade-grid">
+                    <div class="grade-field">
+                        <label for="a1">Điểm A1 (20%)</label>
+                        <input type="number" name="a1" id="a1"
+                               min="0" max="10" step="0.1"
+                               placeholder="Ví dụ: 8" required>
+                    </div>
+
+                    <div class="grade-field">
+                        <label for="a2">Điểm A2 (30%)</label>
+                        <input type="number" name="a2" id="a2"
+                               min="0" max="10" step="0.1"
+                               placeholder="Ví dụ: 7" required>
+                    </div>
+
+                    <div class="grade-field">
+                        <label for="a3">Điểm A3 (50%)</label>
+                        <input type="number" name="a3" id="a3"
+                               min="0" max="10" step="0.1"
+                               placeholder="Ví dụ: 9" required>
+                    </div>
                 </div>
-                <div style="margin-bottom: 10px;">
-                    <label for="a2">Điểm A2 (30%):</label>
-                    <input type="number" step="0.1" name="a2" id="a2" min="0" max="10" required>
-                </div>
-                <div style="margin-bottom: 10px;">
-                    <label for="a3">Điểm A3 (50%):</label>
-                    <input type="number" step="0.1" name="a3" id="a3" min="0" max="10" required>
-                </div>
-                <button type="submit" style="padding: 8px 16px; cursor: pointer; background: var(--primary-color); color: white; border: none; border-radius: 4px;">Tính điểm</button>
+
+                <button type="submit" class="grade-submit">
+                    Tính điểm học phần
+                </button>
             </form>
+
+            <p class="grade-formula">
+                Công thức: 0,2 × A1 + 0,3 × A2 + 0,5 × A3
+            </p>
         </section>
 
         <!-- ================= SỔ LƯU BÚT ================= -->
-        <section class="full-box">
+        <section class="full-box guestbook-section" id="so-luu-but">
             <h2>Sổ lưu bút</h2>
-            <form action="gioithieu.php" method="POST" class="custom-form" style="margin-bottom: 20px;">
+            <p class="guestbook-description">
+                Hãy để lại lời nhắn, góp ý hoặc lời chúc của bạn!
+            </p>
+            <form action="gioithieu.php" method="POST" class="guestbook-form">
                 <input type="hidden" name="action" value="luubut">
-                <div style="margin-bottom: 10px;">
-                    <label for="ten">Tên của bạn:</label>
-                    <input type="text" name="ten" id="ten" required style="width: 100%; padding: 8px; box-sizing: border-box;">
+                <div class="guestbook-field">
+                    <label for="ten">Họ và tên</label>
+                    <input type="text" name="ten" id="ten" maxlength="100" placeholder="Nhập họ và tên của bạn" required>
                 </div>
-                <div style="margin-bottom: 10px;">
-                    <label for="loi_nhan">Lời nhắn:</label>
-                    <textarea name="loi_nhan" id="loi_nhan" rows="3" required style="width: 100%; padding: 8px; box-sizing: border-box;"></textarea>
+                <div class="guestbook-field">
+                    <label for="loi_nhan">Lời nhắn</label>
+                    <textarea name="loi_nhan" id="loi_nhan" rows="5" maxlength="500" placeholder="Viết lời nhắn của bạn tại đây..." required></textarea>
                 </div>
-                <button type="submit" style="padding: 8px 16px; cursor: pointer; background: var(--primary-color); color: white; border: none; border-radius: 4px;">Gửi lời nhắn</button>
+                <button type="submit" class="guestbook-submit">Gửi lời nhắn</button>
             </form>
-
-            <h3>5 lời nhắn mới nhất</h3>
-            <?php if (empty($dsLuubut)): ?>
-                <p>Chưa có lời nhắn nào.</p>
-            <?php else: ?>
-                <ul style="list-style: none; padding-left: 0;">
-                    <?php foreach ($dsLuubut as $lb): ?>
-                        <li style="margin-bottom: 15px; padding: 10px; border: 1px solid var(--border-color); border-radius: 5px; background: var(--bg-alt);">
-                            <strong><?= e($lb['ten']) ?></strong>
-                            <span style="font-size: 0.9em; color: var(--text-muted);"> (<?= e($lb['thoi_gian']) ?>)</span>
-                            <p style="margin: 5px 0 0;"><?= nl2br(e($lb['loi_nhan'])) ?></p>
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
-            <?php endif; ?>
+            <div class="guestbook-history">
+                <h3>5 lời nhắn mới nhất</h3>
+                <?php if (empty($dsLuubut)): ?>
+                    <p>Chưa có lời nhắn nào.</p>
+                <?php else: ?>
+                    <ul>
+                        <?php foreach ($dsLuubut as $lb): ?>
+                            <li>
+                                <strong><?= e($lb['ten']) ?></strong>
+                                <span class="guestbook-time"> (<?= e($lb['thoi_gian']) ?>)</span>
+                                <p class="guestbook-message"><?= nl2br(e($lb['loi_nhan'])) ?></p>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php endif; ?>
+            </div>
         </section>
 
         <!-- ================= QUAY LẠI ================= -->
         <p class="back-link">
-            <a href="../../gioi-thieu.html">
+            <a href="../../thanh-vien.php">
                 ← Quay lại trang giới thiệu nhóm
             </a>
         </p>
