@@ -52,7 +52,7 @@ Mở trình duyệt và truy cập: [http://localhost:8000](http://localhost:800
 
 Để kiểm tra trang Quản trị viên (quan-tri.php), vui lòng sử dụng tài khoản sau:
 - **Tên đăng nhập:** dmin
-- **Mật khẩu:** 123456
+- **Mật khẩu:** Admin@123
 
 ---
 
