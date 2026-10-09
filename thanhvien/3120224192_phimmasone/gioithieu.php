@@ -1,21 +1,66 @@
-﻿<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Trang giới thiệu thành viên Phimmasone Khamphouvanh của Nhóm 11.">
-    <title>Phimmasone Khamphouvanh | Nhóm 11</title>
-    <link rel="stylesheet" href="../../css/style.css">
-    <link rel="stylesheet" href="css/profile.css">
-</head>
+<?php
+require_once __DIR__ . '/../../inc/config.php';
+require_once __DIR__ . '/../../inc/ham.php';
+ = '../../';
+ = 'Trang cá nhân Phimmasone';
+ = 'gioi-thieu';
 
-<body class="trang">
-    <header class="trang__header">
-        <h1>Sân Bóng Thắng Lợi</h1>
-        <p>Uy tín - Tiện lợi - Sức khỏe là vàng</p>
-    </header>
+// --- 1. DANH SÁCH VIỆC (Lưu Session) ---
+if (!isset(['todo_phim'])) ['todo_phim'] = [];
+if (['REQUEST_METHOD'] === 'POST' && isset(['viec_moi'])) {
+     = e(['viec_moi']);
+    if ( !== '') ['todo_phim'][] = ;
+    header("Location: gioithieu.php");
+    exit;
+}
 
-    <nav class="trang__nav">
+// --- 2. TÍNH CHỈ SỐ BMI (Xử lý POST) ---
+ = null;
+if (['REQUEST_METHOD'] === 'POST' && isset(['chieucao'], ['cannang'])) {
+     = (float)['chieucao'] / 100;
+     = (float)['cannang'];
+    if ( > 0 &&  > 0)  = round( / ( * ), 1);
+}
+
+require __DIR__ . '/../../inc/header.php';
+?>
+
+<div style="max-width: 800px; margin: 20px auto; padding: 20px; background: #fff; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+    <h3 style="color: #2e7d32; border-bottom: 2px solid #4caf50; padding-bottom: 5px;">✅ 1. Danh sách công việc (Todo List - Session)</h3>
+    <form method="post" style="margin-bottom: 15px; display: flex; gap: 10px;">
+        <input type="text" name="viec_moi" placeholder="Nhập việc cần làm..." required style="flex: 1; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+        <button class="nut nut--chinh" type="submit">Thêm</button>
+    </form>
+    <ul style="list-style-type: none; padding: 0;">
+        <?php foreach(['todo_phim'] as ): ?>
+            <li style="background: #f9f9f9; padding: 10px; margin-bottom: 5px; border-left: 4px solid #4caf50;">📝 <?= e() ?></li>
+        <?php endforeach; ?>
+        <?php if(empty(['todo_phim'])): ?>
+            <li style="color: #888; font-style: italic;">Chưa có công việc nào.</li>
+        <?php endif; ?>
+    </ul>
+
+    <hr style="margin: 30px 0; border: 0; border-top: 1px solid #eee;">
+
+    <h3 style="color: #1565c0; border-bottom: 2px solid #2196f3; padding-bottom: 5px;">⚖️ 2. Máy tính chỉ số BMI (Xử lý Form POST)</h3>
+    <form method="post" style="display: grid; grid-template-columns: 1fr 1fr auto; gap: 10px; align-items: end;">
+        <div>
+            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Chiều cao (cm):</label>
+            <input type="number" name="chieucao" required style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+        </div>
+        <div>
+            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Cân nặng (kg):</label>
+            <input type="number" name="cannang" required style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+        </div>
+        <button class="nut nut--chinh" type="submit" style="height: 35px;">Tính BMI</button>
+    </form>
+    <?php if ( !== null): ?>
+        <div style="margin-top: 15px; padding: 15px; background: #e3f2fd; border-radius: 4px; color: #0d47a1; font-weight: bold;">
+            👉 Chỉ số BMI của bạn là: <span style="font-size: 1.2em;"><?=  ?></span>
+        </div>
+    <?php endif; ?>
+</div>
+<nav class="trang__nav">
         <ul class="menu__danh-sach">
             <li class="menu__muc"><a class="menu__lien-ket" href="../../index.html">Trang chủ</a></li>
             <li class="menu__muc"><a class="menu__lien-ket" href="../../danh-sach.html">Danh sách sân</a></li>
@@ -146,18 +191,4 @@
             <a href="../../gioi-thieu.html" class="nut nut--phu">← Quay lại danh sách nhóm</a>
         </p>
     </main>
-
-    <footer class="trang__footer">
-        <p>© 2026 Nhóm 11 — Khoa Toán - Tin, Đại học Sư phạm Đà Nẵng</p>
-    </footer>
-    <script type="module" src="js/canhan.js"></script>
-</body>
-</html>
-
-
-
-
-
-
-
-
+<?php require __DIR__ . '/../../inc/footer.php'; ?>
