@@ -1,0 +1,15 @@
+﻿:root {
+    --bs-primary: #047857; /* Darker emerald for contrast */
+    --bs-primary-rgb: 4,120,87;
+}
+.btn-primary {
+    --bs-btn-bg: var(--bs-primary);
+    --bs-btn-border-color: var(--bs-primary);
+    --bs-btn-hover-bg: #065f46;
+    --bs-btn-hover-border-color: #065f46;
+    color: #fff;
+}
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+}

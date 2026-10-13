@@ -1,0 +1,32 @@
+[
+  {
+    "mssv": "3120224111",
+    "ten": "Trương Nguyễn Ngọc Phú",
+    "thu_muc": "3120224111_phu",
+    "noi_bat": true
+  },
+  {
+    "mssv": "3120224060",
+    "ten": "Hoàng",
+    "thu_muc": "3120224060_hoang",
+    "noi_bat": false
+  },
+  {
+    "mssv": "3120224105",
+    "ten": "Nhân",
+    "thu_muc": "3120224105_nhan",
+    "noi_bat": false
+  },
+  {
+    "mssv": "3120224188",
+    "ten": "Silaphet Thit",
+    "thu_muc": "3120224188_silaphet",
+    "noi_bat": false
+  },
+  {
+    "mssv": "3120224192",
+    "ten": "Phimmasone Khamphouvanh",
+    "thu_muc": "3120224192_phimmasone",
+    "noi_bat": false
+  }
+]

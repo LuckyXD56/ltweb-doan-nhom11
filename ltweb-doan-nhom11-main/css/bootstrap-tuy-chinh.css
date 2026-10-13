@@ -1,0 +1,34 @@
+/* Nạp SAU bootstrap.min.css để ghi đè biến */
+:root {
+  --bs-primary: #0b6e3c;
+  --bs-primary-rgb: 11, 110, 60;
+  --bs-success: #0b6e3c;
+  --bs-success-rgb: 11, 110, 60;
+  --bs-link-color: #0b6e3c;
+  --bs-link-hover-color: #084d29;
+}
+
+.navbar-thang-loi {
+  background: linear-gradient(90deg, #084d29, #0b6e3c);
+}
+.navbar-thang-loi .navbar-brand,
+.navbar-thang-loi .nav-link { color: #fff; }
+.navbar-thang-loi .nav-link:hover,
+.navbar-thang-loi .nav-link:focus { color: #f4b400; }
+.navbar-thang-loi .nav-link.active { font-weight: 700; color: #f4b400; }
+
+.btn-primary {
+  --bs-btn-bg: #0b6e3c;
+  --bs-btn-border-color: #0b6e3c;
+  --bs-btn-hover-bg: #084d29;
+  --bs-btn-hover-border-color: #084d29;
+}
+.btn-outline-primary {
+  --bs-btn-color: #0b6e3c;
+  --bs-btn-border-color: #0b6e3c;
+  --bs-btn-hover-bg: #0b6e3c;
+  --bs-btn-hover-border-color: #0b6e3c;
+}
+
+.trang-thai-trong { color: #0b6e3c; font-weight: 600; }
+.trang-thai-da-dat { color: #b23a3a; font-weight: 600; }

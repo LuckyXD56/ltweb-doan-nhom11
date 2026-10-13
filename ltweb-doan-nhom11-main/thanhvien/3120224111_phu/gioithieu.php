@@ -1,0 +1,105 @@
+﻿<?php
+/**
+ * gioithieu.php — Trang cá nhân Trương Nguyễn Ngọc Phú
+ */
+session_start();
+?>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Giới thiệu bản thân - Trương Nguyễn Ngọc Phú</title>
+  <meta name="description" content="Trang giới thiệu cá nhân của Trương Nguyễn Ngọc Phú, thành viên Nhóm 11, Khoa Toán Tin, Đại học Sư phạm Đà Nẵng.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="trang">
+
+  <nav class="trang__nav">
+    <ul class="menu__danh-sach">
+      <li class="menu__muc"><a class="menu__lien-ket" href="../../index.php">Trang chủ</a></li>
+      <li class="menu__muc"><a class="menu__lien-ket" href="../../danh-sach.php">Danh sách sân</a></li>
+      <li class="menu__muc"><a class="menu__lien-ket" href="../../chi-tiet.php?id=A1">Chi tiết sân</a></li>
+      <li class="menu__muc"><a class="menu__lien-ket active" href="../../thanh-vien.php">Giới thiệu nhóm</a></li>
+      <li class="menu__muc"><a class="menu__lien-ket" href="../../lien-he.php">Liên hệ / Đặt sân</a></li>
+    </ul>
+  </nav>
+
+  <main class="trang__main">
+
+    <h1 class="tieu-de-trang">Giới thiệu thành viên Nhóm 11</h1>
+
+    <div class="thanh-cong-cu">
+      <button type="button" id="nut-doi-giao-dien" class="nut-cong-cu"
+              aria-pressed="false">🌙 Chế độ tối</button>
+
+      <button type="button" id="nut-sao-chep-email" class="nut-cong-cu"
+              aria-label="Sao chép địa chỉ email">📧 Sao chép email</button>
+
+      <span id="thong-bao-sao-chep" class="thong-bao-copy" role="status" aria-live="polite"></span>
+    </div>
+
+    <article class="the-ho-so">
+      <div class="the-ho-so__avatar">
+        <img src="avatar.jpg"
+             alt="Ảnh chân dung của Trương Nguyễn Ngọc Phú"
+             class="the-ho-so__anh">
+      </div>
+      <div class="the-ho-so__thong-tin">
+        <h2 class="the-ho-so__ten">Trương Nguyễn Ngọc Phú</h2>
+        <p class="the-ho-so__dong"><strong>Vai trò:</strong> Thành viên nhóm</p>
+        <p class="the-ho-so__dong"><strong>Mã sinh viên:</strong> 3120224111</p>
+        <p class="the-ho-so__dong">
+          <strong>Email:</strong>
+          <span id="email-ca-nhan">truongnguyenngocphu@gmail.com</span>
+        </p>
+        <p class="the-ho-so__dong"><strong>Nhiệm vụ:</strong> Phụ trách giao diện CSS responsive và trang giới thiệu cá nhân.</p>
+      </div>
+    </article>
+
+    <div class="luoi-hai-cot">
+      <article class="the-nho">
+        <h3 class="the-nho__tieu-de">Giới thiệu bản thân</h3>
+        <p class="the-nho__doan">Xin chào, tôi là Trương Nguyễn Ngọc Phú. Tôi sinh ngày 28-04-2006 và hiện đang là sinh viên Công nghệ thông tin tại Trường Đại học Sư phạm - Đại học Đà Nẵng. Tôi là người yêu thích lập trình và đặc biệt quan tâm đến phát triển web.</p>
+      </article>
+
+      <article class="the-nho">
+        <h3 class="the-nho__tieu-de">Kỹ năng</h3>
+        <div class="danh-sach-nhan">
+          <span class="nhan">HTML5 &amp; CSS3</span>
+          <span class="nhan">JavaScript cơ bản</span>
+          <span class="nhan">Git &amp; GitHub</span>
+          <span class="nhan">Responsive Design</span>
+        </div>
+      </article>
+    </div>
+
+    <article class="the-nho the-nho--full">
+      <h3 class="the-nho__tieu-de">Thời khóa biểu</h3>
+      <div class="bang-bao">
+        <table class="bang-thoi-khoa-bieu">
+          <thead>
+            <tr><th>Thứ</th><th>Tiết 1-3</th><th>Tiết 4-6</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Thứ 2</td><td>Lập trình Web</td><td>Toán rời rạc</td></tr>
+            <tr><td>Thứ 3</td><td>Cấu trúc dữ liệu</td><td>Tiếng Anh</td></tr>
+            <tr><td>Thứ 4</td><td>Lập trình Web</td><td>Thể dục</td></tr>
+            <tr><td>Thứ 5</td><td>Hệ điều hành</td><td>Toán rời rạc</td></tr>
+            <tr><td>Thứ 6</td><td>Tiếng Anh</td><td>Tự học</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </article>
+
+  </main>
+
+  <footer class="trang__footer">
+    <p>&copy; 2026 Trương Nguyễn Ngọc Phú – Nhóm 11, Khoa Toán Tin, ĐH Sư phạm Đà Nẵng.</p>
+    <p><a href="../../thanh-vien.php">← Về danh sách thành viên</a></p>
+  </footer>
+
+  <script src="js/canhan.js"></script>
+
+</body>
+</html>
