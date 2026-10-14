@@ -97,7 +97,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' && isset($_POST['chieucao'], $
         <ul class="menu__danh-sach">
             <li class="menu__muc"><a class="menu__lien-ket" href="../../index.php">Trang chủ</a></li>
             <li class="menu__muc"><a class="menu__lien-ket" href="../../danh-sach.php">Danh sách sân</a></li>
-            <li class="menu__muc"><a class="menu__lien-ket" href="../../chi-tiet.php?id=1">Chi tiết sân</a></li>
+            <li class="menu__muc"><a class="menu__lien-ket" href="../../chi-tiet.php?id=A1">Chi tiết sân</a></li>
             <li class="menu__muc"><a class="menu__lien-ket active" href="../../thanh-vien.php">Giới thiệu nhóm</a></li>
             <li class="menu__muc"><a class="menu__lien-ket" href="../../lien-he.php">Liên hệ / Đặt sân</a></li>
         </ul>
