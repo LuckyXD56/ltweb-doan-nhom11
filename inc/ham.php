@@ -5,9 +5,11 @@
 
 declare(strict_types=1);
 
-function e(?string $chuoi): string
-{
-    return htmlspecialchars((string) $chuoi, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+if (!function_exists('e')) {
+    function e(?string $chuoi): string
+    {
+        return htmlspecialchars((string) $chuoi, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    }
 }
 
 function vnd(int|float $so): string

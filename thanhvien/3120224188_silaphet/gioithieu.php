@@ -1,4 +1,4 @@
-﻿
+
     <?php
     /*
     * Trang cá nhân Silaphet Thit, Nhóm 11.
@@ -23,13 +23,15 @@
     /**
      * Escape dữ liệu trước khi in vào HTML.
      */
-    function e($value)
-    {
-        return htmlspecialchars(
-            (string) $value,
-            ENT_QUOTES | ENT_SUBSTITUTE,
-            'UTF-8'
-        );
+    if (!function_exists('e')) {
+        function e($value)
+        {
+            return htmlspecialchars(
+                (string) $value,
+                ENT_QUOTES | ENT_SUBSTITUTE,
+                'UTF-8'
+            );
+        }
     }
 
     /**

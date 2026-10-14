@@ -2,6 +2,9 @@
 /**
  * inc/header.php — Phần đầu trang dùng chung
  */
+require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/ham.php';
+
 $goc ??= '';
 $tieuDeTrang ??= $tieuDe ?? 'Sân Bóng Thắng Lợi';
 $trangHienTai = basename($_SERVER['PHP_SELF'] ?? '');
