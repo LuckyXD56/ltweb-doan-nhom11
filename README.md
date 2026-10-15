@@ -14,11 +14,11 @@ Website giới thiệu và đặt sân bóng đá Thắng Lợi được xây d�
 
 | STT | Họ và tên | Mã sinh viên | Tài khoản GitHub | Vai trò | Chức năng phụ trách (Phần A) |
 |---|---|---|---|---|---|
-| 1 | **Phimmasone Khamphouvanh** | **3120224192** | `tmilk282` | **Trưởng nhóm** | Chức năng 5 (Giỏ hàng) & Bảng 3 (Kiểm thử) |
+| 1 | **Phimmasone Khamphouvanh** | **3120224192** | `LuckXD56` | **Trưởng nhóm** | Chức năng 5 (Giỏ hàng) & Bảng 3 (Kiểm thử) |
 | 2 | Nguyễn Quý Minh Hoàng | 3120224060 | `nguyenquyminhhoang` | Thành viên | Chức năng 6 (Đăng nhập, Quản trị, Đăng xuất) |
 | 3 | Lê Nguyễn Gia Nhân | 3120224105 | `Gianhanle999` | Thành viên | Chức năng 3 (Chi tiết theo id, Cookie đã xem gần đây) |
 | 4 | Silaphet Thit | 3120224188 | `Silaphet` | Thành viên | Chức năng 4 (Biểu mẫu liên hệ, Upload ảnh, JSONL) |
-| 5 | Trương Nguyễn Ngọc Phú | 3120224111 | `LuckyXD56` | Thành viên | Chức năng 1 (Khung trang dùng chung) & Chức năng 2 (Lọc danh sách) |
+| 5 | Trương Nguyễn Ngọc Phú | 3120224111 | `phutruong317-cloud` | Thành viên | Chức năng 1 (Khung trang dùng chung) & Chức năng 2 (Lọc danh sách) |
 
 ---
 
