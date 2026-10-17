@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * chi-tiet.php — Chi tiết sân, đọc ?id= trên URL
  *
@@ -13,18 +13,11 @@ require __DIR__ . '/inc/ham.php';
 // ---------- 1. Đọc ?id= ----------
 $idSan = getChuoi('id');
 
-if ($idSan === '') {
-    // Không có id → 404
-    header('Location: 404.php');
-    exit;
-}
-
-// ---------- 2. Tìm sân ----------
-$san = $kho->timTheoId($idSan);
+$san = ($idSan !== '') ? $kho->timTheoId($idSan) : null;
 
 if ($san === null) {
-    // Không tìm thấy → 404
-    header('Location: 404.php');
+    http_response_code(404);
+    require __DIR__ . '/404.php';
     exit;
 }
 

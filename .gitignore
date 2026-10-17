@@ -1,15 +1,15 @@
-﻿BaoCao_Baitap3_Nhom11.md
-
-
 # Composer
-vendor/
-composer.phar
+/vendor/
+/composer.phar
 
-# Thư mục upload & storage
-uploads/*
-!uploads/.gitkeep
-storage/*
-!storage/.gitkeep
+# Thư mục logs, uploads & storage
+/logs/*
+!/logs/.htaccess
+/storage/*
+!/storage/.htaccess
+!/storage/.gitkeep
+/uploads/*
+!/uploads/.gitkeep
 
 # File tạm
 .DS_Store

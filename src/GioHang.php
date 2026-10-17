@@ -14,7 +14,7 @@ class GioHang
 {
     private const KHOA_SESSION = 'gio';
     private const MIN = 1;
-    private const MAX = 5;
+    private const MAX = 10;
 
     private KhoSanPham $kho;
 
@@ -42,23 +42,32 @@ class GioHang
             return false;
         }
 
-        $soLuong = max(self::MIN, min(self::MAX, $soLuong));
+        if ($soLuong < self::MIN || $soLuong > self::MAX) {
+            return false;
+        }
+
         $hienTai = $_SESSION[self::KHOA_SESSION][$idSan] ?? 0;
-        $moi = max(self::MIN, min(self::MAX, $hienTai + $soLuong));
+        $moi = $hienTai + $soLuong;
+        if ($moi > self::MAX) {
+            return false;
+        }
 
         $_SESSION[self::KHOA_SESSION][$idSan] = $moi;
         return true;
     }
 
-    public function doiSoLuong(string $idSan, int $soLuong): void
+    public function doiSoLuong(string $idSan, int $soLuong): bool
     {
-        if ($soLuong <= 0) {
-            $this->xoaMot($idSan);
-            return;
+        if ($this->kho->timTheoId($idSan) === null) {
+            return false;
         }
 
-        $soLuong = max(self::MIN, min(self::MAX, $soLuong));
+        if ($soLuong < self::MIN || $soLuong > self::MAX) {
+            return false;
+        }
+
         $_SESSION[self::KHOA_SESSION][$idSan] = $soLuong;
+        return true;
     }
 
     public function xoaMot(string $idSan): void

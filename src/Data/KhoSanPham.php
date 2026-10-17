@@ -41,20 +41,17 @@ class KhoSanPham
         }
 
         if (!is_file($this->duongDanFile)) {
-            $this->cache = [];
-            return $this->cache;
+            throw new \RuntimeException("Không có tệp dữ liệu {$this->duongDanFile}");
         }
 
         $noiDung = file_get_contents($this->duongDanFile);
         if ($noiDung === false || $noiDung === '') {
-            $this->cache = [];
-            return $this->cache;
+            throw new \RuntimeException("Tệp dữ liệu trống hoặc không đọc được: {$this->duongDanFile}");
         }
 
         $duLieu = json_decode($noiDung, true);
         if (!is_array($duLieu)) {
-            $this->cache = [];
-            return $this->cache;
+            throw new \RuntimeException("Dữ liệu JSON không hợp lệ trong tệp: {$this->duongDanFile}");
         }
 
         $this->cache = array_map(

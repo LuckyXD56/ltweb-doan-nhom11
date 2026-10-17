@@ -17,12 +17,10 @@ declare(strict_types=1);
  */
 function danhSachTaiKhoan(): array
 {
-    // Hash của "Admin@123" — sinh bằng password_hash('Admin@123', PASSWORD_DEFAULT)
-    // Đây là hash mẫu, bạn có thể sinh lại bằng password_hash() nếu muốn.
-    $hashAdmin = password_hash('Admin@123', PASSWORD_DEFAULT);
-
+    // Mật khẩu được lưu sẵn dạng băm (password_hash) cho tài khoản "admin" (Admin@123)
+    // Tuyệt đối không gọi password_hash() trong thời gian chạy request
     return [
-        'admin' => $hashAdmin,
+        'admin' => '$2y$12$QQ9TUPLVOCSFir0ZT1SXMOllEs7Q4rm7NQlt6yP5IdVAFZYJ0A.9G',
     ];
 }
 

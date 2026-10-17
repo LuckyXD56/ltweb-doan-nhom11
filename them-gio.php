@@ -31,17 +31,29 @@ if (str_starts_with($quayLai, 'chi-tiet.php')) {
 
 switch ($action) {
     case 'them':
-        if ($idSan === '' || !$gio->them($idSan, max(1, (int) postChuoi('so_luong', '1')))) {
-            datFlash('loi', 'Không thể thêm sân vào giỏ.');
+        $rawSl = postChuoi('so_luong', '1');
+        if ($idSan === '' || $kho->timTheoId($idSan) === null) {
+            datFlash('loi', 'Sân không tồn tại trong hệ thống.');
+        } elseif (!ctype_digit($rawSl) || (int) $rawSl < 1 || (int) $rawSl > 10) {
+            datFlash('loi', 'Số lượng không hợp lệ. Vui lòng nhập số nguyên từ 1 đến 10.');
+        } elseif (!$gio->them($idSan, (int) $rawSl)) {
+            datFlash('loi', 'Không thể thêm sân vào giỏ (vượt quá giới hạn tối đa 10 giờ).');
         } else {
-            datFlash('thanh-cong', 'Đã thêm sân vào giỏ hàng.');
+            datFlash('thanh-cong', 'Đã thêm sân vào giỏ hàng thành công.');
         }
         break;
 
     case 'doi':
-        $soLuong = (int) postChuoi('so_luong', '1');
-        $gio->doiSoLuong($idSan, $soLuong);
-        datFlash('thanh-cong', 'Đã cập nhật số lượng.');
+        $rawSl = postChuoi('so_luong', '1');
+        if ($idSan === '' || $kho->timTheoId($idSan) === null) {
+            datFlash('loi', 'Sân không tồn tại trong hệ thống.');
+        } elseif (!ctype_digit($rawSl) || (int) $rawSl < 1 || (int) $rawSl > 10) {
+            datFlash('loi', 'Số lượng cập nhật không hợp lệ (phải là số nguyên từ 1 đến 10).');
+        } elseif (!$gio->doiSoLuong($idSan, (int) $rawSl)) {
+            datFlash('loi', 'Không thể cập nhật số lượng sân.');
+        } else {
+            datFlash('thanh-cong', 'Đã cập nhật số lượng thành công.');
+        }
         break;
 
     case 'xoa-mot':
