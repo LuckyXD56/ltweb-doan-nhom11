@@ -2,8 +2,14 @@
 /**
  * inc/header.php — Phần đầu trang dùng chung
  */
+<<<<<<< HEAD
 require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/ham.php';
+=======
+if (!isset($tieuDeTrang)) $tieuDeTrang = 'Sân Bóng Thắng Lợi';
+if (!isset($baseUrl)) $baseUrl = '';
+if (!isset($customCss)) $customCss = '';
+>>>>>>> c53b452 (Fix sua trang ca nhan Phu)
 
 $goc ??= '';
 $tieuDeTrang ??= $tieuDe ?? 'Sân Bóng Thắng Lợi';
@@ -18,6 +24,7 @@ if ($trangHienTai === 'gioithieu.php') {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?= e($tieuDeTrang) ?> | Sân Bóng Thắng Lợi</title>
+<<<<<<< HEAD
   <link rel="stylesheet"
         href="<?= e($goc ?? '') ?>css/style.css">
 
@@ -31,6 +38,15 @@ if ($trangHienTai === 'gioithieu.php') {
 <body>
   <header class="dau-trang">
     <p class="ten-he-thong"><a href="<?= e($goc) ?>index.php">Sân Bóng Thắng Lợi</a></p>
+=======
+  <link rel="stylesheet" href="<?= $baseUrl ?>css/chung.css">
+  <link rel="stylesheet" href="<?= $baseUrl ?>css/thanh-phan.css">
+  <?= $customCss ?> <!-- Nạp CSS riêng (style.css của bạn) -->
+</head>
+<body>
+  <header class="dau-trang">
+    <p class="ten-he-thong"><a href="<?= $baseUrl ?>index.php">Sân Bóng Thắng Lợi</a></p>
+>>>>>>> c53b452 (Fix sua trang ca nhan Phu)
     <button type="button" class="nut-mo-menu" aria-expanded="false" aria-controls="danh-sach-dieu-huong-chinh">
       <span class="nut-mo-menu__nhan">Mở menu</span>
     </button>
@@ -56,11 +72,16 @@ if ($trangHienTai === 'gioithieu.php') {
             $active = ($trangHienTai === $file) ? ' aria-current="page"' : '';
         ?>
           <li class="dieu-huong__muc">
+<<<<<<< HEAD
             <a class="dieu-huong__lien-ket" href="<?= e($goc . $file) ?>"<?= $active ?>><?= e($nhan) ?></a>
+=======
+            <a class="dieu-huong__lien-ket" href="<?= $baseUrl . $file ?>"<?= $active ?>><?= e($nhan) ?></a>
+>>>>>>> c53b452 (Fix sua trang ca nhan Phu)
           </li>
         <?php endforeach; ?>
       </ul>
     </nav>
+<<<<<<< HEAD
       <p class="trang-thai-tai-khoan"
      style="text-align:center; padding: 0.5rem; font-size: 0.9rem;">
     <?php if (!empty($_SESSION['da_dang_nhap'])): ?>
@@ -71,6 +92,8 @@ if ($trangHienTai === 'gioithieu.php') {
       <a href="<?= e($goc) ?>dang-nhap.php">Đăng nhập quản trị</a>
     <?php endif; ?>
     </p>
+=======
+>>>>>>> c53b452 (Fix sua trang ca nhan Phu)
   </header>
 
   <?php $flashHeader = layFlash(); if ($flashHeader): ?>
