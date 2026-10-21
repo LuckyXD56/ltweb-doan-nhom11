@@ -1,8 +1,10 @@
 <?php
-/**
- * tai-khoan.php — Đăng nhập / Đăng ký
- */
+require __DIR__ . '/inc/config.php';
+require __DIR__ . '/inc/ham.php';
+
+$baseUrl = '';
 $tieuDeTrang = 'Đăng nhập / Đăng ký';
+
 require __DIR__ . '/inc/header.php';
 ?>
 

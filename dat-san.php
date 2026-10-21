@@ -1,8 +1,10 @@
 <?php
-/**
- * dat-san.php — Form đặt sân
- */
+require __DIR__ . '/inc/config.php';
+require __DIR__ . '/inc/ham.php';
+
+$baseUrl = '';
 $tieuDeTrang = 'Đặt sân';
+
 require __DIR__ . '/inc/header.php';
 ?>
 

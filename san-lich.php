@@ -1,8 +1,10 @@
 <?php
-/**
- * san-lich.php — Danh sách sân & lịch trống
- */
+require __DIR__ . '/inc/config.php';
+require __DIR__ . '/inc/ham.php';
+
+$baseUrl = '';
 $tieuDeTrang = 'Sân & lịch trống';
+
 require __DIR__ . '/inc/header.php';
 ?>
 
@@ -51,21 +53,7 @@ require __DIR__ . '/inc/header.php';
       </tbody>
     </table>
   </div>
-  <noscript>
-    <p>Bảng trên đang hiển thị dữ liệu mẫu tĩnh vì JavaScript đang tắt.</p>
-  </noscript>
-
-  <h2>Ghi chú về bảng giá</h2>
-  <ul>
-    <li>Giá khung giờ vàng (18:00 – 21:00) cao hơn khung giờ ban ngày</li>
-    <li>Khách đặt từ 3 giờ trở lên được giảm 10% tổng hoá đơn</li>
-  </ul>
 </main>
-
-<dialog id="hop-thoai-chi-tiet-san" class="hop-thoai" aria-labelledby="hop-thoai-tieu-de">
-  <div class="hop-thoai__noi-dung"></div>
-  <button type="button" class="hop-thoai__nut-dong nut nut--phu">Đóng</button>
-</dialog>
 
 <?php
 $scriptRieng = '<script type="module" src="js/trang-san-lich.js"></script>';
