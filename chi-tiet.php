@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * chi-tiet.php — Chi tiết sân, đọc ?id= trên URL
  *

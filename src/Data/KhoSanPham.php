@@ -31,6 +31,7 @@ class KhoSanPham
 
     /**
      * Đọc file JSON và trả về mảng SanPham.
+     * Có bẫy lỗi 500 nếu file không tồn tại hoặc hỏng.
      *
      * @return SanPham[]
      */
@@ -40,18 +41,23 @@ class KhoSanPham
             return $this->cache;
         }
 
+        // Bẫy 1: File không tồn tại
         if (!is_file($this->duongDanFile)) {
-            throw new \RuntimeException("Không có tệp dữ liệu {$this->duongDanFile}");
+            $this->ghiLogVaBaoLoi500("Mất file dữ liệu: " . $this->duongDanFile);
         }
 
         $noiDung = file_get_contents($this->duongDanFile);
+        
+        // Bẫy 2: File rỗng hoặc không có quyền đọc
         if ($noiDung === false || $noiDung === '') {
-            throw new \RuntimeException("Tệp dữ liệu trống hoặc không đọc được: {$this->duongDanFile}");
+            $this->ghiLogVaBaoLoi500("Tệp dữ liệu trống hoặc không đọc được: " . $this->duongDanFile);
         }
 
         $duLieu = json_decode($noiDung, true);
+        
+        // Bẫy 3: Dữ liệu JSON bị lỗi định dạng
         if (!is_array($duLieu)) {
-            throw new \RuntimeException("Dữ liệu JSON không hợp lệ trong tệp: {$this->duongDanFile}");
+            $this->ghiLogVaBaoLoi500("Dữ liệu JSON không hợp lệ trong tệp: " . $this->duongDanFile);
         }
 
         $this->cache = array_map(
@@ -60,6 +66,32 @@ class KhoSanPham
         );
 
         return $this->cache;
+    }
+
+    /**
+     * Hàm hỗ trợ: Ghi log lỗi vào file và hiển thị trang 500 thân thiện.
+     */
+    private function ghiLogVaBaoLoi500(string $thongDiep): void
+    {
+        // 1. Ghi log
+        $logDir = defined('DUONG_DAN_LOG') ? DUONG_DAN_LOG : dirname(__DIR__, 2) . '/logs';
+        if (is_dir($logDir)) {
+            $logMsg = date('c') . " | LỖI KHO SẢN PHẨM: " . $thongDiep . "\n";
+            file_put_contents($logDir . '/error.log', $logMsg, FILE_APPEND | LOCK_EX);
+        }
+
+        // 2. Trả về mã 500 và hiển thị giao diện lỗi
+        http_response_code(500);
+        
+        $path500 = defined('DUONG_DAN_GOC') ? DUONG_DAN_GOC . '/500.php' : dirname(__DIR__, 2) . '/500.php';
+        if (file_exists($path500)) {
+            require $path500;
+        } else {
+            // Fallback nếu không tìm thấy file 500.php
+            echo "<h1>500 - Lỗi hệ thống</h1><p>Đã xảy ra lỗi máy chủ. Vui lòng thử lại sau.</p>";
+        }
+        
+        exit; // Dừng toàn bộ chương trình ngay lập tức
     }
 
     /**
