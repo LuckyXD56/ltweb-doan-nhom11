@@ -3,6 +3,7 @@ require __DIR__ . '/inc/config.php';
 require __DIR__ . '/inc/ham.php';
 
 use App\Data\KhoDatSan;
+use App\Data\KhoSanPham;
 
 // 1. Kiểm tra đăng nhập
 if (empty($_SESSION['da_dang_nhap'])) {
@@ -16,40 +17,38 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 // 3. Lấy dữ liệu
-$maSan       = postChuoi('ma_san');
+$sanBongId   = (int) postChuoi('ma_san'); // Ép kiểu về số nguyên
 $ngayDat     = postChuoi('ngay_dat');
 $gioBatDau   = postChuoi('gio_bat_dau');
 $gioKetThuc  = postChuoi('gio_ket_thuc');
-$nguoiDungId = (int) ($_SESSION['nguoi_dung_id'] ?? 1); // Tạm dùng 1 nếu chưa lưu ID vào session
+$nguoiDungId = (int) ($_SESSION['nguoi_dung_id'] ?? 1); 
 
-// 4. Tính tiền (tạm tính đơn giản theo giờ)
-// (Sau này bạn có thể làm logic tính tiền phức tạp hơn)
-$kho = new \App\Data\KhoSanPham();
-$san = $kho->timTheoId($maSan);
+// 4. Tính tiền
+$kho = new KhoSanPham();
+$san = $kho->timTheoId((string) $sanBongId);
 if (!$san) {
     datFlash('loi', 'Mã sân không hợp lệ.');
     chuyenHuong('danh-sach.php');
 }
 
-// Tính số giờ (đơn giản hóa)
 $start = strtotime($gioBatDau);
 $end = strtotime($gioKetThuc);
 $soGio = ($end - $start) / 3600;
 if ($soGio <= 0) {
     datFlash('loi', 'Giờ kết thúc phải sau giờ bắt đầu.');
-    chuyenHuong('chi-tiet.php?id=' . urlencode($maSan));
+    chuyenHuong('chi-tiet.php?id=' . $sanBongId);
 }
 
 $tongTien = $san->getGiaThuong() * $soGio;
 
-// 5. Gọi KhoDatSan xử lý
+// 5. Gọi KhoDatSan xử lý (Transaction)
 $khoDatSan = new KhoDatSan();
-$ketQua = $khoDatSan->datSan($nguoiDungId, $maSan, $ngayDat, $gioBatDau, $gioKetThuc, $tongTien);
+$ketQua = $khoDatSan->datSan($nguoiDungId, $sanBongId, $ngayDat, $gioBatDau, $gioKetThuc, $tongTien);
 
 if ($ketQua === true) {
     datFlash('thanh-cong', 'Đặt sân thành công! Vui lòng chờ xác nhận.');
-    chuyenHuong('lich-su.php'); // Về trang lịch sử
+    chuyenHuong('lich-su.php');
 } else {
     datFlash('loi', 'Lỗi đặt sân: ' . $ketQua);
-    chuyenHuong('chi-tiet.php?id=' . urlencode($maSan));
+    chuyenHuong('chi-tiet.php?id=' . $sanBongId);
 }

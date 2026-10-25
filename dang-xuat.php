@@ -16,8 +16,8 @@ if (ini_get('session.use_cookies')) {
 }
 session_destroy();
 
-// Khởi động session mới để hiện flash
+// Khởi động session mới để hiện thông báo
 session_start();
-datFlash('thanh-cong', 'Đã đăng xuất.');
+datFlash('thanh-cong', 'Đã đăng xuất thành công.');
 
 chuyenHuong('index.php');

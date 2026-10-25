@@ -8,7 +8,7 @@ require __DIR__ . '/inc/ham.php';
 
 $baseUrl = '';
 
-// ---------- 1. Đọc ?id= ----------
+// ---------- 1. Đọc ?id= trên URL ----------
 $idSan = getChuoi('id');
 
 if ($idSan === '') {
@@ -59,7 +59,7 @@ require __DIR__ . '/inc/header.php';
           <tr><th scope="col">Hạng mục</th><th scope="col">Chi tiết</th></tr>
         </thead>
         <tbody>
-          <tr><td>Mã sân</td><td><?= e($san->getId()) ?></td></tr>
+          <tr><td>Mã sân (ID)</td><td><?= e($san->getId()) ?></td></tr>
           <tr><td>Loại sân</td><td><?= $san->getLoaiSan() ?> người</td></tr>
           <tr><td>Khu vực</td><td><?= e($san->getKhuVuc()) ?></td></tr>
           <tr><td>Giá giờ thường</td><td><?= vnd($san->getGiaThuong()) ?>/giờ</td></tr>
@@ -74,6 +74,8 @@ require __DIR__ . '/inc/header.php';
     <?php if (!empty($_SESSION['da_dang_nhap'])): ?>
       <form method="post" action="xu-ly-dat-san.php" style="margin-top: 1.5rem; background: #f8faf9; padding: 1.5rem; border-radius: 8px; border: 1px solid #e5e7eb;">
         <h3 style="margin-top: 0; color: #0b6e3c;">Đặt sân này</h3>
+        
+        <!-- Truyền ID số của sân (VD: 1, 2, 3...) -->
         <input type="hidden" name="ma_san" value="<?= e($san->getId()) ?>">
         
         <div style="margin-bottom: 1rem;">

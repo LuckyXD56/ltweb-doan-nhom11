@@ -1,6 +1,6 @@
 <?php
 /**
- * dang-nhap.php — Form đăng nhập quản trị (Sử dụng Database MySQL)
+ * dang-nhap.php — Form đăng nhập quản trị (Sử dụng Email)
  */
 
 require __DIR__ . '/inc/config.php';
@@ -8,40 +8,37 @@ require __DIR__ . '/inc/ham.php';
 require __DIR__ . '/inc/tai-khoan.php';
 
 $loi = '';
-$username = '';
+$email = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = postChuoi('username');
+    $email = postChuoi('email');
     $password = postChuoi('password');
 
-    if ($username === '' || $password === '') {
-        $loi = 'Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu.';
+    if ($email === '' || $password === '') {
+        $loi = 'Vui lòng nhập đầy đủ email và mật khẩu.';
     } else {
-        // Gọi hàm kiểm tra từ file inc/tai-khoan.php (đã kết nối DB)
-        $user = kiemTraDangNhap($username, $password);
+        $user = kiemTraDangNhap($email, $password);
         
         if ($user !== null) {
             // Đăng nhập thành công
-            session_regenerate_id(true); // Bảo mật session
+            session_regenerate_id(true);
             $_SESSION['da_dang_nhap'] = true;
-            $_SESSION['username']    = $user['username'];
-            $_SESSION['vai_tro']     = $user['vai_tro']; // 'admin' hoặc 'khach'
-            $_SESSION['thoi_gian_dang_nhap'] = time();
+            $_SESSION['nguoi_dung_id'] = $user['id']; // Lưu ID để đặt sân
+            $_SESSION['email']       = $user['email'];
+            $_SESSION['ho_ten']      = $user['ho_ten'];
+            $_SESSION['vai_tro']     = $user['vai_tro'];
 
-            datFlash('thanh-cong', 'Đăng nhập thành công. Xin chào ' . e($user['username']) . '!');
+            datFlash('thanh-cong', 'Đăng nhập thành công. Xin chào ' . e($user['ho_ten']) . '!');
 
-            // Chuyển hướng quay lại trang trước đó hoặc vào quản trị
             $quayLai = $_SESSION['quay_lai_sau_dang_nhap'] ?? 'quan-tri.php';
             unset($_SESSION['quay_lai_sau_dang_nhap']);
             chuyenHuong($quayLai);
         } else {
-            // Đăng nhập sai → ghi log
-            $loi = 'Sai tên đăng nhập hoặc mật khẩu.';
+            $loi = 'Sai email hoặc mật khẩu.';
             $banGhi = [
                 'thoi_gian' => date('c'),
-                'username'  => $username,
+                'email'     => $email,
                 'ip'        => $_SERVER['REMOTE_ADDR'] ?? '',
-                'user_agent'=> $_SERVER['HTTP_USER_AGENT'] ?? '',
             ];
             file_put_contents(
                 DUONG_DAN_STORAGE . '/dang-nhap-sai.jsonl',
@@ -52,16 +49,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Khai báo biến cho Header
 $baseUrl = '';
-$tieuDeTrang = 'Đăng nhập quản trị';
-
+$tieuDeTrang = 'Đăng nhập';
 require __DIR__ . '/inc/header.php';
 ?>
 
 <main class="khu-vuc-chinh">
-  <h1>Đăng nhập quản trị</h1>
-  <p>Đăng nhập để truy cập trang quản trị hệ thống.</p>
+  <h1>Đăng nhập hệ thống</h1>
+  <p>Đăng nhập để truy cập trang quản trị hoặc đặt sân.</p>
 
   <?php if ($loi !== ''): ?>
     <div class="vung-thong-bao vung-thong-bao--loi" role="alert"
@@ -71,9 +66,9 @@ require __DIR__ . '/inc/header.php';
   <?php endif; ?>
 
   <form class="bieu-mau" method="post" action="dang-nhap.php">
-    <label class="truong__nhan" for="username">Tên đăng nhập (*)</label>
-    <input class="truong__nhap" type="text" id="username" name="username"
-           value="<?= e($username) ?>" required autofocus>
+    <label class="truong__nhan" for="email">Email (*)</label>
+    <input class="truong__nhap" type="email" id="email" name="email"
+           value="<?= e($email) ?>" required autofocus>
 
     <label class="truong__nhan" for="password">Mật khẩu (*)</label>
     <input class="truong__nhap" type="password" id="password" name="password" required>
@@ -84,8 +79,8 @@ require __DIR__ . '/inc/header.php';
   <div style="margin-top: 2rem; padding: 1rem; background: #f0fdf4; border-left: 4px solid #0b6e3c; border-radius: 4px;">
     <p><strong>💡 Tài khoản thử:</strong></p>
     <ul style="margin: 0.5rem 0;">
-      <li>Tên đăng nhập: <code>admin</code></li>
-      <li>Mật khẩu: <code>Admin@123</code></li>
+      <li>Quản trị: <code>admin@sanbong.vn</code> / <code>Admin@123</code></li>
+      <li>Khách hàng: <code>khach1@gmail.com</code> / <code>Admin@123</code></li>
     </ul>
   </div>
 </main>

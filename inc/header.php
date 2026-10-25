@@ -41,7 +41,6 @@ if ($trangHienTai === 'gioithieu.php') {
             'danh-sach.php'  => 'Danh sách sân',
             'dat-san.php'    => 'Đặt sân',
             'gio-hang.php'   => 'Giỏ hàng',
-            'tai-khoan.php'  => 'Đăng nhập / Đăng ký',
             'lich-su.php'    => 'Lịch sử đặt sân',
             'quan-tri.php'   => 'Quản trị',
             'thanh-vien.php' => 'Thành viên',
@@ -56,6 +55,23 @@ if ($trangHienTai === 'gioithieu.php') {
         <?php endforeach; ?>
       </ul>
     </nav>
+
+    <!-- KHỐI HIỂN THỊ ĐĂNG NHẬP / ĐĂNG XUẤT -->
+    <div class="trang-thai-tai-khoan" style="text-align: center; padding: 0.5rem; font-size: 0.9rem; background: #f0fdf4; border-bottom: 1px solid #bbf7d0; margin-bottom: 1rem; color: #064e3b;">
+      <?php if (!empty($_SESSION['da_dang_nhap'])): ?>
+        <!-- Nếu đã đăng nhập: Hiện tên và nút Đăng xuất -->
+        Xin chào, <strong><?= e($_SESSION['ho_ten'] ?? 'Người dùng') ?></strong>!
+        <?php if (($_SESSION['vai_tro'] ?? '') === 'quan_tri'): ?>
+          · <a href="<?= $baseUrl ?>quan-tri.php" style="font-weight: bold; color: #0b6e3c;">Trang quản trị</a>
+        <?php endif; ?>
+        · <a href="<?= $baseUrl ?>dang-xuat.php" style="font-weight: bold; color: #b91c1c;">Đăng xuất</a>
+      <?php else: ?>
+        <!-- Nếu chưa đăng nhập: Hiện link Đăng nhập / Đăng ký -->
+        <a href="<?= $baseUrl ?>dang-nhap.php" style="font-weight: bold; color: #0b6e3c;">Đăng nhập</a> 
+        | 
+        <a href="<?= $baseUrl ?>tai-khoan.php" style="font-weight: bold; color: #0b6e3c;">Đăng ký</a>
+      <?php endif; ?>
+    </div>
   </header>
 
   <?php $flashHeader = layFlash(); if ($flashHeader): ?>

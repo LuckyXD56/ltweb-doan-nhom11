@@ -1,44 +1,78 @@
--- Xóa CSDL nếu đã tồn tại và tạo lại từ đầu
+-- Xóa CSDL nếu tồn tại và tạo mới
 DROP DATABASE IF EXISTS ltweb_nhom11;
 CREATE DATABASE ltweb_nhom11 CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE ltweb_nhom11;
 
--- 1. Bảng Người dùng (Quản trị & Khách)
+-- Bật chế độ kiểm tra khóa ngoại
+SET FOREIGN_KEY_CHECKS = 1;
+
+-- 1. Bảng DANH MỤC (Loại sân)
+CREATE TABLE danh_muc (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    ten_danh_muc VARCHAR(100) NOT NULL UNIQUE,
+    mo_ta VARCHAR(255) NULL
+) ENGINE=InnoDB;
+
+-- 2. Bảng NGƯỜI DÙNG
 CREATE TABLE nguoi_dung (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL COMMENT 'Lưu mật khẩu dạng hash',
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    vai_tro ENUM('quan_tri', 'khach_hang') NOT NULL DEFAULT 'khach_hang',
     ho_ten VARCHAR(100) NOT NULL,
-    email VARCHAR(100),
-    vai_tro ENUM('admin', 'khach') DEFAULT 'khach',
-    ngay_tao DATETIME DEFAULT CURRENT_TIMESTAMP
+    email VARCHAR(100) NOT NULL UNIQUE,
+    mat_khau VARCHAR(255) NOT NULL,
+    ngay_tao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
 
--- 2. Bảng Sân bóng (Thay cho san.json)
+-- 3. Bảng THỰC THỂ CHÍNH (Sân bóng)
 CREATE TABLE san_bong (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    ma_san VARCHAR(10) NOT NULL UNIQUE,
-    ten_san VARCHAR(100) NOT NULL,
-    loai_san INT NOT NULL COMMENT '5, 7, hoặc 11',
-    khu_vuc VARCHAR(100),
-    gia_thuong INT NOT NULL,
-    gia_vang INT NOT NULL,
-    danh_gia DECIMAL(2,1) DEFAULT 0.0,
-    hinh_anh VARCHAR(255),
-    dang_hoat_dong TINYINT(1) DEFAULT 1
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    danh_muc_id INT UNSIGNED NOT NULL,
+    ten_san VARCHAR(100) NOT NULL UNIQUE,
+    -- Tiền dùng INT UNSIGNED hoặc DECIMAL, không dùng FLOAT
+    gia_thue DECIMAL(12, 0) NOT NULL CHECK (gia_thue >= 0),
+    -- Bản đồ trạng thái (Case 4 BT5)
+    trang_thai ENUM('hoat_dong', 'bao_tri', 'het_cho') NOT NULL DEFAULT 'hoat_dong',
+    hinh_anh VARCHAR(255) NULL,
+    CONSTRAINT fk_san_bong_danh_muc FOREIGN KEY (danh_muc_id) 
+        REFERENCES danh_muc(id) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE=InnoDB;
 
--- 3. Bảng Phiếu đặt sân (Giao dịch)
+-- 4. Bảng ĐƠN HÀNG (Đặt sân)
 CREATE TABLE dat_san (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nguoi_dung_id INT NOT NULL,
-    san_bong_id INT NOT NULL,
-    ngay_dat DATE NOT NULL,
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    nguoi_dung_id INT UNSIGNED NOT NULL,
+    ngay_dat DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    tong_tien DECIMAL(12, 0) NOT NULL CHECK (tong_tien >= 0),
+    trang_thai ENUM('cho_xac_nhan', 'da_coc', 'hoan_tat', 'da_huy') NOT NULL DEFAULT 'cho_xac_nhan',
+    -- ON DELETE CASCADE: Xóa người dùng thì xóa luôn đơn của họ
+    CONSTRAINT fk_dat_san_nguoi_dung FOREIGN KEY (nguoi_dung_id) 
+        REFERENCES nguoi_dung(id) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB;
+
+-- 5. Bảng TRUNG GIAN (Chi tiết đơn hàng) - Quan hệ n-n
+CREATE TABLE chi_tiet_dat_san (
+    dat_san_id INT UNSIGNED NOT NULL,
+    san_bong_id INT UNSIGNED NOT NULL,
+    ngay_thue DATE NOT NULL,
     gio_bat_dau TIME NOT NULL,
     gio_ket_thuc TIME NOT NULL,
-    tong_tien INT NOT NULL,
-    trang_thai ENUM('cho_xac_nhan', 'da_coc', 'hoan_tat', 'huy') DEFAULT 'cho_xac_nhan',
-    thoi_gian_tao DATETIME DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_dat_san_nguoi_dung FOREIGN KEY (nguoi_dung_id) REFERENCES nguoi_dung(id) ON DELETE CASCADE,
-    CONSTRAINT fk_dat_san_san_bong FOREIGN KEY (san_bong_id) REFERENCES san_bong(id) ON DELETE CASCADE
+    -- CỐ Ý LƯU LẶP ĐƠN GIÁ: Để chốt giá tại thời điểm đặt, tránh việc giá sân thay đổi làm sai lệch hóa đơn cũ
+    don_gia DECIMAL(12, 0) NOT NULL CHECK (don_gia >= 0),
+    thanh_tien DECIMAL(12, 0) NOT NULL CHECK (thanh_tien >= 0),
+    -- KHÓA CHÍNH GHÉP (Composite Primary Key)
+    PRIMARY KEY (dat_san_id, san_bong_id, ngay_thue, gio_bat_dau),
+    -- ON DELETE CASCADE: Xóa đơn hoặc xóa sân thì chi tiết cũng biến mất
+    CONSTRAINT fk_ctds_dat_san FOREIGN KEY (dat_san_id) 
+        REFERENCES dat_san(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT fk_ctds_san_bong FOREIGN KEY (san_bong_id) 
+        REFERENCES san_bong(id) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB;
+
+-- 6. Bảng LIÊN HỆ
+CREATE TABLE lien_he (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    ho_ten VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    noi_dung TEXT NOT NULL,
+    ngay_gui DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
