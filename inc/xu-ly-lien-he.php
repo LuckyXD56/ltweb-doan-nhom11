@@ -1,8 +1,4 @@
 <?php
-/**
- * inc/xu-ly-lien-he.php — Xử lý form liên hệ (Lưu vào MySQL)
- */
-
 declare(strict_types=1);
 
 function xuLyLienHe(array &$du, array &$loi): bool
@@ -13,19 +9,11 @@ function xuLyLienHe(array &$du, array &$loi): bool
         'noi_dung' => postChuoi('noi_dung'),
     ];
 
-    if ($du['ho_ten'] === '') {
-        $loi['ho_ten'] = 'Vui lòng nhập họ và tên.';
-    }
-    if ($du['email'] === '') {
-        $loi['email'] = 'Vui lòng nhập email.';
-    } elseif (!filter_var($du['email'], FILTER_VALIDATE_EMAIL)) {
-        $loi['email'] = 'Email không hợp lệ.';
-    }
-    if ($du['noi_dung'] === '') {
-        $loi['noi_dung'] = 'Vui lòng nhập nội dung.';
-    }
+    if ($du['ho_ten'] === '') $loi['ho_ten'] = 'Vui lòng nhập họ và tên.';
+    if ($du['email'] === '') $loi['email'] = 'Vui lòng nhập email.';
+    elseif (!filter_var($du['email'], FILTER_VALIDATE_EMAIL)) $loi['email'] = 'Email không hợp lệ.';
+    if ($du['noi_dung'] === '') $loi['noi_dung'] = 'Vui lòng nhập nội dung.';
 
-    // Xử lý upload ảnh (giữ nguyên logic cũ nếu có)
     $tenAnh = null;
     if (isset($_FILES['anh']) && $_FILES['anh']['error'] !== UPLOAD_ERR_NO_FILE) {
         $file = $_FILES['anh'];
@@ -45,19 +33,9 @@ function xuLyLienHe(array &$du, array &$loi): bool
         }
     }
 
-    if (!empty($loi)) {
-        return false;
-    }
+    if (!empty($loi)) return false;
 
-    // LƯU VÀO DATABASE MYSQL
-    try {
-        $pdo = db();
-        $sql = "INSERT INTO lien_he (ho_ten, email, noi_dung) VALUES (?, ?, ?)";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([$du['ho_ten'], $du['email'], $du['noi_dung']]);
-        return true;
-    } catch (Exception $e) {
-        $loi['he_thong'] = 'Lỗi lưu Database: ' . $e->getMessage();
-        return false;
-    }
+    // Gọi lớp KhoLienHe để lưu vào DB thay vì dùng SQL trực tiếp
+    global $khoLienHe;
+    return $khoLienHe->them($du['ho_ten'], $du['email'], $du['noi_dung']);
 }

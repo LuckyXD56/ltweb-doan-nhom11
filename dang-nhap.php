@@ -1,11 +1,17 @@
 <?php
-/**
- * dang-nhap.php — Form đăng nhập quản trị (Sử dụng Email)
- */
-
 require __DIR__ . '/inc/config.php';
 require __DIR__ . '/inc/ham.php';
-require __DIR__ . '/inc/tai-khoan.php';
+
+// Nếu người dùng đang có session cũ, nhưng lại truy cập vào trang đăng nhập (phương thức GET)
+// -> Tự động hủy session cũ để cho phép đăng nhập tài khoản mới tinh.
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    if (!empty($_SESSION['da_dang_nhap'])) {
+        $_SESSION = [];
+        session_destroy();
+        session_start();
+        datFlash('thanh-cong', 'Bạn đã đăng xuất khỏi tài khoản cũ. Vui lòng đăng nhập lại.');
+    }
+}
 
 $loi = '';
 $email = '';
@@ -17,34 +23,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($email === '' || $password === '') {
         $loi = 'Vui lòng nhập đầy đủ email và mật khẩu.';
     } else {
-        $user = kiemTraDangNhap($email, $password);
+        $user = $khoNguoiDung->timTheoEmail($email);
         
-        if ($user !== null) {
-            // Đăng nhập thành công
-            session_regenerate_id(true);
+        if ($user && password_verify($password, $user['mat_khau'])) {
+            // Xóa sạch session cũ trước khi ghi session mới (tránh lẫn lộn quyền)
+            $_SESSION = [];
+            session_regenerate_id(true); 
+            
             $_SESSION['da_dang_nhap'] = true;
-            $_SESSION['nguoi_dung_id'] = $user['id']; // Lưu ID để đặt sân
+            $_SESSION['nguoi_dung_id'] = $user['id'];
             $_SESSION['email']       = $user['email'];
             $_SESSION['ho_ten']      = $user['ho_ten'];
             $_SESSION['vai_tro']     = $user['vai_tro'];
 
             datFlash('thanh-cong', 'Đăng nhập thành công. Xin chào ' . e($user['ho_ten']) . '!');
 
-            $quayLai = $_SESSION['quay_lai_sau_dang_nhap'] ?? 'quan-tri.php';
-            unset($_SESSION['quay_lai_sau_dang_nhap']);
-            chuyenHuong($quayLai);
+            // Điều hướng: Nếu là khách hàng thì về trang chủ/lịch sử, nếu là admin thì vào quản trị
+            if ($user['vai_tro'] === 'quan_tri') {
+                chuyenHuong('quan-tri.php');
+            } else {
+                chuyenHuong('index.php');
+            }
         } else {
             $loi = 'Sai email hoặc mật khẩu.';
-            $banGhi = [
-                'thoi_gian' => date('c'),
-                'email'     => $email,
-                'ip'        => $_SERVER['REMOTE_ADDR'] ?? '',
-            ];
-            file_put_contents(
-                DUONG_DAN_STORAGE . '/dang-nhap-sai.jsonl',
-                json_encode($banGhi, JSON_UNESCAPED_UNICODE) . "\n",
-                FILE_APPEND | LOCK_EX
-            );
         }
     }
 }
@@ -56,19 +57,17 @@ require __DIR__ . '/inc/header.php';
 
 <main class="khu-vuc-chinh">
   <h1>Đăng nhập hệ thống</h1>
-  <p>Đăng nhập để truy cập trang quản trị hoặc đặt sân.</p>
+  <p>Đăng nhập để đặt sân hoặc truy cập trang quản trị.</p>
 
   <?php if ($loi !== ''): ?>
-    <div class="vung-thong-bao vung-thong-bao--loi" role="alert"
-         style="padding: 0.75rem 1rem; background: #fee2e2; color: #991b1b; border-radius: 8px; margin-bottom: 1rem;">
+    <div class="vung-thong-bao vung-thong-bao--loi" role="alert" style="padding: 0.75rem 1rem; background: #fee2e2; color: #991b1b; border-radius: 8px; margin-bottom: 1rem;">
       <?= e($loi) ?>
     </div>
   <?php endif; ?>
 
   <form class="bieu-mau" method="post" action="dang-nhap.php">
     <label class="truong__nhan" for="email">Email (*)</label>
-    <input class="truong__nhap" type="email" id="email" name="email"
-           value="<?= e($email) ?>" required autofocus>
+    <input class="truong__nhap" type="email" id="email" name="email" value="<?= e($email) ?>" required autofocus>
 
     <label class="truong__nhan" for="password">Mật khẩu (*)</label>
     <input class="truong__nhap" type="password" id="password" name="password" required>

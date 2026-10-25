@@ -1,30 +1,21 @@
 <?php
-/**
- * quan-tri.php — Trang quản trị (Hiển thị dữ liệu từ MySQL)
- */
 require __DIR__ . '/inc/config.php';
 require __DIR__ . '/inc/ham.php';
-require __DIR__ . '/inc/bao-ve.php'; // Chặn nếu chưa đăng nhập
+
+// Kiểm tra quyền Admin trực tiếp
+if (empty($_SESSION['da_dang_nhap']) || ($_SESSION['vai_tro'] ?? '') !== 'quan_tri') {
+    datFlash('loi', 'Bạn cần đăng nhập bằng tài khoản quản trị.');
+    chuyenHuong('dang-nhap.php');
+}
 
 $baseUrl = '';
 $tieuDeTrang = 'Trang quản trị';
 
-$pdo = db();
+$dsDonHang = $pdo->query("SELECT d.id, d.ngay_dat, d.tong_tien, d.trang_thai, n.ho_ten, s.ten_san, ct.ngay_thue, ct.gio_bat_dau, ct.gio_ket_thuc FROM dat_san d JOIN nguoi_dung n ON d.nguoi_dung_id = n.id JOIN chi_tiet_dat_san ct ON d.id = ct.dat_san_id JOIN san_bong s ON ct.san_bong_id = s.id ORDER BY d.id DESC LIMIT 10")->fetchAll();
 
-// 1. Lấy danh sách Đơn đặt sân
-$sqlDon = "SELECT d.id, d.ngay_dat, d.tong_tien, d.trang_thai, n.ho_ten, s.ten_san, ct.ngay_thue, ct.gio_bat_dau, ct.gio_ket_thuc
-           FROM dat_san d
-           JOIN nguoi_dung n ON d.nguoi_dung_id = n.id
-           JOIN chi_tiet_dat_san ct ON d.id = ct.dat_san_id
-           JOIN san_bong s ON ct.san_bong_id = s.id
-           ORDER BY d.id DESC LIMIT 10";
-$dsDonHang = $pdo->query($sqlDon)->fetchAll();
+// Sử dụng KhoLienHe thay vì đọc file JSONL
+$dsLienHe = $khoLienHe->tatCa();
 
-// 2. Lấy danh sách Liên hệ
-$sqlLienHe = "SELECT * FROM lien_he ORDER BY id DESC LIMIT 10";
-$dsLienHe = $pdo->query($sqlLienHe)->fetchAll();
-
-// 3. Thống kê
 $tongDon = $pdo->query("SELECT COUNT(*) FROM dat_san")->fetchColumn();
 $tongTien = $pdo->query("SELECT SUM(tong_tien) FROM dat_san WHERE trang_thai != 'da_huy'")->fetchColumn();
 
@@ -35,7 +26,6 @@ require __DIR__ . '/inc/header.php';
   <h1>Trang quản trị hệ thống</h1>
   <p>Xin chào <strong><?= e($_SESSION['ho_ten'] ?? 'Admin') ?></strong>. Dưới đây là báo cáo hoạt động mới nhất.</p>
 
-  <!-- THỐNG KÊ NHANH -->
   <div style="display: flex; gap: 1.5rem; margin-bottom: 2rem;">
     <div class="the" style="flex: 1; text-align: center;">
       <h3 style="color: #4b5563; margin-bottom: 0.5rem; font-size: 1rem;">Tổng số đơn đặt</h3>
@@ -54,15 +44,7 @@ require __DIR__ . '/inc/header.php';
     <div class="bang-chua">
       <table class="bang">
         <thead>
-          <tr>
-            <th scope="col">Mã đơn</th>
-            <th scope="col">Khách hàng</th>
-            <th scope="col">Sân</th>
-            <th scope="col">Ngày chơi</th>
-            <th scope="col">Giờ chơi</th>
-            <th scope="col">Tổng tiền</th>
-            <th scope="col">Trạng thái</th>
-          </tr>
+          <tr><th>Mã đơn</th><th>Khách hàng</th><th>Sân</th><th>Ngày chơi</th><th>Giờ chơi</th><th>Tổng tiền</th><th>Trạng thái</th></tr>
         </thead>
         <tbody>
           <?php foreach ($dsDonHang as $don): ?>
@@ -88,15 +70,10 @@ require __DIR__ . '/inc/header.php';
     <div class="bang-chua">
       <table class="bang">
         <thead>
-          <tr>
-            <th scope="col">Ngày gửi</th>
-            <th scope="col">Họ tên</th>
-            <th scope="col">Email</th>
-            <th scope="col">Nội dung</th>
-          </tr>
+          <tr><th>Ngày gửi</th><th>Họ tên</th><th>Email</th><th>Nội dung</th></tr>
         </thead>
         <tbody>
-          <?php foreach ($dsLienHe as $lh): ?>
+          <?php foreach (array_slice($dsLienHe, 0, 10) as $lh): ?>
             <tr>
               <td><?= date('d/m/Y H:i', strtotime($lh['ngay_gui'])) ?></td>
               <td><?= e($lh['ho_ten']) ?></td>
@@ -108,24 +85,6 @@ require __DIR__ . '/inc/header.php';
       </table>
     </div>
   <?php endif; ?>
-
-  <h2 style="margin-top: 2rem;">Bảng giá hiện hành</h2>
-  <div class="bang-chua">
-    <table class="bang">
-      <thead>
-        <tr><th scope="col">Loại sân</th><th scope="col">Giá thuê cơ bản</th></tr>
-      </thead>
-      <tbody>
-        <?php
-        $sqlGia = "SELECT d.ten_danh_muc, MIN(s.gia_thue) as gia_min FROM danh_muc d JOIN san_bong s ON d.id = s.danh_muc_id GROUP BY d.id";
-        $dsGia = $pdo->query($sqlGia)->fetchAll();
-        foreach ($dsGia as $gia):
-        ?>
-          <tr><td><?= e($gia['ten_danh_muc']) ?></td><td><?= vnd((int)$gia['gia_min']) ?>/giờ</td></tr>
-        <?php endforeach; ?>
-      </tbody>
-    </table>
-  </div>
 </main>
 
 <?php require __DIR__ . '/inc/footer.php'; ?>
