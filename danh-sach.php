@@ -10,6 +10,7 @@
 require __DIR__ . '/inc/config.php';
 require __DIR__ . '/inc/ham.php';
 
+$baseUrl = ''; // Khai báo biến cho header
 $tieuDeTrang = 'Danh sách sân';
 
 // ---------- 1. Đọc tham số GET ----------
@@ -117,5 +118,5 @@ require __DIR__ . '/inc/header.php';
     <li>Đặt sân trực tuyến để xem lịch trống theo thời gian thực</li>
   </ul>
 </main>
-
+<script src="js/api-danh-sach.js"></script>
 <?php require __DIR__ . '/inc/footer.php'; ?>

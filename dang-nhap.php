@@ -1,12 +1,8 @@
 <?php
 /**
- * dang-nhap.php — Form đăng nhập quản trị
- *
- * Kỹ thuật:
- * - password_verify so mật khẩu với hash
- * - Ghi log khi đăng nhập sai (storage/dang-nhap-sai.jsonl)
- * - Flash message + redirect
+ * dang-nhap.php — Form đăng nhập quản trị (Sử dụng Database MySQL)
  */
+
 require __DIR__ . '/inc/config.php';
 require __DIR__ . '/inc/ham.php';
 require __DIR__ . '/inc/tai-khoan.php';
@@ -20,36 +16,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($username === '' || $password === '') {
         $loi = 'Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu.';
-    } elseif (kiemTraDangNhap($username, $password)) {
-        // Đăng nhập thành công
-        session_regenerate_id(true);
-        $_SESSION['da_dang_nhap'] = true;
-        $_SESSION['username']    = $username;
-        $_SESSION['thoi_gian_dang_nhap'] = time();
-
-        datFlash('thanh-cong', 'Đăng nhập thành công. Xin chào ' . $username . '!');
-
-        $quayLai = $_SESSION['quay_lai_sau_dang_nhap'] ?? 'quan-tri.php';
-        unset($_SESSION['quay_lai_sau_dang_nhap']);
-        chuyenHuong($quayLai);
     } else {
-        // Đăng nhập sai → ghi log
-        $loi = 'Sai tên đăng nhập hoặc mật khẩu.';
-        $banGhi = [
-            'thoi_gian' => date('c'),
-            'username'  => $username,
-            'ip'        => $_SERVER['REMOTE_ADDR'] ?? '',
-            'user_agent'=> $_SERVER['HTTP_USER_AGENT'] ?? '',
-        ];
-        file_put_contents(
-            DUONG_DAN_STORAGE . '/dang-nhap-sai.jsonl',
-            json_encode($banGhi, JSON_UNESCAPED_UNICODE) . "\n",
-            FILE_APPEND | LOCK_EX
-        );
+        // Gọi hàm kiểm tra từ file inc/tai-khoan.php (đã kết nối DB)
+        $user = kiemTraDangNhap($username, $password);
+        
+        if ($user !== null) {
+            // Đăng nhập thành công
+            session_regenerate_id(true); // Bảo mật session
+            $_SESSION['da_dang_nhap'] = true;
+            $_SESSION['username']    = $user['username'];
+            $_SESSION['vai_tro']     = $user['vai_tro']; // 'admin' hoặc 'khach'
+            $_SESSION['thoi_gian_dang_nhap'] = time();
+
+            datFlash('thanh-cong', 'Đăng nhập thành công. Xin chào ' . e($user['username']) . '!');
+
+            // Chuyển hướng quay lại trang trước đó hoặc vào quản trị
+            $quayLai = $_SESSION['quay_lai_sau_dang_nhap'] ?? 'quan-tri.php';
+            unset($_SESSION['quay_lai_sau_dang_nhap']);
+            chuyenHuong($quayLai);
+        } else {
+            // Đăng nhập sai → ghi log
+            $loi = 'Sai tên đăng nhập hoặc mật khẩu.';
+            $banGhi = [
+                'thoi_gian' => date('c'),
+                'username'  => $username,
+                'ip'        => $_SERVER['REMOTE_ADDR'] ?? '',
+                'user_agent'=> $_SERVER['HTTP_USER_AGENT'] ?? '',
+            ];
+            file_put_contents(
+                DUONG_DAN_STORAGE . '/dang-nhap-sai.jsonl',
+                json_encode($banGhi, JSON_UNESCAPED_UNICODE) . "\n",
+                FILE_APPEND | LOCK_EX
+            );
+        }
     }
 }
 
+// Khai báo biến cho Header
+$baseUrl = '';
 $tieuDeTrang = 'Đăng nhập quản trị';
+
 require __DIR__ . '/inc/header.php';
 ?>
 

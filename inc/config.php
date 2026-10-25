@@ -23,6 +23,7 @@ define('DUONG_DAN_LOG', DUONG_DAN_GOC . '/logs');
 
 // 3. Nạp Composer autoload
 require DUONG_DAN_GOC . '/vendor/autoload.php';
+require_once __DIR__ . '/db.php'; 
 
 // 4. Khởi động session (chỉ 1 lần)
 if (session_status() === PHP_SESSION_NONE) {
@@ -30,7 +31,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 // 5. Khởi tạo kho sân
-$kho = new KhoSanPham(DUONG_DAN_DATA . '/san.json');
+$kho = new KhoSanPham();
 
 // 6. Khởi tạo giỏ hàng
 $gio = new GioHang($kho);
