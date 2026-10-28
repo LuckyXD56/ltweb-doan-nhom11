@@ -1,48 +1,86 @@
 <?php
 /**
  * Tệp: thanhvien/3120224060_hoang/gioithieu.php
- * Mục đích: Trang giới thiệu cá nhân của Nguyễn Quý Minh Hoàng (Nhóm 11).
- * Chức năng server:
- *   1. Đếm số lượt xem trang (mỗi phiên session chỉ tính 1 lần, lưu ở storage/3120224060_luotxem.txt).
- *   2. Sổ lưu bút (POST-Redirect-GET, kiểm tra dữ liệu server, lưu storage/3120224060_luubut.jsonl).
- * Cách thử: Truy cập http://localhost:8000/thanhvien/3120224060_hoang/gioithieu.php
+ * Tác giả: Nguyễn Quý Minh Hoàng (MSSV: 3120224060) - Nhóm 11
+ * Chức năng CSDL:
+ *   1. Đếm lượt xem theo ngày dùng INSERT ... ON DUPLICATE KEY UPDATE & Thống kê 7 ngày gần nhất.
+ *   2. Sổ lưu bút CSDL: Thêm mới, Phân trang (5 item/trang), Chủ trang mới xóa được lời nhắn.
  */
 
 session_start();
 
-// Hàm mã hóa an toàn dữ liệu xuất ra HTML (Khai báo Type Hint tránh cảnh báo Intelephense)
+// 1. KẾT NỐI CSDL (Sử dụng hàm db() từ file inc/db.php của nhóm)
+require_once '../../inc/db.php';
+
+$mssv = '3120224060';
+
 if (!function_exists('e')) {
     function e(string $chuoi): string {
         return htmlspecialchars($chuoi, ENT_QUOTES, 'UTF-8');
     }
 }
 
-// Chuẩn bị thư mục lưu trữ storage
-$thuMucStorage = __DIR__ . '/../../storage/';
-if (!file_exists($thuMucStorage)) {
-    mkdir($thuMucStorage, 0777, true);
+// -------------------------------------------------------------------------
+// CHỨC NĂNG 1: ĐẾM LƯỢT XEM THEO NGÀY TRONG CSDL (INSERT ... ON DUPLICATE KEY)
+// -------------------------------------------------------------------------
+if (empty($_SESSION['da_xem_3120224060_db'])) {
+    $_SESSION['da_xem_3120224060_db'] = true;
+    try {
+        $sqlLuotXem = "INSERT INTO tv_luot_xem (mssv, ngay_xem, luot_xem) 
+                       VALUES (?, CURDATE(), 1) 
+                       ON DUPLICATE KEY UPDATE luot_xem = luot_xem + 1";
+        $stmtLX = db()->prepare($sqlLuotXem);
+        $stmtLX->execute([$mssv]);
+    } catch (Exception $ex) {
+        // Bỏ qua lỗi nếu chưa nâng cấp bảng
+    }
 }
 
+// Lấy lượt xem hôm nay & tổng lượt xem
+$luotXemHomNay = 0;
+$tongLuotXemAll = 0;
+$bangLuotXem7Ngay = [];
+try {
+    $stmtHN = db()->prepare("SELECT luot_xem FROM tv_luot_xem WHERE mssv = ? AND ngay_xem = CURDATE()");
+    $stmtHN->execute([$mssv]);
+    $luotXemHomNay = (int)($stmtHN->fetchColumn() ?: 0);
+
+    $stmtTong = db()->prepare("SELECT SUM(luot_xem) FROM tv_luot_xem WHERE mssv = ?");
+    $stmtTong->execute([$mssv]);
+    $tongLuotXemAll = (int)($stmtTong->fetchColumn() ?: 0);
+
+    // Lấy thống kê 7 ngày gần nhất
+    $stmt7 = db()->prepare("SELECT DATE_FORMAT(ngay_xem, '%d/%m/%Y') AS ngay, luot_xem 
+                            FROM tv_luot_xem WHERE mssv = ? 
+                            ORDER BY ngay_xem DESC LIMIT 7");
+    $stmt7->execute([$mssv]);
+    $bangLuotXem7Ngay = array_reverse($stmt7->fetchAll(PDO::FETCH_ASSOC));
+} catch (Exception $ex) {}
+
 // -------------------------------------------------------------------------
-// CHỨC NĂNG 1: ĐẾM LƯỢT XEM TRANG (1 lần / session)
+// KIỂM TRA QUYỀN CHỦ TRANG (Dùng session tài khoản quản trị/chủ trang)
 // -------------------------------------------------------------------------
-$tepLuotXem = $thuMucStorage . '3120224060_luotxem.txt';
-if (!file_exists($tepLuotXem)) {
-    file_put_contents($tepLuotXem, '0');
+$laChuTrang = isset($_SESSION['user']) && ($_SESSION['user']['vai_tro'] === 'quan_tri' || ($_SESSION['user']['mssv'] ?? '') === $mssv);
+
+// -------------------------------------------------------------------------
+// CHỨC NĂNG 2: XỬ LÝ LƯU BÚT (THÊM & XÓA & PHÂN TRANG)
+// -------------------------------------------------------------------------
+
+// A. Xử lý Xóa lưu bút (Chỉ chủ trang mới thực hiện được)
+if (isset($_GET['hanh_dong']) && $_GET['hanh_dong'] === 'xoa' && isset($_GET['id'])) {
+    if (!$laChuTrang) {
+        $_SESSION['flash_loi'] = 'Bạn phải là chủ trang mới có quyền xóa lời nhắn!';
+    } else {
+        $idXoa = (int)$_GET['id'];
+        $stmtDelete = db()->prepare("DELETE FROM tv_luu_but WHERE id = ? AND mssv = ?");
+        $stmtDelete->execute([$idXoa, $mssv]);
+        $_SESSION['flash_thanh_cong'] = 'Đã xóa lời nhắn thành công!';
+    }
+    header('Location: gioithieu.php');
+    exit;
 }
 
-$tongLuotXem = (int)file_get_contents($tepLuotXem);
-if (empty($_SESSION['da_xem_3120224060'])) {
-    $_SESSION['da_xem_3120224060'] = true;
-    $tongLuotXem++;
-    file_put_contents($tepLuotXem, (string)$tongLuotXem);
-}
-
-// -------------------------------------------------------------------------
-// CHỨC NĂNG 2: XỬ LÝ BIỂU MẪU SỔ LƯU BÚT (Mô hình PRG - Post/Redirect/Get)
-// -------------------------------------------------------------------------
-$tepLuuBut = $thuMucStorage . '3120224060_luubut.jsonl';
-
+// B. Xử lý Thêm lưu bút mới
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['gui_luu_but'])) {
     $hoTen = trim($_POST['ho_ten'] ?? '');
     $loiNhan = trim($_POST['loi_nhan'] ?? '');
@@ -54,40 +92,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['gui_luu_but'])) {
     } elseif (mb_strlen($loiNhan) > 300) {
         $_SESSION['flash_loi'] = 'Lời nhắn không được vượt quá 300 ký tự!';
     } else {
-        $data = [
-            'ho_ten'    => $hoTen,
-            'loi_nhan'  => $loiNhan,
-            'thoi_gian' => date('d/m/Y H:i')
-        ];
-        file_put_contents($tepLuuBut, json_encode($data, JSON_UNESCAPED_UNICODE) . PHP_EOL, FILE_APPEND | LOCK_EX);
-        $_SESSION['flash_thanh_cong'] = 'Cảm ơn bạn đã gửi lời nhắn thành công!';
+        try {
+            $stmtInsert = db()->prepare("INSERT INTO tv_luu_but (mssv, ten_nguoi_gui, noi_dung) VALUES (?, ?, ?)");
+            $stmtInsert->execute([$mssv, $hoTen, $loiNhan]);
+            $_SESSION['flash_thanh_cong'] = 'Gửi lưu bút thành công!';
+        } catch (Exception $e) {
+            $_SESSION['flash_loi'] = 'Lỗi CSDL: ' . $e->getMessage();
+        }
     }
-
-    // Chuyển hướng theo chuẩn PRG
     header('Location: gioithieu.php');
     exit;
 }
 
-// Lấy thông báo flash
+// C. Phân trang Sổ lưu bút (5 lời nhắn/trang)
+$soLuongMoiTrang = 5;
+$trangHienTai = isset($_GET['trang']) ? max(1, (int)$_GET['trang']) : 1;
+$viTriBatDau = ($trangHienTai - 1) * $soLuongMoiTrang;
+
+$tongSoLuuBut = 0;
+$danhSachLuuButDB = [];
+$tongSoTrang = 1;
+
+try {
+    // Đếm tổng số dòng
+    $stmtCount = db()->prepare("SELECT COUNT(*) FROM tv_luu_but WHERE mssv = ?");
+    $stmtCount->execute([$mssv]);
+    $tongSoLuuBut = (int)$stmtCount->fetchColumn();
+    $tongSoTrang = ceil($tongSoLuuBut / $soLuongMoiTrang);
+
+    // Lấy dữ liệu cho trang hiện tại
+    $stmtLB = db()->prepare("SELECT id, ten_nguoi_gui AS ho_ten, noi_dung, DATE_FORMAT(ngay_gui, '%d/%m/%Y %H:%i') AS thoi_gian 
+                             FROM tv_luu_but WHERE mssv = ? 
+                             ORDER BY ngay_gui DESC LIMIT :limit OFFSET :offset");
+    $stmtLB->bindValue(':limit', $soLuongMoiTrang, PDO::PARAM_INT);
+    $stmtLB->bindValue(':offset', $viTriBatDau, PDO::PARAM_INT);
+    $stmtLB->execute([$mssv]);
+    $danhSachLuuButDB = $stmtLB->fetchAll(PDO::FETCH_ASSOC);
+} catch (Exception $e) {}
+
+// Thông báo flash
 $thongBaoThanhCong = $_SESSION['flash_thanh_cong'] ?? '';
 $thongBaoLoi = $_SESSION['flash_loi'] ?? '';
 unset($_SESSION['flash_thanh_cong'], $_SESSION['flash_loi']);
-
-// Đọc 5 lời nhắn mới nhất
-$danhSachLuuBut = [];
-if (file_exists($tepLuuBut)) {
-    $cacDong = file($tepLuuBut, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-    if ($cacDong !== false) {
-        $cacDong = array_reverse($cacDong);
-        $top5 = array_slice($cacDong, 0, 5);
-        foreach ($top5 as $dong) {
-            $parsed = json_decode($dong, true);
-            if (is_array($parsed)) {
-                $danhSachLuuBut[] = $parsed;
-            }
-        }
-    }
-}
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -95,7 +141,6 @@ if (file_exists($tepLuuBut)) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Giới thiệu bản thân - Nguyễn Quý Minh Hoàng</title>
-  <meta name="description" content="Trang giới thiệu cá nhân của Nguyễn Quý Minh Hoàng, thành viên Nhóm 11.">
   <link rel="stylesheet" href="../../css/chung.css">
   <link rel="stylesheet" href="profile.css">
 </head>
@@ -105,7 +150,6 @@ if (file_exists($tepLuuBut)) {
     <ul class="menu__danh-sach">
       <li class="menu__muc"><a class="menu__lien-ket" href="../../index.php">Trang chủ</a></li>
       <li class="menu__muc"><a class="menu__lien-ket" href="../../danh-sach.php">Danh sách sân</a></li>
-      <li class="menu__muc"><a class="menu__lien-ket" href="../../chi-tiet.php">Chi tiết sân</a></li>
       <li class="menu__muc"><a class="menu__lien-ket active" href="../../thanh-vien.php">Giới thiệu nhóm</a></li>
       <li class="menu__muc"><a class="menu__lien-ket" href="../../lien-he.php">Liên hệ / Đặt sân</a></li>
     </ul>
@@ -116,131 +160,116 @@ if (file_exists($tepLuuBut)) {
     <h1 class="tieu-de-trang">Giới thiệu thành viên Nhóm 11</h1>
 
     <div class="thanh-cong-cu">
-      <button type="button" id="nut-doi-giao-dien" class="nut-cong-cu" aria-pressed="false">🌙 Chế độ tối</button>
-      <button type="button" id="nut-sao-chep-email" class="nut-cong-cu" aria-label="Sao chép địa chỉ email">📧 Sao chép email</button>
-      <span class="nut-cong-cu" style="cursor: default;">👁️ Lượt xem: <strong><?= e((string)$tongLuotXem) ?></strong></span>
-      <span id="thong-bao-sao-chep" class="thong-bao-copy" role="status" aria-live="polite"></span>
+      <button type="button" id="nut-doi-giao-dien" class="nut-cong-cu">🌙 Chế độ tối</button>
+      <button type="button" id="nut-sao-chep-email" class="nut-cong-cu">📧 Sao chép email</button>
+      <span class="nut-cong-cu" style="cursor: default;">👁️ Hôm nay: <strong><?= $luotXemHomNay ?></strong> | Tổng: <strong><?= $tongLuotXemAll ?></strong></span>
     </div>
 
     <article class="the-ho-so">
       <div class="the-ho-so__avatar">
-        <img src="../../images/hoang.jpg" alt="Ảnh chân dung của Nguyễn Quý Minh Hoàng" class="the-ho-so__anh">
+        <img src="../../images/hoang.jpg" alt="Nguyễn Quý Minh Hoàng" class="the-ho-so__anh">
       </div>
       <div class="the-ho-so__thong-tin">
         <h2 class="the-ho-so__ten">Nguyễn Quý Minh Hoàng</h2>
         <p class="the-ho-so__dong"><strong>Vai trò:</strong> Thành viên nhóm</p>
         <p class="the-ho-so__dong"><strong>Mã sinh viên:</strong> 3120224060</p>
-        <p class="the-ho-so__dong">
-          <strong>Email:</strong>
-          <span id="email-ca-nhan">nguyenquyminhhoang@gmail.com</span>
+        <p class="the-ho-so__dong"><strong>Email:</strong> nguyenquyminhhoang@gmail.com</p>
+        <p class="the-ho-so__dong"><strong>Quyền xem trang:</strong> 
+          <?= $laChuTrang ? '<span style="color: green; font-weight: bold;">[Chủ trang - Đã đăng nhập]</span>' : '<span style="color: gray;">[Khách xem trang]</span>' ?>
         </p>
-        <p class="the-ho-so__dong"><strong>Nhiệm vụ:</strong> Phụ trách trang tài khoản, đăng nhập và lịch sử đặt sân.</p>
       </div>
     </article>
 
-    <div class="luoi-hai-cot">
-      <article class="the-nho">
-        <h3 class="the-nho__tieu-de">Giới thiệu bản thân</h3>
-        <p class="the-nho__doan">
-          Xin chào, tôi là Nguyễn Quý Minh Hoàng. Tôi sinh ngày 13-07-2006 và hiện đang là sinh viên Công nghệ thông tin tại Trường Đại học Sư phạm – Đại học Đà Nẵng. Tôi là người yêu thích lập trình và đặc biệt quan tâm đến phát triển web.
-        </p>
-      </article>
-
-      <article class="the-nho">
-        <h3 class="the-nho__tieu-de">Kỹ năng</h3>
-        <div class="danh-sach-nhan">
-          <span class="nhan">HTML5 &amp; CSS3</span>
-          <span class="nhan">JavaScript cơ bản</span>
-          <span class="nhan">Git &amp; GitHub</span>
-          <span class="nhan">Responsive Design</span>
-        </div>
-      </article>
-    </div>
-
-    <!-- SỔ LƯU BÚT -->
+    <!-- KHỐI 1: THỐNG KÊ LƯỢT XEM 7 NGÀY GẦN NHẤT (CSDL) -->
     <article class="the-nho the-nho--full">
-      <h3 class="the-nho__tieu-de">📝 Sổ lưu bút</h3>
-      
-      <?php if ($thongBaoThanhCong !== ''): ?>
-        <p style="color: #0f5b38; background: #ecfdf5; padding: 0.6rem 1rem; border-radius: 8px; font-size: 0.9rem;">
-          <?= e($thongBaoThanhCong) ?>
-        </p>
-      <?php endif; ?>
-
-      <?php if ($thongBaoLoi !== ''): ?>
-        <p style="color: #dc2626; background: #fef2f2; padding: 0.6rem 1rem; border-radius: 8px; font-size: 0.9rem;">
-          <?= e($thongBaoLoi) ?>
-        </p>
-      <?php endif; ?>
-
-      <form action="gioithieu.php" method="POST" style="margin-bottom: 1.5rem;">
-        <div style="margin-bottom: 0.75rem;">
-          <input type="text" name="ho_ten" placeholder="Họ và tên của bạn..." required 
-                 style="width: 100%; padding: 0.6rem; border: 1px solid var(--mau-vien); border-radius: 8px; font-size: 0.9rem;">
-        </div>
-        <div style="margin-bottom: 0.75rem;">
-          <textarea name="loi_nhan" rows="3" placeholder="Để lại lời nhắn cho Hoàng..." required 
-                    style="width: 100%; padding: 0.6rem; border: 1px solid var(--mau-vien); border-radius: 8px; font-size: 0.9rem; resize: vertical;"></textarea>
-        </div>
-        <button type="submit" name="gui_luu_but" class="nut-cong-cu" style="background-color: var(--mau-chinh); color: #fff; border: none;">
-          ✉️ Gửi lời nhắn
-        </button>
-      </form>
-
-      <h4 style="margin: 1rem 0 0.5rem 0; color: var(--mau-chinh);">Lời nhắn mới nhất:</h4>
-      <?php if (empty($danhSachLuuBut)): ?>
-        <p style="font-size: 0.875rem; color: var(--mau-chu-phu);">Chưa có lời nhắn nào. Hãy là người đầu tiên để lại lời nhắn!</p>
-      <?php else: ?>
-        <ul style="list-style: none; padding: 0; margin: 0;">
-          <?php foreach ($danhSachLuuBut as $item): ?>
-            <li style="border-bottom: 1px solid var(--mau-vien); padding: 0.6rem 0;">
-              <strong style="color: var(--mau-chu);"><?= e($item['ho_ten'] ?? '') ?></strong>
-              <small style="color: var(--mau-chu-phu); float: right;"><?= e($item['thoi_gian'] ?? '') ?></small>
-              <p style="margin: 0.25rem 0 0 0; font-size: 0.9rem; color: var(--mau-chu-phu);"><?= e($item['loi_nhan'] ?? '') ?></p>
-            </li>
-          <?php endforeach; ?>
-        </ul>
-      <?php endif; ?>
-    </article>
-
-    <article class="the-nho the-nho--full">
-      <h3 class="the-nho__tieu-de">Thời khóa biểu tuần</h3>
+      <h3 class="the-nho__tieu-de">📊 Thống kê lượt xem 7 ngày gần nhất (CSDL)</h3>
       <div class="bang-bao">
-        <table class="bang-thoi-khoa-bieu">
-          <caption>Lịch học và hoạt động trong tuần của Nguyễn Quý Minh Hoàng</caption>
+        <table style="width: 100%; border-collapse: collapse; text-align: center;">
           <thead>
-            <tr>
-              <th scope="col">Ngày</th>
-              <th scope="col">Hoạt động</th>
-              <th scope="col">Thời gian</th>
+            <tr style="background: #f3f4f6;">
+              <?php foreach ($bangLuotXem7Ngay as $row): ?>
+                <th style="padding: 8px; border: 1px solid #ddd;"><?= e($row['ngay']) ?></th>
+              <?php endforeach; ?>
             </tr>
           </thead>
           <tbody>
-            <tr><th scope="row">Thứ Hai</th><td>Học trên lớp</td><td>07:00 – 11:00</td></tr>
-            <tr><th scope="row">Thứ Ba</th><td>Học chuyên ngành</td><td>07:00 – 11:00</td></tr>
-            <tr><th scope="row">Thứ Tư</th><td>Học chuyên ngành</td><td>07:00 – 11:00</td></tr>
-            <tr><th scope="row">Thứ Năm</th><td>Làm dự án nhóm</td><td>13:30 – 17:00</td></tr>
-            <tr><th scope="row">Thứ Sáu</th><td>Học trên lớp</td><td>07:00 – 11:00</td></tr>
-            <tr><th scope="row">Thứ Bảy</th><td>Học chuyên ngành</td><td>07:00 – 11:00</td></tr>
-            <tr><th scope="row">Chủ Nhật</th><td>Ôn tập và kiểm tra tiến độ</td><td>19:00 – 21:00</td></tr>
+            <tr>
+              <?php foreach ($bangLuotXem7Ngay as $row): ?>
+                <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold; color: #0284c7;"><?= $row['luot_xem'] ?></td>
+              <?php endforeach; ?>
+            </tr>
           </tbody>
         </table>
       </div>
     </article>
 
-    <article class="the-nho the-nho--full giua">
-      <button type="button" id="btn-like" class="nut-like">
-        ❤️ Thích trang này (<span id="like-count">0</span>)
-      </button>
+    <!-- KHỐI 2: SỔ LƯU BÚT CSDL (PHÂN TRANG & XÓA) -->
+    <article class="the-nho the-nho--full">
+      <h3 class="the-nho__tieu-de">📝 Sổ lưu bút (CSDL - Phân trang & Chủ trang xóa)</h3>
+      
+      <?php if ($thongBaoThanhCong !== ''): ?>
+        <p style="color: #0f5b38; background: #ecfdf5; padding: 0.6rem; border-radius: 8px;"><?= e($thongBaoThanhCong) ?></p>
+      <?php endif; ?>
+      <?php if ($thongBaoLoi !== ''): ?>
+        <p style="color: #dc2626; background: #fef2f2; padding: 0.6rem; border-radius: 8px;"><?= e($thongBaoLoi) ?></p>
+      <?php endif; ?>
+
+      <!-- Form gửi -->
+      <form action="gioithieu.php" method="POST" style="margin-bottom: 1.5rem;">
+        <div style="margin-bottom: 0.75rem;">
+          <input type="text" name="ho_ten" placeholder="Họ và tên của bạn..." required 
+                 style="width: 100%; padding: 0.6rem; border: 1px solid #ccc; border-radius: 8px;">
+        </div>
+        <div style="margin-bottom: 0.75rem;">
+          <textarea name="loi_nhan" rows="3" placeholder="Để lại lời nhắn cho Hoàng..." required 
+                    style="width: 100%; padding: 0.6rem; border: 1px solid #ccc; border-radius: 8px;"></textarea>
+        </div>
+        <button type="submit" name="gui_luu_but" class="nut-cong-cu" style="background-color: #0284c7; color: #fff; border: none;">✉️ Gửi lời nhắn</button>
+      </form>
+
+      <!-- Danh sách lời nhắn -->
+      <h4 style="margin: 1rem 0 0.5rem 0; color: #0284c7;">Lời nhắn (Tổng số: <?= $tongSoLuuBut ?>):</h4>
+      <?php if (empty($danhSachLuuButDB)): ?>
+        <p style="color: #666;">Chưa có lời nhắn nào.</p>
+      <?php else: ?>
+        <ul style="list-style: none; padding: 0;">
+          <?php foreach ($danhSachLuuButDB as $item): ?>
+            <li style="border-bottom: 1px solid #eee; padding: 0.75rem 0;">
+              <strong style="color: #333;"><?= e($item['ho_ten']) ?></strong>
+              <small style="color: #888; margin-left: 10px;"><?= e($item['thoi_gian']) ?></small>
+              
+              <!-- Nút Xóa (Chỉ hiện khi chủ trang đã đăng nhập) -->
+              <?php if ($laChuTrang): ?>
+                <a href="gioithieu.php?hanh_dong=xoa&id=<?= $item['id'] ?>" 
+                   onclick="return confirm('Bạn có chắc chắn muốn xóa lời nhắn này?');"
+                   style="color: red; float: right; font-size: 0.85rem; text-decoration: none; font-weight: bold;">[❌ Xóa]</a>
+              <?php endif; ?>
+
+              <p style="margin: 0.4rem 0 0 0; color: #555;"><?= e($item['noi_dung']) ?></p>
+            </li>
+          <?php endforeach; ?>
+        </ul>
+
+        <!-- PHÂN TRANG -->
+        <?php if ($tongSoTrang > 1): ?>
+          <div style="margin-top: 1rem; text-align: center;">
+            <span style="margin-right: 10px;">Trang:</span>
+            <?php for ($i = 1; $i <= $tongSoTrang; $i++): ?>
+              <a href="gioithieu.php?trang=<?= $i ?>" 
+                 style="padding: 5px 10px; margin: 0 2px; border: 1px solid #ccc; border-radius: 4px; text-decoration: none; <?= $i === $trangHienTai ? 'background: #0284c7; color: white;' : 'color: #333;' ?>">
+                <?= $i ?>
+              </a>
+            <?php endfor; ?>
+          </div>
+        <?php endif; ?>
+      <?php endif; ?>
     </article>
 
   </main>
 
   <footer class="trang__footer">
     <p>&copy; 2026 Nguyễn Quý Minh Hoàng – Nhóm 11, Khoa Toán Tin, ĐH Sư phạm Đà Nẵng.</p>
-    <p><a href="../../thanh-vien.php">← Về danh sách thành viên</a></p>
   </footer>
 
-  <script src="js/canhan.js"></script>
 </body>
 </html>

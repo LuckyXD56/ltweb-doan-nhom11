@@ -61,3 +61,36 @@ INSERT INTO chi_tiet_dat_san (dat_san_id, san_bong_id, ngay_thue, gio_bat_dau, g
 (1, 1, '2026-10-22', '18:00:00', '20:00:00', 200000, 400000), -- Khách 1 đặt Sân A1 (2 tiếng)
 (1, 10, '2026-10-23', '17:00:00', '17:30:00', 200000, 100000), -- Khách 1 đặt thêm Sân A10 (nửa tiếng - ví dụ)
 (2, 11, '2026-10-24', '19:00:00', '21:00:00', 350000, 700000); -- Khách 2 đặt Sân B1 (2 tiếng)
+
+-- =========================================================
+-- DỮ LIỆU MẪU CÁ NHÂN (MSSV: 3120224060 - Nguyễn Quý Minh Hoàng)
+-- =========================================================
+
+-- Thêm tài khoản quản trị/thành viên liên kết với bạn vào bảng nguoi_dung
+INSERT INTO nguoi_dung (id, vai_tro, ho_ten, email, mat_khau) VALUES 
+(4, 'quan_tri', 'Nguyễn Quý Minh Hoàng', 'hoang3120224060@st.duytan.edu.vn', '$2y$10$e0MYzXyjpJS7Pd0RVvHwHe1HlCS4bZ08nBIdb2x20V4gT0hC3aO6e')
+ON DUPLICATE KEY UPDATE ho_ten = VALUES(ho_ten);
+
+-- Thêm thông tin sinh viên vào bảng thanh_vien
+INSERT INTO thanh_vien (mssv, ho_ten, nguoi_dung_id) VALUES 
+('3120224060', 'Nguyễn Quý Minh Hoàng', 4)
+ON DUPLICATE KEY UPDATE ho_ten = VALUES(ho_ten);
+
+-- Dữ liệu mẫu cho bảng lưu bút cá nhân (tv_luu_but)
+INSERT INTO tv_luu_but (mssv, ten_nguoi_gui, noi_dung) VALUES
+('3120224060', 'Trần Văn Nam', 'Trang cá nhân thiết kế giao diện đặt sân bóng rất trực quan và mượt mà!'),
+('3120224060', 'Võ Hoàng Vũ', 'Chúc Hoàng hoàn thành xuất sắc đồ án môn Lập trình Web nhóm 11 nhé.');
+
+-- Dữ liệu mẫu cho bảng dự án cá nhân (tv_du_an)
+INSERT INTO tv_du_an (mssv, ten_du_an, mo_ta, link_demo) VALUES
+('3120224060', 'Sân Bóng Thắng Lợi', 'Website đặt sân bóng đá trực tuyến (Đồ án Nhóm 11 - Lập trình Web)', 'https://github.com/LuckyXD56/ltweb-doan-nhom11');
+-- Dữ liệu mẫu lượt xem 7 ngày gần nhất cho MSSV 3120224060
+INSERT INTO tv_luot_xem (mssv, ngay_xem, luot_xem) VALUES
+('3120224060', DATE_SUB(CURDATE(), INTERVAL 6 DAY), 12),
+('3120224060', DATE_SUB(CURDATE(), INTERVAL 5 DAY), 25),
+('3120224060', DATE_SUB(CURDATE(), INTERVAL 4 DAY), 18),
+('3120224060', DATE_SUB(CURDATE(), INTERVAL 3 DAY), 30),
+('3120224060', DATE_SUB(CURDATE(), INTERVAL 2 DAY), 42),
+('3120224060', DATE_SUB(CURDATE(), INTERVAL 1 DAY), 35),
+('3120224060', CURDATE(), 15)
+ON DUPLICATE KEY UPDATE luot_xem = VALUES(luot_xem);
