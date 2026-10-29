@@ -14,4 +14,7 @@
 # File tạm
 .DS_Store
 Thumbs.db
-*.log
+*.logvendor/
+logs/
+storage/
+uploads/
