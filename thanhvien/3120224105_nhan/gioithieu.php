@@ -1,77 +1,144 @@
 <?php
-/*
- * Trang cá nhân - Bài tập nhóm 5.
- * Sử dụng header và footer dùng chung.
- * Chức năng: sổ lưu bút và tính điểm học phần.
- * Kiểm thử bằng trình duyệt trên localhost.
+/**
+ * Tệp: thanhvien/3120224105_nhan/gioithieu.php
+ * Mục đích: Trang cá nhân của Lê Nguyễn Gia Nhân (MSSV 3120224105 - Nhóm 11).
+ * Chức năng CSDL:
+ *   1. Chuyển đổi sổ lưu bút từ tệp JSONL sang bảng CSDL (tv_luu_but), có phân trang và xóa lời nhắn (chủ trang).
+ *   2. Đếm lượt xem theo ngày (INSERT ... ON DUPLICATE KEY UPDATE) vào tv_luot_xem và thống kê 7 ngày gần nhất.
+ * Cách thử: Truy cập http://localhost:8000/thanhvien/3120224105_nhan/gioithieu.php
  */
 
 require_once __DIR__ . '/../../inc/config.php';
 require_once __DIR__ . '/../../inc/ham.php';
 
 $goc = '../../';
+$baseUrl = '../../';
 $tieuDeTrang = 'Lê Nguyễn Gia Nhân';
 $trang = 'thanh-vien';
 $cssRieng = 'css/canhan.css';
+$customCss = '<link rel="stylesheet" href="css/canhan.css">';
 
-// --- XỬ LÝ SỔ LƯU BÚT ---
-$fileLuubut = DUONG_DAN_STORAGE . '/3120224105_luubut.jsonl';
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && is_string($_POST['action']) && $_POST['action'] === 'luubut') {
-    $ten = $_POST['ten'] ?? '';
-    $loi_nhan = $_POST['loi_nhan'] ?? '';
+$mssv = '3120224105';
 
-    if (is_array($ten) || is_array($loi_nhan)) {
-        datFlash('danger', 'Dữ liệu không hợp lệ.');
+// Kiểm tra quyền chủ trang (nếu đăng nhập bằng tài khoản của Nhân hoặc quản trị viên)
+$laChuTrang = false;
+if (!empty($_SESSION['da_dang_nhap'])) {
+    if (($_SESSION['email'] ?? '') === 'nhan@sanbong.vn' || ($_SESSION['vai_tro'] ?? '') === 'quan_tri') {
+        $laChuTrang = true;
+    }
+}
+
+// --- CHỨC NĂNG 1: GHI NHẬN VÀ THỐNG KÊ LƯỢT XEM THEO NGÀY (CSDL) ---
+if (($_SERVER['REQUEST_METHOD'] ?? '') === 'GET' && !isset($_GET['page'])) {
+    $stmt = $pdo->prepare(
+        'INSERT INTO tv_luot_xem (mssv, ngay, luot_xem)
+         VALUES (:mssv, CURRENT_DATE, 1)
+         ON DUPLICATE KEY UPDATE luot_xem = luot_xem + 1'
+    );
+    $stmt->execute(['mssv' => $mssv]);
+}
+
+$stmt = $pdo->prepare(
+    'SELECT COALESCE(SUM(luot_xem), 0)
+     FROM tv_luot_xem
+     WHERE mssv = :mssv'
+);
+$stmt->execute(['mssv' => $mssv]);
+$tongLuotXem = (int) $stmt->fetchColumn();
+
+$stmt = $pdo->prepare(
+    'SELECT ngay, SUM(luot_xem) AS luot_xem
+     FROM tv_luot_xem
+     WHERE mssv = :mssv
+       AND ngay >= DATE_SUB(CURRENT_DATE, INTERVAL 6 DAY)
+       AND ngay <= CURRENT_DATE
+     GROUP BY ngay
+     ORDER BY ngay DESC
+     LIMIT 7'
+);
+$stmt->execute(['mssv' => $mssv]);
+$luotXemTheoNgay = [];
+foreach ($stmt->fetchAll() as $dongLuotXem) {
+    $luotXemTheoNgay[$dongLuotXem['ngay']] = (int) $dongLuotXem['luot_xem'];
+}
+
+$thongKeBayNgay = [];
+$homNay = new DateTimeImmutable('today');
+for ($i = 0; $i < 7; $i++) {
+    $ngay = $homNay->modify('-' . $i . ' days');
+    $khoaNgay = $ngay->format('Y-m-d');
+    $thongKeBayNgay[] = [
+        'ngay' => $ngay->format('d/m/Y'),
+        'luot_xem' => $luotXemTheoNgay[$khoaNgay] ?? 0,
+    ];
+}
+
+// --- CHỨC NĂNG 2: SỔ LƯU BÚT DÙNG CSDL (tv_luu_but) ---
+// Thêm lời nhắn mới
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'luubut') {
+    $ten = trim((string) ($_POST['ten'] ?? ''));
+    $loi_nhan = trim((string) ($_POST['loi_nhan'] ?? ''));
+
+    if ($ten === '' || mb_strlen($ten) > 100 || $loi_nhan === '' || mb_strlen($loi_nhan) > 500) {
+        datFlash('danger', 'Vui lòng nhập tên (tối đa 100 ký tự) và lời nhắn (tối đa 500 ký tự).');
     } else {
-        $ten = trim((string)$ten);
-        $loi_nhan = trim((string)$loi_nhan);
+        $stmt = $pdo->prepare(
+            'INSERT INTO tv_luu_but (mssv, ho_ten, loi_nhan, ngay_tao)
+             VALUES (:mssv, :ho_ten, :loi_nhan, NOW())'
+        );
+        $stmt->execute([
+            'mssv' => $mssv,
+            'ho_ten' => $ten,
+            'loi_nhan' => $loi_nhan,
+        ]);
+        datFlash('success', 'Đã lưu lời nhắn của bạn vào sổ lưu bút thành công.');
+    }
+    chuyenHuong('gioithieu.php#so-luu-but');
+}
 
-        if (
-            $ten === '' ||
-            mb_strlen($ten) > 100 ||
-            $loi_nhan === '' ||
-            mb_strlen($loi_nhan) > 500
-        ) {
-            datFlash(
-                'danger',
-                'Tên tối đa 100 ký tự, lời nhắn tối đa 500 ký tự.'
-            );
-        } else {
-            $entry = json_encode([
-                'ten' => $ten,
-                'loi_nhan' => $loi_nhan,
-                'thoi_gian' => date('Y-m-d H:i:s')
-            ], JSON_UNESCAPED_UNICODE) . PHP_EOL;
-            if (file_put_contents($fileLuubut, $entry, FILE_APPEND | LOCK_EX) !== false) {
-                datFlash('success', 'Đã lưu lời nhắn của bạn.');
+// Xóa lời nhắn (chỉ chủ trang đăng nhập mới được làm)
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'xoa_luubut') {
+    if (!$laChuTrang) {
+        datFlash('danger', 'Chỉ chủ trang mới có quyền xóa lời nhắn.');
+    } else {
+        $idXoa = (int) ($_POST['id_luubut'] ?? 0);
+        if ($idXoa > 0) {
+            $stmt = $pdo->prepare('DELETE FROM tv_luu_but WHERE id = :id AND mssv = :mssv');
+            $stmt->execute(['id' => $idXoa, 'mssv' => $mssv]);
+            if ($stmt->rowCount() > 0) {
+                datFlash('success', 'Đã xóa lời nhắn thành công.');
             } else {
-                datFlash('danger', 'Lỗi hệ thống: Không thể lưu lời nhắn.');
+                datFlash('danger', 'Không tìm thấy lời nhắn cần xóa.');
             }
         }
     }
-    if (!headers_sent()) {
-        chuyenHuong('gioithieu.php');
-    } else {
-        echo "<script>window.location.href='gioithieu.php';</script>";
-        exit;
-    }
+    chuyenHuong('gioithieu.php#so-luu-but');
 }
 
-// Đọc sổ lưu bút
-$dsLuubut = [];
-if (file_exists($fileLuubut)) {
-    $lines = file($fileLuubut, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-    foreach ($lines as $line) {
-        $data = json_decode($line, true);
-        if ($data) {
-            $dsLuubut[] = $data;
-        }
-    }
-}
-$dsLuubut = array_reverse($dsLuubut);
-$dsLuubut = array_slice($dsLuubut, 0, 5);
+// Phân trang sổ lưu bút
+$stmt = $pdo->prepare('SELECT COUNT(*) FROM tv_luu_but WHERE mssv = :mssv');
+$stmt->execute(['mssv' => $mssv]);
+$tongLuuBut = (int) $stmt->fetchColumn();
 
-// --- XỬ LÝ MÁY TÍNH ĐIỂM ---
+$soMoiTrang = 5;
+$tongTrang = max(1, (int) ceil($tongLuuBut / $soMoiTrang));
+$trangHienTai = max(1, min($tongTrang, getInt('page', 1)));
+$offset = ($trangHienTai - 1) * $soMoiTrang;
+
+$stmt = $pdo->prepare(
+    'SELECT id, ho_ten, loi_nhan, DATE_FORMAT(ngay_tao, "%d/%m/%Y %H:%i") AS thoi_gian
+     FROM tv_luu_but
+     WHERE mssv = :mssv
+     ORDER BY ngay_tao DESC, id DESC
+     LIMIT :limit OFFSET :offset'
+);
+$stmt->bindValue(':mssv', $mssv, PDO::PARAM_STR);
+$stmt->bindValue(':limit', $soMoiTrang, PDO::PARAM_INT);
+$stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+$stmt->execute();
+$dsLuubut = $stmt->fetchAll();
+
+// --- XỬ LÝ MÁY TÍNH ĐIỂM HỌC PHẦN (PHP) ---
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && is_string($_POST['action']) && $_POST['action'] === 'tinhdiem') {
     $a1 = $_POST['a1'] ?? '';
     $a2 = $_POST['a2'] ?? '';
@@ -381,11 +448,42 @@ require __DIR__ . '/../../inc/header.php';
             </p>
         </section>
 
+        <!-- ================= THỐNG KÊ LƯỢT XEM ================= -->
+        <section class="full-box view-stats-section" aria-labelledby="view-stats-heading">
+            <h2 id="view-stats-heading">Thống kê lượt xem trang cá nhân</h2>
+            <p>
+                <strong>Tổng lượt xem từ trước đến nay:</strong>
+                <?= e((string) $tongLuotXem) ?>
+            </p>
+            <div class="table-wrapper">
+                <table class="schedule-table">
+                    <caption>Lượt xem từng ngày trong 7 ngày gần nhất</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Ngày</th>
+                            <th scope="col">Lượt xem</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($thongKeBayNgay as $dong): ?>
+                            <tr>
+                                <th scope="row"><?= e($dong['ngay']) ?></th>
+                                <td><?= e((string) $dong['luot_xem']) ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
         <!-- ================= SỔ LƯU BÚT ================= -->
         <section class="full-box guestbook-section" id="so-luu-but">
-            <h2>Sổ lưu bút</h2>
+            <h2>Sổ lưu bút (Lưu trữ CSDL)</h2>
             <p class="guestbook-description">
-                Hãy để lại lời nhắn, góp ý hoặc lời chúc của bạn!
+                Hãy để lại lời nhắn, góp ý hoặc lời chúc của bạn! Dữ liệu được lưu trữ an toàn trong MySQL.
+                <?php if ($laChuTrang): ?>
+                    <span style="display:inline-block; margin-left: 8px; color: #007f51; font-weight: bold;">(Bạn đang đăng nhập với tư cách chủ trang - có quyền quản lý và xóa lời nhắn)</span>
+                <?php endif; ?>
             </p>
             <form action="gioithieu.php" method="POST" class="guestbook-form">
                 <input type="hidden" name="action" value="luubut">
@@ -400,19 +498,41 @@ require __DIR__ . '/../../inc/header.php';
                 <button type="submit" class="guestbook-submit">Gửi lời nhắn</button>
             </form>
             <div class="guestbook-history">
-                <h3>5 lời nhắn mới nhất</h3>
+                <h3>Danh sách lời nhắn (Trang <?= e((string)$trangHienTai) ?>/<?= e((string)$tongTrang) ?> - Tổng: <?= e((string)$tongLuuBut) ?>)</h3>
                 <?php if (empty($dsLuubut)): ?>
-                    <p>Chưa có lời nhắn nào.</p>
+                    <p>Chưa có lời nhắn nào trong cơ sở dữ liệu.</p>
                 <?php else: ?>
-                    <ul>
+                    <ul class="guestbook-list" style="list-style: none; padding: 0;">
                         <?php foreach ($dsLuubut as $lb): ?>
-                            <li>
-                                <strong><?= e($lb['ten']) ?></strong>
-                                <span class="guestbook-time"> (<?= e($lb['thoi_gian']) ?>)</span>
-                                <p class="guestbook-message"><?= nl2br(e($lb['loi_nhan'])) ?></p>
+                            <li style="border-bottom: 1px solid #e2e8f0; padding: 12px 0;">
+                                <div style="display:flex; justify-content:space-between; align-items:center;">
+                                    <div>
+                                        <strong><?= e($lb['ho_ten']) ?></strong>
+                                        <span class="guestbook-time" style="color: #64748b; font-size: 0.85rem;"> (<?= e($lb['thoi_gian']) ?>)</span>
+                                    </div>
+                                    <?php if ($laChuTrang): ?>
+                                        <form action="gioithieu.php" method="POST" style="margin: 0;" onsubmit="return confirm('Bạn có chắc chắn muốn xóa lời nhắn này?');">
+                                            <input type="hidden" name="action" value="xoa_luubut">
+                                            <input type="hidden" name="id_luubut" value="<?= e((string)$lb['id']) ?>">
+                                            <button type="submit" style="background:#ef4444; color:#fff; border:none; padding:4px 10px; border-radius:4px; font-size:12px; cursor:pointer;">Xóa</button>
+                                        </form>
+                                    <?php endif; ?>
+                                </div>
+                                <p class="guestbook-message" style="margin: 8px 0 0; color: #334155;"><?= nl2br(e($lb['loi_nhan'])) ?></p>
                             </li>
                         <?php endforeach; ?>
                     </ul>
+
+                    <?php if ($tongTrang > 1): ?>
+                        <nav aria-label="Phân trang sổ lưu bút" style="display:flex; gap:8px; justify-content:center; margin-top:20px;">
+                            <?php for ($p = 1; $p <= $tongTrang; $p++): ?>
+                                <a href="gioithieu.php?page=<?= $p ?>#so-luu-but"
+                                   style="display:inline-block; padding:6px 12px; border:1px solid #cbd5e1; border-radius:6px; text-decoration:none; <?= $p === $trangHienTai ? 'background:#00a86b; color:#fff; font-weight:bold;' : 'background:#fff; color:#334155;' ?>">
+                                    <?= $p ?>
+                                </a>
+                            <?php endfor; ?>
+                        </nav>
+                    <?php endif; ?>
                 <?php endif; ?>
             </div>
         </section>

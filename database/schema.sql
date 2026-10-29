@@ -23,7 +23,16 @@ CREATE TABLE nguoi_dung (
     ngay_tao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
 
--- 3. Bảng THỰC THỂ CHÍNH (Sân bóng)
+-- 3. Thành viên có trang cá nhân
+CREATE TABLE thanh_vien (
+    mssv VARCHAR(10) NOT NULL PRIMARY KEY,
+    ho_ten VARCHAR(100) NOT NULL,
+    nguoi_dung_id INT UNSIGNED NULL,
+    CONSTRAINT fk_thanh_vien_nguoi_dung FOREIGN KEY (nguoi_dung_id)
+        REFERENCES nguoi_dung(id) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB;
+
+-- 4. Bảng THỰC THỂ CHÍNH (Sân bóng)
 CREATE TABLE san_bong (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     danh_muc_id INT UNSIGNED NOT NULL,
@@ -37,7 +46,28 @@ CREATE TABLE san_bong (
         REFERENCES danh_muc(id) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE=InnoDB;
 
--- 4. Bảng ĐƠN HÀNG (Đặt sân)
+-- 5. Sổ lưu bút trang cá nhân (Chuyển đổi từ tệp JSONL sang bảng CSDL)
+CREATE TABLE tv_luu_but (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    mssv VARCHAR(10) NOT NULL,
+    ho_ten VARCHAR(100) NOT NULL,
+    loi_nhan TEXT NOT NULL,
+    ngay_tao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_tv_luu_but_thanh_vien FOREIGN KEY (mssv)
+        REFERENCES thanh_vien(mssv) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB;
+
+-- 6. Lượt xem trang cá nhân theo ngày
+CREATE TABLE tv_luot_xem (
+    mssv VARCHAR(10) NOT NULL,
+    ngay DATE NOT NULL,
+    luot_xem INT UNSIGNED NOT NULL DEFAULT 0,
+    PRIMARY KEY (mssv, ngay),
+    CONSTRAINT fk_tv_luot_xem_thanh_vien FOREIGN KEY (mssv)
+        REFERENCES thanh_vien(mssv) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB;
+
+-- 6. Bảng ĐƠN HÀNG (Đặt sân)
 CREATE TABLE dat_san (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     nguoi_dung_id INT UNSIGNED NOT NULL,
@@ -49,7 +79,7 @@ CREATE TABLE dat_san (
         REFERENCES nguoi_dung(id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB;
 
--- 5. Bảng TRUNG GIAN (Chi tiết đơn hàng) - Quan hệ n-n
+-- 7. Bảng TRUNG GIAN (Chi tiết đơn hàng) - Quan hệ n-n
 CREATE TABLE chi_tiet_dat_san (
     dat_san_id INT UNSIGNED NOT NULL,
     san_bong_id INT UNSIGNED NOT NULL,
@@ -68,56 +98,11 @@ CREATE TABLE chi_tiet_dat_san (
         REFERENCES san_bong(id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB;
 
--- 6. Bảng LIÊN HỆ
+-- 8. Bảng LIÊN HỆ
 CREATE TABLE lien_he (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     ho_ten VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
     noi_dung TEXT NOT NULL,
     ngay_gui DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB;
-
-
--- BỔ SUNG THÀNH VIÊN VÀ BẢNG RIÊNG CÁ NHÂN (MSSV: 3120224060 - Hoàng)
--- =========================================================
-
--- 1. Bảng THÀNH VIÊN nhóm
-CREATE TABLE IF NOT EXISTS thanh_vien (
-    mssv VARCHAR(20) PRIMARY KEY,
-    ho_ten VARCHAR(100) NOT NULL,
-    nguoi_dung_id INT UNSIGNED DEFAULT NULL,
-    CONSTRAINT fk_thanh_vien_nguoi_dung FOREIGN KEY (nguoi_dung_id) 
-        REFERENCES nguoi_dung(id) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB;
-
--- 2. Bảng riêng cá nhân 1: Lưu bút / Góp ý (tv_luu_but)
-CREATE TABLE IF NOT EXISTS tv_luu_but (
-    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    mssv VARCHAR(20) NOT NULL,
-    ten_nguoi_gui VARCHAR(100) NOT NULL,
-    noi_dung TEXT NOT NULL,
-    ngay_gui DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_tv_luu_but_thanh_vien FOREIGN KEY (mssv) 
-        REFERENCES thanh_vien(mssv) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB;
-
--- 3. Bảng riêng cá nhân 2: Dự án cá nhân (tv_du_an)
-CREATE TABLE IF NOT EXISTS tv_du_an (
-    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    mssv VARCHAR(20) NOT NULL,
-    ten_du_an VARCHAR(150) NOT NULL,
-    mo_ta TEXT NULL,
-    link_demo VARCHAR(255) NULL,
-    CONSTRAINT fk_tv_du_an_thanh_vien FOREIGN KEY (mssv) 
-        REFERENCES thanh_vien(mssv) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB;
--- Bảng riêng cá nhân 3: Đếm lượt xem theo ngày (tv_luot_xem)
-CREATE TABLE IF NOT EXISTS tv_luot_xem (
-    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    mssv VARCHAR(20) NOT NULL,
-    ngay_xem DATE NOT NULL,
-    luot_xem INT UNSIGNED DEFAULT 1,
-    UNIQUE KEY idx_mssv_ngay (mssv, ngay_xem),
-    CONSTRAINT fk_tv_luot_xem_thanh_vien FOREIGN KEY (mssv) 
-        REFERENCES thanh_vien(mssv) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB;

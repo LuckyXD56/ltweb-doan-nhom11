@@ -77,7 +77,7 @@ Mở trình duyệt và truy cập: [http://localhost:8000](http://localhost:800
 | **Trang cá nhân Hoàng** | `/thanhvien/3120224060_hoang/gioithieu.php` | `thanhvien/3120224060_hoang/gioithieu.php` |
 | **Trang cá nhân Phú** | `/thanhvien/3120224111_phu/gioithieu.php` | `thanhvien/3120224111_phu/gioithieu.php` |
 | **Trang cá nhân Silaphet** | `/thanhvien/3120224188_silaphet/gioithieu.php` | `thanhvien/3120224188_silaphet/gioithieu.php` |
-| **Trang cá nhân Nhân** | `/thanhvien/3120224105_nhan/gioithieu.php` | `thanhvien/3120224105_nhan/gioithieu.php` |
+| **Trang cá nhân Nhân** (Sổ lưu bút CSDL tv_luu_but phân trang/xóa, Thống kê lượt xem tv_luot_xem 7 ngày) | `/thanhvien/3120224105_nhan/gioithieu.php` | `thanhvien/3120224105_nhan/gioithieu.php` |
 
 ---
 *Dự án Bài tập nhóm số 5 chuyển đổi toàn bộ website sang PHP 8 động, tổ chức mã theo PSR-4 Autoload, lưu trữ JSON/JSONL an toàn, quản lý trạng thái bằng Cookie & Session, xác thực mật khẩu với password_hash và phòng chống triệt để các lỗ hổng XSS, Path Traversal, File Upload rác.*
