@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const phut = Math.floor((khoangCach % (1000 * 60 * 60)) / (1000 * 60));
             const giay = Math.floor((khoangCach % (1000 * 60)) / 1000);
 
-            dongHo.textContent = ${ngay} ngày  giờ  phút  giây;
+            dongHo.textContent = `${ngay} ngày ${gio} giờ ${phut} phút ${giay} giây`;
         }, 1000);
     }
 

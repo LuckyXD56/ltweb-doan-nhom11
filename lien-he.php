@@ -24,6 +24,14 @@ require __DIR__ . '/inc/header.php';
 
 <main class="khu-vuc-chinh">
   <h1>Liên hệ với chúng tôi</h1>
+
+  <?php $flash = layFlash(); ?>
+  <?php if ($flash): ?>
+    <div class="vung-thong-bao vung-thong-bao--<?= e($flash['loai']) ?>" role="status" style="padding: 0.75rem 1rem; margin-bottom: 1.5rem; border-radius: 8px; background: <?= $flash['loai'] === 'thanh-cong' ? '#dcfce7; color: #166534; border: 1px solid #86efac;' : '#fee2e2; color: #991b1b; border: 1px solid #fca5a5;' ?>">
+      <?= e($flash['noiDung']) ?>
+    </div>
+  <?php endif; ?>
+
   <p>Mọi thắc mắc về đặt sân, huỷ lịch hoặc hợp tác giải đấu, vui lòng liên hệ theo thông tin bên dưới.</p>
 
   <h2>Thông tin liên hệ</h2>

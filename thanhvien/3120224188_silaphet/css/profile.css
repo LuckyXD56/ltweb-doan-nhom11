@@ -1,4 +1,4 @@
-﻿.profile-main {
+.profile-main {
     max-width: 850px;
     margin: 0 auto;
     padding-top: 2rem;
@@ -134,3 +134,25 @@
 .mb-0-5 { margin-bottom: 0.5rem; }
 .text-primary { color: var(--mau-chinh); }
 .text-secondary { line-height: 1.6; color: #475569; }
+
+/* Bảng và phần tử cuộn ngang responsive trên mobile 360px */
+.bang-cuon-ngang {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.profile-schedule form .truong__nhap {
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.95rem;
+    box-sizing: border-box;
+}
+
+.profile-schedule form .truong__nhap:focus {
+    outline: none;
+    border-color: var(--mau-chinh);
+    box-shadow: 0 0 0 3px rgba(11, 110, 60, 0.15);
+}

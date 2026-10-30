@@ -70,7 +70,7 @@ require __DIR__ . '/inc/header.php';
     <div class="bang-chua">
       <table class="bang">
         <thead>
-          <tr><th>Ngày gửi</th><th>Họ tên</th><th>Email</th><th>Nội dung</th></tr>
+          <tr><th>Ngày gửi</th><th>Họ tên</th><th>Email</th><th>Nội dung</th><th>Ảnh đính kèm</th></tr>
         </thead>
         <tbody>
           <?php foreach (array_slice($dsLienHe, 0, 10) as $lh): ?>
@@ -79,6 +79,15 @@ require __DIR__ . '/inc/header.php';
               <td><?= e($lh['ho_ten']) ?></td>
               <td><?= e($lh['email']) ?></td>
               <td><?= e($lh['noi_dung']) ?></td>
+              <td>
+                <?php if (!empty($lh['hinh_anh'])): ?>
+                  <a href="uploads/<?= e($lh['hinh_anh']) ?>" target="_blank" rel="noopener">
+                    <img src="uploads/<?= e($lh['hinh_anh']) ?>" alt="Ảnh liên hệ" style="max-height: 40px; border-radius: 4px; border: 1px solid #e5e7eb; vertical-align: middle;">
+                  </a>
+                <?php else: ?>
+                  <span style="color: #9ca3af; font-size: 0.85rem;">Không có</span>
+                <?php endif; ?>
+              </td>
             </tr>
           <?php endforeach; ?>
         </tbody>

@@ -128,5 +128,21 @@ CREATE TABLE lien_he (
     ho_ten VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
     noi_dung TEXT NOT NULL,
+    hinh_anh VARCHAR(255) NULL,
     ngay_gui DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+-- 9. Bảng DỰ ÁN CÁ NHÂN CỦA SILAPHET THIT (Chức năng 2 Phần B)
+CREATE TABLE tv_du_an (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    mssv VARCHAR(10) NOT NULL,
+    ten_du_an VARCHAR(150) NOT NULL,
+    loai_du_an ENUM('web', 'mobile', 'ai', 'khac') NOT NULL DEFAULT 'web',
+    mo_ta TEXT NULL,
+    cong_nghe VARCHAR(255) NOT NULL,
+    tien_do TINYINT UNSIGNED NOT NULL DEFAULT 0 CHECK (tien_do <= 100),
+    trang_thai ENUM('dang_lam', 'hoan_thanh', 'tam_dung') NOT NULL DEFAULT 'dang_lam',
+    ngay_tao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_tv_du_an_thanh_vien FOREIGN KEY (mssv)
+        REFERENCES thanh_vien(mssv) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB;
