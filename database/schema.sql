@@ -67,6 +67,30 @@ CREATE TABLE tv_luot_xem (
         REFERENCES thanh_vien(mssv) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB;
 
+-- 7. Danh sách công việc cá nhân của Phimmasone (Chuyển đổi từ Session sang CSDL)
+CREATE TABLE tv_todo_phim (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    mssv VARCHAR(10) NOT NULL,
+    tieu_de VARCHAR(255) NOT NULL,
+    hoan_thanh TINYINT(1) NOT NULL DEFAULT 0,
+    ngay_tao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_tv_todo_thanh_vien FOREIGN KEY (mssv)
+        REFERENCES thanh_vien(mssv) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB;
+
+-- 8. Lịch sử tính chỉ số BMI của Phimmasone (Lưu vào CSDL)
+CREATE TABLE tv_bmi_phim (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    mssv VARCHAR(10) NOT NULL,
+    chieu_cao DECIMAL(5, 1) NOT NULL,
+    can_nang DECIMAL(5, 1) NOT NULL,
+    chi_so_bmi DECIMAL(4, 1) NOT NULL,
+    phan_loai VARCHAR(50) NOT NULL,
+    ngay_tao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_tv_bmi_thanh_vien FOREIGN KEY (mssv)
+        REFERENCES thanh_vien(mssv) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB;
+
 -- 6. Bảng ĐƠN HÀNG (Đặt sân)
 CREATE TABLE dat_san (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,

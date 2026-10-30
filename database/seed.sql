@@ -54,7 +54,20 @@ INSERT INTO nguoi_dung (vai_tro, ho_ten, email, mat_khau) VALUES
 
 -- 4. Thành viên có trang cá nhân và dữ liệu mẫu (Sổ lưu bút, Lượt xem 7 ngày)
 INSERT INTO thanh_vien (mssv, ho_ten, nguoi_dung_id) VALUES
-('3120224105', 'Lê Nguyễn Gia Nhân', 4);
+('3120224105', 'Lê Nguyễn Gia Nhân', 4),
+('3120224192', 'Phimmasone Khamphouvanh', NULL);
+
+-- Dữ liệu mẫu danh sách công việc cá nhân của Phimmasone (tv_todo_phim)
+INSERT INTO tv_todo_phim (mssv, tieu_de, hoan_thanh, ngay_tao) VALUES
+('3120224192', 'Hoàn thành bài tập 6 môn Lập trình Web', 1, '2026-10-25 08:30:00'),
+('3120224192', 'Thiết kế cơ sở dữ liệu MySQL và PDO Prepared Statements', 1, '2026-10-26 10:15:00'),
+('3120224192', 'Kiểm thử 0 lỗi W3C Markup Validator và responsive 360px', 0, '2026-10-27 15:00:00'),
+('3120224192', 'Ôn tập kiến thức Transaction và REST API', 0, '2026-10-28 09:00:00');
+
+-- Dữ liệu mẫu lịch sử đo chỉ số BMI của Phimmasone (tv_bmi_phim)
+INSERT INTO tv_bmi_phim (mssv, chieu_cao, can_nang, chi_so_bmi, phan_loai, ngay_tao) VALUES
+('3120224192', 170.0, 65.0, 22.5, 'Bình thường (Lý tưởng)', '2026-10-24 14:00:00'),
+('3120224192', 170.0, 64.5, 22.3, 'Bình thường (Lý tưởng)', '2026-10-27 08:30:00');
 
 INSERT INTO tv_luu_but (mssv, ho_ten, loi_nhan, ngay_tao) VALUES
 ('3120224105', 'Nguyễn Quý Minh Hoàng', 'Giao diện trang cá nhân và thống kê đẹp lắm Nhân!', '2026-10-25 09:15:00'),
