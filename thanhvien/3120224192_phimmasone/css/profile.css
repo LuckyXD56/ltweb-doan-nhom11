@@ -1,4 +1,7 @@
-﻿.profile-main {
+﻿/* profile.css — Giao diện trang cá nhân Phimmasone Khamphouvanh (MSSV: 3120224192) - Nhóm 11
+   Gia cố bảo mật: Đã loại bỏ 100% inline style trong HTML để tương thích CSP (style-src 'self') */
+
+.profile-main {
     max-width: 850px;
     margin: 0 auto;
     padding-top: 2rem;
@@ -48,12 +51,36 @@
     font-size: 2.2rem;
     font-weight: 800;
     letter-spacing: -0.5px;
+    word-break: break-word;
+    overflow-wrap: anywhere;
 }
 
 .profile-card__role, .profile-card__id {
     font-size: 1.1rem;
     color: #475569;
     margin-bottom: 0.5rem;
+}
+
+/* Badge trạng thái quyền hạn người dùng */
+.vai-tro-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.vai-tro-badge--chu-trang {
+    background: #ecfdf5;
+    color: #065f46;
+    border: 1px solid #a7f3d0;
+}
+
+.vai-tro-badge--khach {
+    background: #f1f5f9;
+    color: #64748b;
+    border: 1px solid #cbd5e1;
 }
 
 /* Danh sách kỹ năng kiểu Tag/Pill */
@@ -82,6 +109,26 @@
     box-shadow: 0 4px 8px rgba(16, 185, 129, 0.4);
 }
 
+.ky-nang-list li.is-hidden {
+    display: none !important;
+}
+
+/* Ô tìm kiếm kỹ năng */
+.skill-search-label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.skill-search-input {
+    margin-bottom: 15px;
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
 /* Phần sở thích */
 .hobbies-section {
     background: var(--mau-trang);
@@ -92,52 +139,36 @@
     border-left: 5px solid #f59e0b;
 }
 
-/* Nâng cấp bảng */
-.profile-schedule {
-    background: var(--mau-trang);
-    padding: 2rem;
-    border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-    margin-top: 2rem;
+/* Thông báo Flash hệ thống */
+.thong-bao {
+    padding: 10px 14px;
+    border-radius: 6px;
+    margin: 1rem 0;
+    font-size: 0.95rem;
 }
 
-.profile-schedule .bang-du-lieu th {
-    background-color: var(--mau-chinh);
-    color: white;
+.thong-bao--thanh-cong {
+    background: #ecfdf5;
+    color: #065f46;
+    border: 1px solid #a7f3d0;
+    border-left: 4px solid #10b981;
 }
 
-.profile-schedule .bang-du-lieu tbody tr:hover {
-    background-color: #f1f5f9;
+.thong-bao--loi {
+    background: #fef2f2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+    border-left: 4px solid #ef4444;
 }
 
-@media (min-width: 600px) {
-    .profile-card {
-        flex-direction: row;
-        align-items: center;
-        text-align: left;
-    }
-    
-    .profile-card__info {
-        text-align: left;
-    }
-    
-    .ky-nang-list {
-        justify-content: flex-start;
-    }
+.thong-bao--canh-bao {
+    background: #fffbeb;
+    color: #92400e;
+    border: 1px solid #fde68a;
+    border-left: 4px solid #f59e0b;
 }
 
-.profile-card__name { word-break: break-word; overflow-wrap: anywhere; }
-@media (max-width: 400px) { .profile-card__name { font-size: 1.5rem; } }
-.flex-wrap { flex-wrap: wrap; }
-.mt-1-5 { margin-top: 1.5rem; }
-.flex-1 { flex: 1; }
-.min-w-200 { min-width: 200px; }
-.mt-0 { margin-top: 0; }
-.mb-0-5 { margin-bottom: 0.5rem; }
-.text-primary { color: var(--mau-chinh); }
-.text-secondary { line-height: 1.6; color: #475569; }
-
-/* Lưới cho Thông tin cá nhân & Kỹ năng */
+/* Lưới 2 cột cho các khối chức năng */
 .info-skills-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -158,6 +189,7 @@
     padding: 2rem;
     border-top: 5px solid var(--mau-chinh);
     height: 100%;
+    box-sizing: border-box;
 }
 
 .info-box ul:not(.ky-nang-list) {
@@ -174,7 +206,399 @@
     width: 1em;
 }
 
-/* Tối ưu hóa UI cho điện thoại */
+/* Tiện ích chung */
+.chu-canh-giua { text-align: center; }
+.mt-0 { margin-top: 0; }
+.mt-1 { margin-top: 1rem; }
+.mt-1-5 { margin-top: 1.5rem; }
+.mb-0-5 { margin-bottom: 0.5rem; }
+.mb-1 { margin-bottom: 1rem; }
+.text-primary { color: var(--mau-chinh); }
+.text-secondary { line-height: 1.6; color: #475569; }
+
+/* -------------------------------------------------------------------------
+   CHỨC NĂNG 1: TODOLIST CÁ NHÂN (tv_todo_phim)
+   ------------------------------------------------------------------------- */
+.todo-tien-do {
+    font-size: 0.85rem;
+    color: #64748b;
+    margin-top: -0.25rem;
+    margin-bottom: 0.75rem;
+}
+
+.todo-form {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.todo-form__input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    box-sizing: border-box;
+}
+
+.todo-form__input:focus {
+    outline: none;
+    border-color: var(--mau-chinh);
+    box-shadow: 0 0 0 2px rgba(5, 150, 105, 0.2);
+}
+
+.todo-trong {
+    color: #64748b;
+    font-style: italic;
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.todo-danh-sach {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.todo-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f8fafc;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border-left: 3px solid var(--mau-chinh);
+    transition: background-color 0.2s;
+}
+
+.todo-item--xong {
+    background: #f1f5f9;
+    border-left-color: #10b981;
+}
+
+.todo-item__trai {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+}
+
+.todo-item__tieu-de {
+    font-weight: 500;
+    color: #1e293b;
+    word-break: break-word;
+}
+
+.todo-item--xong .todo-item__tieu-de {
+    text-decoration: line-through;
+    color: #64748b;
+    font-weight: normal;
+}
+
+.todo-item__phai {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.todo-item__thoi-gian {
+    font-size: 0.75rem;
+    color: #94a3b8;
+    white-space: nowrap;
+}
+
+/* Các form action con trong Todo Item */
+.todo-action-form {
+    display: inline;
+    margin: 0;
+    padding: 0;
+}
+
+.nut-icon-toggle {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    font-size: 1.15rem;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+}
+
+.nut-icon-toggle:focus {
+    outline: 2px solid var(--mau-chinh);
+    border-radius: 4px;
+}
+
+.nut-icon-xoa {
+    background: none;
+    border: none;
+    color: #ef4444;
+    font-weight: bold;
+    font-size: 1rem;
+    padding: 2px 6px;
+    cursor: pointer;
+    line-height: 1;
+    border-radius: 4px;
+    transition: background-color 0.15s, color 0.15s;
+}
+
+.nut-icon-xoa:hover {
+    background-color: #fee2e2;
+    color: #b91c1c;
+}
+
+.todo-xoa-het-wrap {
+    text-align: right;
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+
+.nut-lien-ket-xoa {
+    background: none;
+    border: none;
+    color: #dc2626;
+    font-size: 0.85rem;
+    cursor: pointer;
+    padding: 0;
+    text-decoration: underline;
+}
+
+.nut-lien-ket-xoa:hover {
+    color: #991b1b;
+}
+
+.che-do-xem-ghi-chu {
+    font-size: 0.8rem;
+    color: #64748b;
+    font-style: italic;
+    margin-top: 8px;
+    margin-bottom: 0;
+}
+
+/* -------------------------------------------------------------------------
+   CHỨC NĂNG 2: MÁY TÍNH & LỊCH SỬ BMI (tv_bmi_phim)
+   ------------------------------------------------------------------------- */
+.bmi-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.bmi-form__nhom {
+    display: flex;
+    flex-direction: column;
+}
+
+.bmi-form__nhan {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: #334155;
+}
+
+.bmi-form__input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 0.95rem;
+}
+
+.bmi-form__input:focus {
+    outline: none;
+    border-color: var(--mau-chinh);
+    box-shadow: 0 0 0 2px rgba(5, 150, 105, 0.2);
+}
+
+.bmi-ket-qua {
+    margin-top: 12px;
+    padding: 10px 14px;
+    background: #ecfdf5;
+    border-radius: 6px;
+    border-left: 4px solid var(--mau-chinh);
+}
+
+.bmi-ket-qua__dong1 {
+    margin: 0;
+    color: #065f46;
+}
+
+.bmi-ket-qua__so {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: var(--mau-chinh);
+}
+
+.bmi-ket-qua__dong2 {
+    margin: 4px 0 0;
+    color: #047857;
+    font-size: 0.9rem;
+}
+
+.bmi-lich-su {
+    margin-top: 16px;
+    border-top: 1px dashed #cbd5e1;
+    padding-top: 12px;
+}
+
+.bmi-lich-su__dau {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.bmi-lich-su__tieu-de {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #334155;
+}
+
+.bmi-lich-su__thong-ke {
+    font-size: 0.8rem;
+    color: #64748b;
+}
+
+.bmi-lich-su__bang-wrap {
+    overflow-x: auto;
+}
+
+.bmi-bang {
+    width: 100%;
+    font-size: 0.8rem;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.bmi-bang th {
+    background: #f1f5f9;
+    color: #475569;
+    border-bottom: 1px solid #cbd5e1;
+    padding: 6px 8px;
+    font-weight: 600;
+}
+
+.bmi-bang td {
+    padding: 6px 8px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.bmi-bang__ngay {
+    color: #64748b;
+}
+
+.bmi-bang__so {
+    font-weight: bold;
+    color: var(--mau-chinh);
+}
+
+.bmi-bang__danh-gia {
+    color: #334155;
+}
+
+/* -------------------------------------------------------------------------
+   THỜI KHÓA BIỂU
+   ------------------------------------------------------------------------- */
+.profile-schedule {
+    background: var(--mau-trang);
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    margin-top: 2rem;
+}
+
+.tkb-phu-de {
+    margin-top: -0.5rem;
+    margin-bottom: 1rem;
+    color: #64748b;
+    font-size: 0.9rem;
+}
+
+.tkb-nut-wrap {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.tkb-container {
+    overflow-x: auto;
+}
+
+.tkb-container.is-hidden {
+    display: none !important;
+}
+
+.tkb-table {
+    min-width: 800px;
+    font-size: 0.85rem;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.tkb-table th, .tkb-table td {
+    border: 1px solid #cbd5e1;
+}
+
+.tkb-table thead tr {
+    background-color: var(--mau-chinh);
+    color: white;
+}
+
+.tkb-table thead th {
+    padding: 6px 4px;
+}
+
+.tkb-table tbody {
+    text-align: left;
+    vertical-align: top;
+}
+
+.tkb-col-tiet {
+    width: 5%;
+    text-align: center;
+}
+
+.tkb-col-ngay {
+    width: 13%;
+}
+
+.tkb-cell-center {
+    text-align: center;
+}
+
+.tkb-cell-mon {
+    padding: 6px;
+    line-height: 1.4;
+}
+
+.tkb-hang-nghi {
+    height: 10px;
+    background-color: #f1f5f9;
+}
+
+/* Responsive UI cho thiết bị di động */
+@media (min-width: 600px) {
+    .profile-card {
+        flex-direction: row;
+        align-items: center;
+        text-align: left;
+    }
+    
+    .profile-card__info {
+        text-align: left;
+    }
+    
+    .ky-nang-list {
+        justify-content: flex-start;
+    }
+}
+
 @media (max-width: 600px) {
     .profile-card {
         padding: 1.5rem;
@@ -207,7 +631,7 @@
         font-size: 0.95rem;
     }
     
-    #skill-search {
+    .skill-search-input {
         font-size: 0.9rem;
     }
 }

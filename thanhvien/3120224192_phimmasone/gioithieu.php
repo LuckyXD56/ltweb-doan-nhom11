@@ -2,10 +2,13 @@
 /**
  * gioithieu.php — Trang cá nhân Phimmasone Khamphouvanh (MSSV: 3120224192) - Nhóm 11
  *
- * Bài tập thực hành nhóm số 6 - Phần B:
- *   1. Quản lý công việc cá nhân (tv_todo_phim) qua PDO Prepared Statements: thêm, đổi trạng thái hoàn thành, xóa việc.
- *   2. Máy tính & lưu lịch sử chỉ số BMI (tv_bmi_phim) qua PDO: tính toán, phân loại, lưu lịch sử và thống kê trung bình.
- * Cách thử: Thêm công việc, đánh dấu hoàn thành; tính BMI để lưu vào CSDL và xem 5 lần đo gần nhất; tất cả dùng PRG và chống XSS bằng e().
+ * Bài tập thực hành nhóm số 7 - Bảo mật ứng dụng web (Phần B: Trang cá nhân):
+ *   1. Chuyển toàn bộ thao tác đổi dữ liệu (thêm, đổi trạng thái, xóa, xóa hết) sang POST.
+ *   2. Phòng vệ CSRF tập trung bằng token bí mật kiểm tra qua csrfHopLe() và csrfField().
+ *   3. Kiểm tra phân quyền chủ trang ($laChuTrang) ở phía máy chủ trước khi cho phép sửa/xóa.
+ *   4. Bảo vệ truy vấn CSDL: prepared statements kết hợp WHERE mssv = ? chống tấn công sửa/xóa chéo.
+ *   5. Tuân thủ Content Security Policy: loại bỏ 100% inline CSS (style=) và inline JS (onclick=).
+ *   6. Kiểm tra tham số mảng, lọc dữ liệu đầu vào và mã hóa an toàn đầu ra HTML bằng e().
  */
 
 session_start();
@@ -13,12 +16,48 @@ session_start();
 $baseUrl = '../../';
 require_once __DIR__ . '/../../inc/ham.php';
 require_once __DIR__ . '/../../inc/db.php';
+if (file_exists(__DIR__ . '/../../inc/csrf.php')) {
+    require_once __DIR__ . '/../../inc/csrf.php';
+}
 
 $mssv = '3120224192';
 
+// Hàm mã hóa an toàn dữ liệu in ra HTML (Chống XSS)
 if (!function_exists('e')) {
     function e(?string $s): string {
         return htmlspecialchars((string)$s, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    }
+}
+
+// Tiện ích kiểm tra và làm sạch chuỗi
+if (!function_exists('chuoi')) {
+    function chuoi(mixed $v, string $macDinh = ''): string {
+        return is_string($v) ? trim($v) : $macDinh;
+    }
+}
+
+// Hàm sinh và kiểm tra mã CSRF (Tương thích bài học Chương 7)
+if (!function_exists('csrfToken')) {
+    function csrfToken(): string {
+        if (empty($_SESSION['csrf_token'])) {
+            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+        }
+        return $_SESSION['csrf_token'];
+    }
+}
+
+if (!function_exists('csrfField')) {
+    function csrfField(): string {
+        return '<input type="hidden" name="csrf" value="' . e(csrfToken()) . '">';
+    }
+}
+
+if (!function_exists('csrfHopLe')) {
+    function csrfHopLe(?string $token): bool {
+        if (empty($_SESSION['csrf_token']) || empty($token)) {
+            return false;
+        }
+        return hash_equals($_SESSION['csrf_token'], $token);
     }
 }
 
@@ -31,6 +70,38 @@ try {
     $dbLoi = 'Chưa thể kết nối CSDL MySQL: ' . $e->getMessage();
 }
 
+// -------------------------------------------------------------
+// XÁC THỰC VÀ PHÂN QUYỀN CHỦ TRANG PHÍA MÁY CHỦ ($laChuTrang)
+// -------------------------------------------------------------
+$laChuTrang = false;
+$tvRow = null;
+if ($pdo) {
+    try {
+        $stTV = $pdo->prepare('SELECT mssv, ho_ten, nguoi_dung_id FROM thanh_vien WHERE mssv = ?');
+        $stTV->execute([$mssv]);
+        $tvRow = $stTV->fetch(PDO::FETCH_ASSOC);
+    } catch (Throwable $e) {
+        // bỏ qua
+    }
+}
+
+if (!empty($_SESSION['da_dang_nhap'])) {
+    $currentUid   = (int)($_SESSION['nguoi_dung_id'] ?? $_SESSION['uid'] ?? 0);
+    $currentRole  = (string)($_SESSION['vai_tro'] ?? '');
+    $currentEmail = (string)($_SESSION['email'] ?? '');
+    $currentMssv  = (string)($_SESSION['mssv'] ?? '');
+    
+    if (
+        $currentMssv === $mssv
+        || $currentEmail === 'phimmasone@sanbong.vn'
+        || $currentEmail === 'phimmasone@gmail.com'
+        || $currentRole === 'quan_tri'
+        || ($tvRow && !empty($tvRow['nguoi_dung_id']) && $currentUid === (int)$tvRow['nguoi_dung_id'])
+    ) {
+        $laChuTrang = true;
+    }
+}
+
 // Lấy thông báo Flash từ Session (PRG)
 $thongBaoThanhCong = $_SESSION['flash_tb'] ?? null;
 unset($_SESSION['flash_tb']);
@@ -41,68 +112,181 @@ unset($_SESSION['flash_loi']);
 $bmiKetQua = $_SESSION['flash_bmi'] ?? null;
 unset($_SESSION['flash_bmi']);
 
-// -------------------------------------------------------------
-// 1. CHỨC NĂNG 1: TODOLIST LƯU CSDL (tv_todo_phim)
-// -------------------------------------------------------------
-// 1.1 Thêm công việc mới (POST)
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'them_todo') {
-    $viecMoi = trim((string)($_POST['viec_moi'] ?? ''));
-    if ($viecMoi === '') {
-        $_SESSION['flash_loi'] = 'Vui lòng nhập nội dung công việc.';
-    } elseif ($pdo) {
-        try {
-            $stmt = $pdo->prepare("INSERT INTO tv_todo_phim (mssv, tieu_de, hoan_thanh) VALUES (?, ?, 0)");
-            $stmt->execute([$mssv, $viecMoi]);
-            $_SESSION['flash_tb'] = 'Đã thêm công việc mới vào CSDL!';
-        } catch (PDOException $e) {
-            $_SESSION['flash_loi'] = 'Lỗi lưu công việc: ' . $e->getMessage();
+// =============================================================
+// XỬ LÝ CÁC HÀNH ĐỘNG POST (MÔ HÌNH PRG & GIA CỐ BẢO MẬT)
+// =============================================================
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // 1. Kiểm tra mã bảo vệ CSRF
+    $csrfGuiLen = is_string($_POST['csrf'] ?? null) ? $_POST['csrf'] : '';
+    if (!csrfHopLe($csrfGuiLen)) {
+        http_response_code(403);
+        if (file_exists(__DIR__ . '/../../403.php')) {
+            require __DIR__ . '/../../403.php';
+        } else {
+            echo '<!DOCTYPE html><html lang="vi"><head><meta charset="UTF-8"><title>403 Forbidden</title></head><body><h1>403 Forbidden</h1><p>Yêu cầu bị từ chối: Mã bảo vệ CSRF không hợp lệ hoặc đã hết hạn.</p><p><a href="gioithieu.php">Quay lại trang cá nhân</a></p></body></html>';
         }
+        exit;
     }
-    header('Location: gioithieu.php');
-    exit;
+
+    // 2. Kiểm tra tham số action
+    $action = $_POST['action'] ?? '';
+    if (!is_string($action)) {
+        http_response_code(400);
+        exit('Bad Request: Tham số action không hợp lệ.');
+    }
+
+    // ---------------------------------------------------------
+    // CHỨC NĂNG 1: TODOLIST CÁ NHÂN (tv_todo_phim)
+    // ---------------------------------------------------------
+
+    // 1.1 Thêm công việc mới (POST)
+    if ($action === 'them_todo') {
+        if (!$laChuTrang) {
+            $_SESSION['flash_loi'] = 'Bảo mật: Bạn không có quyền thêm công việc vào danh sách của thành viên này!';
+        } else {
+            $rawViec = $_POST['viec_moi'] ?? '';
+            $viecMoi = is_string($rawViec) ? trim($rawViec) : '';
+
+            if ($viecMoi === '') {
+                $_SESSION['flash_loi'] = 'Vui lòng nhập nội dung công việc.';
+            } elseif (mb_strlen($viecMoi) > 255) {
+                $_SESSION['flash_loi'] = 'Nội dung công việc không được vượt quá 255 ký tự.';
+            } elseif ($pdo) {
+                try {
+                    $stmt = $pdo->prepare("INSERT INTO tv_todo_phim (mssv, tieu_de, hoan_thanh) VALUES (?, ?, 0)");
+                    $stmt->execute([$mssv, $viecMoi]);
+                    $_SESSION['flash_tb'] = 'Đã thêm công việc mới vào CSDL!';
+                } catch (PDOException $e) {
+                    $_SESSION['flash_loi'] = 'Lỗi lưu công việc: ' . $e->getMessage();
+                }
+            }
+        }
+        header('Location: gioithieu.php');
+        exit;
+    }
+
+    // 1.2 Đổi trạng thái hoàn thành (POST)
+    elseif ($action === 'toggle_todo') {
+        if (!$laChuTrang) {
+            $_SESSION['flash_loi'] = 'Bảo mật: Bạn không có quyền đổi trạng thái công việc của thành viên này!';
+        } else {
+            $idTodo = filter_var($_POST['id'] ?? null, FILTER_VALIDATE_INT);
+            if ($idTodo && $pdo) {
+                try {
+                    // WHERE id = ? AND mssv = ? chống can thiệp trái phép việc người khác
+                    $stmt = $pdo->prepare("UPDATE tv_todo_phim SET hoan_thanh = 1 - hoan_thanh WHERE id = ? AND mssv = ?");
+                    $stmt->execute([$idTodo, $mssv]);
+                    $_SESSION['flash_tb'] = 'Đã cập nhật trạng thái công việc!';
+                } catch (PDOException $e) {
+                    $_SESSION['flash_loi'] = 'Lỗi cập nhật trạng thái: ' . $e->getMessage();
+                }
+            }
+        }
+        header('Location: gioithieu.php');
+        exit;
+    }
+
+    // 1.3 Xóa 1 công việc (POST)
+    elseif ($action === 'xoa_todo') {
+        if (!$laChuTrang) {
+            $_SESSION['flash_loi'] = 'Bảo mật: Bạn không có quyền xóa công việc của thành viên này!';
+        } else {
+            $idTodo = filter_var($_POST['id'] ?? null, FILTER_VALIDATE_INT);
+            if ($idTodo && $pdo) {
+                try {
+                    // WHERE id = ? AND mssv = ? bảo vệ xóa chéo dữ liệu giữa các thành viên
+                    $stmt = $pdo->prepare("DELETE FROM tv_todo_phim WHERE id = ? AND mssv = ?");
+                    $stmt->execute([$idTodo, $mssv]);
+                    if ($stmt->rowCount() > 0) {
+                        $_SESSION['flash_tb'] = 'Đã xóa công việc khỏi CSDL!';
+                    } else {
+                        $_SESSION['flash_loi'] = 'Không tìm thấy công việc cần xóa hoặc công việc không thuộc về bạn.';
+                    }
+                } catch (PDOException $e) {
+                    $_SESSION['flash_loi'] = 'Lỗi xóa công việc: ' . $e->getMessage();
+                }
+            }
+        }
+        header('Location: gioithieu.php');
+        exit;
+    }
+
+    // 1.4 Xóa toàn bộ công việc (POST)
+    elseif ($action === 'xoa_het_todo') {
+        if (!$laChuTrang) {
+            $_SESSION['flash_loi'] = 'Bảo mật: Bạn không có quyền xóa danh sách của thành viên này!';
+        } elseif ($pdo) {
+            try {
+                $stmt = $pdo->prepare("DELETE FROM tv_todo_phim WHERE mssv = ?");
+                $stmt->execute([$mssv]);
+                $_SESSION['flash_tb'] = 'Đã xóa tất cả công việc của bạn!';
+            } catch (PDOException $e) {
+                $_SESSION['flash_loi'] = 'Lỗi xóa danh sách: ' . $e->getMessage();
+            }
+        }
+        header('Location: gioithieu.php');
+        exit;
+    }
+
+    // ---------------------------------------------------------
+    // CHỨC NĂNG 2: MÁY TÍNH & LỊCH SỬ BMI (tv_bmi_phim)
+    // ---------------------------------------------------------
+    elseif ($action === 'tinh_bmi') {
+        // Kiểm tra an toàn trước tham số mảng
+        $rawCao  = $_POST['chieucao'] ?? null;
+        $rawNang = $_POST['cannang'] ?? null;
+
+        if (is_array($rawCao) || is_array($rawNang)) {
+            $_SESSION['flash_loi'] = 'Lỗi: Tham số chiều cao hoặc cân nặng không đúng định dạng (mảng tham số).';
+            header('Location: gioithieu.php');
+            exit;
+        }
+
+        $chieuCao = filter_var($rawCao, FILTER_VALIDATE_FLOAT);
+        $canNang  = filter_var($rawNang, FILTER_VALIDATE_FLOAT);
+
+        if ($chieuCao !== false && $canNang !== false && $chieuCao >= 50 && $chieuCao <= 250 && $canNang >= 10 && $canNang <= 300) {
+            $m = $chieuCao / 100;
+            $bmi = round($canNang / ($m * $m), 1);
+
+            if ($bmi < 18.5) {
+                $phanLoai = 'Gầy (Thiếu cân)';
+            } elseif ($bmi < 24.9) {
+                $phanLoai = 'Bình thường (Lý tưởng)';
+            } elseif ($bmi < 29.9) {
+                $phanLoai = 'Tiền béo phì (Hơi thừa cân)';
+            } else {
+                $phanLoai = 'Béo phì';
+            }
+
+            if ($pdo) {
+                try {
+                    $stmt = $pdo->prepare("INSERT INTO tv_bmi_phim (mssv, chieu_cao, can_nang, chi_so_bmi, phan_loai) VALUES (?, ?, ?, ?, ?)");
+                    $stmt->execute([$mssv, $chieuCao, $canNang, $bmi, $phanLoai]);
+                    $_SESSION['flash_tb'] = 'Đã tính BMI và lưu lịch sử vào CSDL thành công!';
+                } catch (PDOException $e) {
+                    $_SESSION['flash_loi'] = 'Lỗi lưu CSDL BMI: ' . $e->getMessage();
+                }
+            }
+
+            $_SESSION['flash_bmi'] = [
+                'bmi' => $bmi,
+                'phan_loai' => $phanLoai,
+                'chieu_cao' => $chieuCao,
+                'can_nang' => $canNang
+            ];
+        } else {
+            $_SESSION['flash_loi'] = 'Vui lòng nhập chiều cao (50-250cm) và cân nặng (10-300kg) hợp lệ.';
+        }
+        header('Location: gioithieu.php');
+        exit;
+    }
 }
 
-// 1.2 Đổi trạng thái hoàn thành (GET)
-if (isset($_GET['toggle_todo']) && $pdo) {
-    $idTodo = (int)$_GET['toggle_todo'];
-    try {
-        $stmt = $pdo->prepare("UPDATE tv_todo_phim SET hoan_thanh = 1 - hoan_thanh WHERE id = ? AND mssv = ?");
-        $stmt->execute([$idTodo, $mssv]);
-    } catch (PDOException $e) {
-        // bỏ qua
-    }
-    header('Location: gioithieu.php');
-    exit;
-}
-
-// 1.3 Xóa 1 công việc (GET)
-if (isset($_GET['xoa_todo']) && $pdo) {
-    $idTodo = (int)$_GET['xoa_todo'];
-    try {
-        $stmt = $pdo->prepare("DELETE FROM tv_todo_phim WHERE id = ? AND mssv = ?");
-        $stmt->execute([$idTodo, $mssv]);
-        $_SESSION['flash_tb'] = 'Đã xóa công việc khỏi CSDL!';
-    } catch (PDOException $e) {
-        $_SESSION['flash_loi'] = 'Lỗi xóa công việc: ' . $e->getMessage();
-    }
-    header('Location: gioithieu.php');
-    exit;
-}
-
-// 1.4 Xóa toàn bộ công việc (GET)
-if (isset($_GET['xoa_het_todo']) && $pdo) {
-    try {
-        $stmt = $pdo->prepare("DELETE FROM tv_todo_phim WHERE mssv = ?");
-        $stmt->execute([$mssv]);
-        $_SESSION['flash_tb'] = 'Đã xóa tất cả công việc của bạn!';
-    } catch (PDOException $e) {
-        $_SESSION['flash_loi'] = 'Lỗi xóa danh sách: ' . $e->getMessage();
-    }
-    header('Location: gioithieu.php');
-    exit;
-}
-
-// 1.5 Đọc danh sách công việc từ CSDL
+// -------------------------------------------------------------
+// ĐỌC DỮ LIỆU HIỂN THỊ TỪ CSDL
+// -------------------------------------------------------------
+// 1. Đọc danh sách công việc
 $danhSachTodo = [];
 $tongTodo = 0;
 $soHoanThanh = 0;
@@ -118,56 +302,11 @@ if ($pdo) {
             }
         }
     } catch (Throwable $e) {
-        // bảng chưa có hoặc lỗi
+        // bỏ qua
     }
 }
 
-// -------------------------------------------------------------
-// 2. CHỨC NĂNG 2: MÁY TÍNH & LỊCH SỬ CHỈ SỐ BMI (tv_bmi_phim)
-// -------------------------------------------------------------
-// 2.1 Xử lý tính toán & lưu kết quả (POST)
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'tinh_bmi') {
-    $chieuCao = (float)($_POST['chieucao'] ?? 0);
-    $canNang  = (float)($_POST['cannang'] ?? 0);
-
-    if ($chieuCao > 0 && $canNang > 0) {
-        $m = $chieuCao / 100;
-        $bmi = round($canNang / ($m * $m), 1);
-
-        if ($bmi < 18.5) {
-            $phanLoai = 'Gầy (Thiếu cân)';
-        } elseif ($bmi < 24.9) {
-            $phanLoai = 'Bình thường (Lý tưởng)';
-        } elseif ($bmi < 29.9) {
-            $phanLoai = 'Tiền béo phì (Hơi thừa cân)';
-        } else {
-            $phanLoai = 'Béo phì';
-        }
-
-        if ($pdo) {
-            try {
-                $stmt = $pdo->prepare("INSERT INTO tv_bmi_phim (mssv, chieu_cao, can_nang, chi_so_bmi, phan_loai) VALUES (?, ?, ?, ?, ?)");
-                $stmt->execute([$mssv, $chieuCao, $canNang, $bmi, $phanLoai]);
-                $_SESSION['flash_tb'] = 'Đã tính BMI và lưu lịch sử vào CSDL thành công!';
-            } catch (PDOException $e) {
-                $_SESSION['flash_loi'] = 'Lỗi lưu CSDL BMI: ' . $e->getMessage();
-            }
-        }
-
-        $_SESSION['flash_bmi'] = [
-            'bmi' => $bmi,
-            'phan_loai' => $phanLoai,
-            'chieu_cao' => $chieuCao,
-            'can_nang' => $canNang
-        ];
-    } else {
-        $_SESSION['flash_loi'] = 'Vui lòng nhập chiều cao và cân nặng hợp lệ lớn hơn 0.';
-    }
-    header('Location: gioithieu.php');
-    exit;
-}
-
-// 2.2 Đọc 5 lần đo BMI gần nhất & thống kê trung bình
+// 2. Đọc 5 lần đo BMI gần nhất & thống kê trung bình
 $lichSuBmi = [];
 $thongKeBmi = ['tong_lan' => 0, 'bmi_tb' => 0];
 if ($pdo) {
@@ -183,7 +322,7 @@ if ($pdo) {
             $thongKeBmi = $rowTk;
         }
     } catch (Throwable $e) {
-        // bảng chưa có hoặc lỗi
+        // bỏ qua
     }
 }
 ?>
@@ -197,7 +336,6 @@ if ($pdo) {
     <link rel="stylesheet" href="../../css/style.css">
     <link rel="stylesheet" href="css/profile.css">
 </head>
-
 <body class="trang">
     <header class="trang__header">
         <h1>Sân Bóng Thắng Lợi</h1>
@@ -227,7 +365,14 @@ if ($pdo) {
                 <h3 class="profile-card__name">Phimmasone Khamphouvanh</h3>
                 <p class="profile-card__role"><strong>Vai trò:</strong> Thành viên nhóm</p>
                 <p class="profile-card__id"><strong>Mã sinh viên:</strong> 3120224192</p>
-                <p><strong>Nhiệm vụ:</strong> Phụ trách nội dung HTML và trang giới thiệu cá nhân.</p>
+                
+                <?php if ($laChuTrang): ?>
+                    <span class="vai-tro-badge vai-tro-badge--chu-trang">🛡 Chủ trang (Phimmasone) - Có quyền quản lý</span>
+                <?php else: ?>
+                    <span class="vai-tro-badge vai-tro-badge--khach">👤 Khách xem trang (Chỉ xem)</span>
+                <?php endif; ?>
+                
+                <p><strong>Nhiệm vụ:</strong> Phụ trách nội dung HTML, trang cá nhân và gia cố bảo mật CSRF / CSP.</p>
             </div>
         </section>
 
@@ -245,8 +390,8 @@ if ($pdo) {
             
             <div class="info-box">
                 <h4 class="mt-0 text-primary mb-0-5">Kỹ năng</h4>
-                <label for="skill-search" style="display:block; font-weight: bold; margin-bottom: 5px;">Tìm kiếm kỹ năng:</label>
-                <input type="text" id="skill-search" placeholder="Ví dụ: HTML, CSS, Responsive..." class="bieu-mau__o-nhap" style="margin-bottom:15px; width:100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px;">
+                <label for="skill-search" class="skill-search-label">Tìm kiếm kỹ năng:</label>
+                <input type="text" id="skill-search" placeholder="Ví dụ: HTML, CSS, Responsive..." class="bieu-mau__o-nhap skill-search-input">
                 <ul class="ky-nang-list" id="skill-list">
                     <li>HTML5 Semantic</li>
                     <li>CSS3 Responsive</li>
@@ -265,61 +410,95 @@ if ($pdo) {
 
         <!-- THÔNG BÁO FLASH HỆ THỐNG -->
         <?php if ($thongBaoThanhCong): ?>
-            <div style="background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; border-left: 4px solid #10b981; padding: 10px 14px; border-radius: 6px; margin: 1rem 0;">
+            <div class="thong-bao thong-bao--thanh-cong">
                 ✓ <?= e($thongBaoThanhCong) ?>
             </div>
         <?php endif; ?>
         <?php if ($thongBaoLoi): ?>
-            <div style="background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; border-left: 4px solid #ef4444; padding: 10px 14px; border-radius: 6px; margin: 1rem 0;">
+            <div class="thong-bao thong-bao--loi">
                 ⚠ <?= e($thongBaoLoi) ?>
             </div>
         <?php endif; ?>
         <?php if ($dbLoi): ?>
-            <div style="background: #fffbeb; color: #92400e; border: 1px solid #fde68a; border-left: 4px solid #f59e0b; padding: 10px 14px; border-radius: 6px; margin: 1rem 0;">
+            <div class="thong-bao thong-bao--canh-bao">
                 ℹ <?= e($dbLoi) ?>
             </div>
         <?php endif; ?>
 
-        <!-- HAI CHỨC NĂNG XỬ LÝ MÁY CHỦ BẰNG PHP & CSDL MYSQL -->
-        <section class="info-skills-grid" style="margin-top: 1.5rem;">
+        <!-- HAI CHỨC NĂNG XỬ LÝ MÁY CHỦ BẰNG PHP & CSDL MYSQL (ĐÃ GIA CỐ BẢO MẬT) -->
+        <section class="info-skills-grid mt-1-5">
             <!-- 1. Danh sách công việc (tv_todo_phim) -->
             <div class="info-box">
                 <h4 class="mt-0 text-primary mb-0-5">📝 Danh sách công việc (CSDL: tv_todo_phim)</h4>
-                <p style="font-size: 0.85rem; color: #64748b; margin-top: -0.25rem; margin-bottom: 0.75rem;">
+                <p class="todo-tien-do">
                     Tiến độ: <strong><?= $soHoanThanh ?>/<?= $tongTodo ?></strong> hoàn thành
                 </p>
 
-                <form method="post" action="gioithieu.php" style="display: flex; gap: 8px; margin-bottom: 12px;">
-                    <input type="hidden" name="action" value="them_todo">
-                    <input type="text" name="viec_moi" placeholder="Nhập việc cần làm..." required style="flex: 1; padding: 8px; border: 1px solid #ccc; border-radius: 6px;">
-                    <button class="nut nut--chinh" type="submit">Thêm việc</button>
-                </form>
+                <?php if ($laChuTrang): ?>
+                    <!-- Form thêm việc qua POST có CSRF token -->
+                    <form method="post" action="gioithieu.php" class="todo-form">
+                        <?= csrfField() ?>
+                        <input type="hidden" name="action" value="them_todo">
+                        <input type="text" name="viec_moi" placeholder="Nhập việc cần làm..." required class="todo-form__input">
+                        <button class="nut nut--chinh" type="submit">Thêm việc</button>
+                    </form>
+                <?php else: ?>
+                    <p class="che-do-xem-ghi-chu">🔒 Đang xem ở chế độ khách. Chỉ chủ trang (Phimmasone) mới có quyền thêm/xóa công việc.</p>
+                <?php endif; ?>
 
                 <?php if (empty($danhSachTodo)): ?>
-                    <p style="color: #64748b; font-style: italic; margin: 0;">Chưa có công việc nào trong CSDL.</p>
+                    <p class="todo-trong">Chưa có công việc nào trong CSDL.</p>
                 <?php else: ?>
-                    <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px;">
+                    <ul class="todo-danh-sach">
                         <?php foreach ($danhSachTodo as $item): ?>
                             <?php $daXong = ((int)$item['hoan_thanh'] === 1); ?>
-                            <li style="display: flex; justify-content: space-between; align-items: center; background: <?= $daXong ? '#f1f5f9' : '#f8fafc' ?>; padding: 8px 12px; border-radius: 6px; border-left: 3px solid <?= $daXong ? '#10b981' : 'var(--mau-chinh)' ?>;">
-                                <div style="display: flex; align-items: center; gap: 8px; flex: 1;">
-                                    <a href="gioithieu.php?toggle_todo=<?= (int)$item['id'] ?>" title="Nhấn để đổi trạng thái" style="text-decoration: none; font-size: 1.1rem;">
-                                        <?= $daXong ? '✅' : '⬜' ?>
-                                    </a>
-                                    <span style="<?= $daXong ? 'text-decoration: line-through; color: #64748b;' : 'font-weight: 500;' ?>">
+                            <li class="todo-item <?= $daXong ? 'todo-item--xong' : '' ?>">
+                                <div class="todo-item__trai">
+                                    <?php if ($laChuTrang): ?>
+                                        <!-- Form đổi trạng thái qua POST có CSRF token -->
+                                        <form method="post" action="gioithieu.php" class="todo-action-form">
+                                            <?= csrfField() ?>
+                                            <input type="hidden" name="action" value="toggle_todo">
+                                            <input type="hidden" name="id" value="<?= (int)$item['id'] ?>">
+                                            <button type="submit" class="nut-icon-toggle" title="Nhấn để đổi trạng thái" aria-label="Đổi trạng thái">
+                                                <?= $daXong ? '✅' : '⬜' ?>
+                                            </button>
+                                        </form>
+                                    <?php else: ?>
+                                        <span aria-hidden="true"><?= $daXong ? '✅' : '⬜' ?></span>
+                                    <?php endif; ?>
+
+                                    <span class="todo-item__tieu-de">
                                         <?= e($item['tieu_de']) ?>
                                     </span>
                                 </div>
-                                <div style="display: flex; align-items: center; gap: 10px;">
-                                    <span style="font-size: 0.75rem; color: #94a3b8;"><?= date('d/m H:i', strtotime($item['ngay_tao'])) ?></span>
-                                    <a href="gioithieu.php?xoa_todo=<?= (int)$item['id'] ?>" style="color: #ef4444; font-weight: bold; text-decoration: none; padding: 2px 6px;" onclick="return confirm('Xoá công việc này?');" title="Xóa">✕</a>
+                                <div class="todo-item__phai">
+                                    <span class="todo-item__thoi-gian"><?= date('d/m H:i', strtotime($item['ngay_tao'])) ?></span>
+                                    
+                                    <?php if ($laChuTrang): ?>
+                                        <!-- Form xóa việc qua POST có CSRF token và xác nhận unobtrusive -->
+                                        <form method="post" action="gioithieu.php" class="todo-action-form" data-confirm="Xoá công việc này?">
+                                            <?= csrfField() ?>
+                                            <input type="hidden" name="action" value="xoa_todo">
+                                            <input type="hidden" name="id" value="<?= (int)$item['id'] ?>">
+                                            <button type="submit" class="nut-icon-xoa" title="Xóa" aria-label="Xóa">✕</button>
+                                        </form>
+                                    <?php endif; ?>
                                 </div>
                             </li>
                         <?php endforeach; ?>
                     </ul>
-                    <p style="text-align: right; margin-top: 10px; margin-bottom: 0;">
-                        <a href="gioithieu.php?xoa_het_todo=1" style="color: #dc2626; font-size: 0.85rem; text-decoration: none;" onclick="return confirm('Xoá toàn bộ công việc trong CSDL?');">🗑 Xóa hết danh sách</a>
-                    </p>
+
+                    <?php if ($laChuTrang): ?>
+                        <div class="todo-xoa-het-wrap">
+                            <!-- Form xóa toàn bộ qua POST có CSRF token -->
+                            <form method="post" action="gioithieu.php" class="todo-action-form" data-confirm="Xoá toàn bộ công việc trong CSDL?">
+                                <?= csrfField() ?>
+                                <input type="hidden" name="action" value="xoa_het_todo">
+                                <button type="submit" class="nut-lien-ket-xoa">🗑 Xóa hết danh sách</button>
+                            </form>
+                        </div>
+                    <?php endif; ?>
                 <?php endif; ?>
             </div>
 
@@ -327,55 +506,56 @@ if ($pdo) {
             <div class="info-box">
                 <h4 class="mt-0 text-primary mb-0-5">💪 Máy tính &amp; Lịch sử BMI (CSDL: tv_bmi_phim)</h4>
                 
-                <form method="post" action="gioithieu.php" style="display: flex; flex-direction: column; gap: 10px;">
+                <form method="post" action="gioithieu.php" class="bmi-form">
+                    <?= csrfField() ?>
                     <input type="hidden" name="action" value="tinh_bmi">
-                    <div>
-                        <label for="chieu-cao-nhap" style="display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 4px;">Chiều cao (cm):</label>
-                        <input type="number" id="chieu-cao-nhap" name="chieucao" step="0.1" min="50" max="250" placeholder="Ví dụ: 170" required style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 6px;">
+                    <div class="bmi-form__nhom">
+                        <label for="chieu-cao-nhap" class="bmi-form__nhan">Chiều cao (cm):</label>
+                        <input type="number" id="chieu-cao-nhap" name="chieucao" step="0.1" min="50" max="250" placeholder="Ví dụ: 170" required class="bmi-form__input">
                     </div>
-                    <div>
-                        <label for="can-nang-nhap" style="display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 4px;">Cân nặng (kg):</label>
-                        <input type="number" id="can-nang-nhap" name="cannang" step="0.1" min="10" max="300" placeholder="Ví dụ: 65" required style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 6px;">
+                    <div class="bmi-form__nhom">
+                        <label for="can-nang-nhap" class="bmi-form__nhan">Cân nặng (kg):</label>
+                        <input type="number" id="can-nang-nhap" name="cannang" step="0.1" min="10" max="300" placeholder="Ví dụ: 65" required class="bmi-form__input">
                     </div>
-                    <button class="nut nut--chinh" type="submit" style="align-self: flex-start;">Tính BMI &amp; Lưu CSDL</button>
+                    <button class="nut nut--chinh" type="submit">Tính BMI &amp; Lưu CSDL</button>
                 </form>
 
                 <?php if ($bmiKetQua): ?>
-                    <div style="margin-top: 12px; padding: 10px 14px; background: #ecfdf5; border-radius: 6px; border-left: 4px solid var(--mau-chinh);">
-                        <p style="margin: 0; color: #065f46;"><strong>Kết quả vừa tính:</strong> BMI <span style="font-size: 1.2rem; font-weight: bold; color: var(--mau-chinh);"><?= $bmiKetQua['bmi'] ?></span></p>
-                        <p style="margin: 4px 0 0; color: #047857; font-size: 0.9rem;"><strong>Đánh giá:</strong> <?= e($bmiKetQua['phan_loai']) ?> (<?= $bmiKetQua['chieu_cao'] ?> cm, <?= $bmiKetQua['can_nang'] ?> kg)</p>
+                    <div class="bmi-ket-qua">
+                        <p class="bmi-ket-qua__dong1"><strong>Kết quả vừa tính:</strong> BMI <span class="bmi-ket-qua__so"><?= (float)$bmiKetQua['bmi'] ?></span></p>
+                        <p class="bmi-ket-qua__dong2"><strong>Đánh giá:</strong> <?= e($bmiKetQua['phan_loai']) ?> (<?= (float)$bmiKetQua['chieu_cao'] ?> cm, <?= (float)$bmiKetQua['can_nang'] ?> kg)</p>
                     </div>
                 <?php endif; ?>
 
                 <!-- Lịch sử đo gần đây -->
-                <div style="margin-top: 16px; border-top: 1px dashed #cbd5e1; padding-top: 12px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                        <span style="font-size: 0.9rem; font-weight: bold; color: #334155;">📊 Lịch sử đo gần đây</span>
+                <div class="bmi-lich-su">
+                    <div class="bmi-lich-su__dau">
+                        <span class="bmi-lich-su__tieu-de">📊 Lịch sử đo gần đây</span>
                         <?php if ($thongKeBmi['tong_lan'] > 0): ?>
-                            <span style="font-size: 0.8rem; color: #64748b;">(TB: <strong><?= $thongKeBmi['bmi_tb'] ?></strong> - <?= $thongKeBmi['tong_lan'] ?> lần)</span>
+                            <span class="bmi-lich-su__thong-ke">(TB: <strong><?= (float)$thongKeBmi['bmi_tb'] ?></strong> - <?= (int)$thongKeBmi['tong_lan'] ?> lần)</span>
                         <?php endif; ?>
                     </div>
 
                     <?php if (empty($lichSuBmi)): ?>
-                        <p style="color: #64748b; font-style: italic; font-size: 0.85rem; margin: 0;">Chưa có dữ liệu lịch sử đo BMI.</p>
+                        <p class="todo-trong">Chưa có dữ liệu lịch sử đo BMI.</p>
                     <?php else: ?>
-                        <div style="overflow-x: auto;">
-                            <table style="width: 100%; font-size: 0.8rem; border-collapse: collapse; text-align: left;">
+                        <div class="bmi-lich-su__bang-wrap">
+                            <table class="bmi-bang">
                                 <thead>
-                                    <tr style="background: #f1f5f9; color: #475569; border-bottom: 1px solid #cbd5e1;">
-                                        <th style="padding: 4px 6px;">Ngày</th>
-                                        <th style="padding: 4px 6px;">Cao/Nặng</th>
-                                        <th style="padding: 4px 6px;">BMI</th>
-                                        <th style="padding: 4px 6px;">Đánh giá</th>
+                                    <tr>
+                                        <th>Ngày</th>
+                                        <th>Cao/Nặng</th>
+                                        <th>BMI</th>
+                                        <th>Đánh giá</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php foreach ($lichSuBmi as $itemBmi): ?>
-                                        <tr style="border-bottom: 1px solid #f1f5f9;">
-                                            <td style="padding: 4px 6px; color: #64748b;"><?= date('d/m/Y', strtotime($itemBmi['ngay_tao'])) ?></td>
-                                            <td style="padding: 4px 6px;"><?= (float)$itemBmi['chieu_cao'] ?>cm / <?= (float)$itemBmi['can_nang'] ?>kg</td>
-                                            <td style="padding: 4px 6px; font-weight: bold; color: var(--mau-chinh);"><?= (float)$itemBmi['chi_so_bmi'] ?></td>
-                                            <td style="padding: 4px 6px; color: #334155;"><?= e($itemBmi['phan_loai']) ?></td>
+                                        <tr>
+                                            <td class="bmi-bang__ngay"><?= date('d/m/Y', strtotime($itemBmi['ngay_tao'])) ?></td>
+                                            <td><?= (float)$itemBmi['chieu_cao'] ?>cm / <?= (float)$itemBmi['can_nang'] ?>kg</td>
+                                            <td class="bmi-bang__so"><?= (float)$itemBmi['chi_so_bmi'] ?></td>
+                                            <td class="bmi-bang__danh-gia"><?= e($itemBmi['phan_loai']) ?></td>
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>
@@ -389,73 +569,77 @@ if ($pdo) {
         <!-- Thời khóa biểu tuần -->
         <section class="profile-schedule">
             <h3 class="chu-canh-giua mb-1 text-primary">Thời khóa biểu tuần</h3>
-            <p class="chu-canh-giua" style="margin-top: -0.5rem; margin-bottom: 1rem; color: #64748b; font-size: 0.9rem;">Lịch học và hoạt động trong tuần của Phimmasone Khamphouvanh</p>
-            <div style="text-align: center; margin-bottom: 15px;"><button id="btn-toggle-schedule" aria-expanded="true" class="nut nut--phu" style="padding: 4px 12px; font-size: 14px;">Thu gọn / Mở rộng</button></div>
+            <p class="chu-canh-giua tkb-phu-de">Lịch học và hoạt động trong tuần của Phimmasone Khamphouvanh</p>
+            <div class="tkb-nut-wrap">
+                <button id="btn-toggle-schedule" aria-expanded="true" class="nut nut--phu">Thu gọn / Mở rộng</button>
+            </div>
             
             <div class="bang-cuon-ngang">
-                <div id="schedule-container" style="overflow-x: auto;">
-                <div class="bang-chua"><table class="bang-du-lieu bang-thoi-khoa-bieu" style="min-width: 800px; font-size: 0.85rem; border-collapse: collapse;">
-                    <caption>Lịch học và hoạt động trong tuần của Phimmasone Khamphouvanh</caption>
-                    <thead>
-                        <tr style="background-color: #059669; color: white;">
-                            <th scope="col" style="border: 1px solid #ccc; padding: 4px; width: 5%; text-align: center;">Tiết</th>
-                            <th scope="col" style="border: 1px solid #ccc; padding: 4px; width: 13%;">Thứ 2</th>
-                            <th scope="col" style="border: 1px solid #ccc; padding: 4px; width: 13%;">Thứ 3</th>
-                            <th scope="col" style="border: 1px solid #ccc; padding: 4px; width: 13%;">Thứ 4</th>
-                            <th scope="col" style="border: 1px solid #ccc; padding: 4px; width: 13%;">Thứ 5</th>
-                            <th scope="col" style="border: 1px solid #ccc; padding: 4px; width: 13%;">Thứ 6</th>
-                            <th scope="col" style="border: 1px solid #ccc; padding: 4px; width: 13%;">Thứ 7</th>
-                            <th scope="col" style="border: 1px solid #ccc; padding: 4px; width: 13%;">Chủ nhật</th>
-                        </tr>
-                    </thead>
-                    <tbody style="text-align: left; vertical-align: top;">
-                        <!-- Tiết 1 -->
-                        <tr>
-                            <th scope="row" style="border: 1px solid #ccc; text-align: center;">1</th>
-                            <td style="border: 1px solid #ccc;"></td>
-                            <td style="border: 1px solid #ccc;"></td>
-                            <td rowspan="3" style="border: 1px solid #ccc; padding: 4px;">31241283 - 24-0102<br><strong>Hệ quản trị cơ sở dữ liệu</strong><br>Phòng: B3-402</td>
-                            <td style="border: 1px solid #ccc;"></td>
-                            <td rowspan="3" style="border: 1px solid #ccc; padding: 4px;">31231398 - 24-0101<br><strong>Lập trình mạng</strong><br>Phòng: B3-303</td>
-                            <td rowspan="3" style="border: 1px solid #ccc; padding: 4px;">31231755 - 24-0102<br><strong>Thiết kế và lập trình web</strong><br>Phòng: B3-303</td>
-                            <td style="border: 1px solid #ccc;"></td>
-                        </tr>
-                        <tr><th scope="row" style="border: 1px solid #ccc; text-align: center;">2</th><td style="border: 1px solid #ccc;"></td><td style="border: 1px solid #ccc;"></td><td style="border: 1px solid #ccc;"></td><td style="border: 1px solid #ccc;"></td></tr>
-                        <tr><th scope="row" style="border: 1px solid #ccc; text-align: center;">3</th><td style="border: 1px solid #ccc;"></td><td style="border: 1px solid #ccc;"></td><td style="border: 1px solid #ccc;"></td><td style="border: 1px solid #ccc;"></td></tr>
-                        <!-- Tiết 4 -->
-                        <tr>
-                            <th scope="row" style="border: 1px solid #ccc; text-align: center;">4</th>
-                            <td style="border: 1px solid #ccc;"></td>
-                            <td style="border: 1px solid #ccc;"></td>
-                            <td rowspan="3" style="border: 1px solid #ccc; padding: 4px;">21221904 - 24-0315<br><strong>Lịch sử Đảng Cộng sản Việt Nam</strong><br>Phòng: A6-502</td>
-                            <td rowspan="3" style="border: 1px solid #ccc; padding: 4px;">31231330 - 24-0103<br><strong>Khai phá dữ liệu</strong><br>Phòng: A5-209</td>
-                            <td style="border: 1px solid #ccc;"></td>
-                            <td style="border: 1px solid #ccc;"></td>
-                            <td style="border: 1px solid #ccc;"></td>
-                        </tr>
-                        <tr><th scope="row" style="border: 1px solid #ccc; text-align: center;">5</th><td style="border: 1px solid #ccc;"></td><td style="border: 1px solid #ccc;"></td><td style="border: 1px solid #ccc;"></td><td style="border: 1px solid #ccc;"></td><td style="border: 1px solid #ccc;"></td></tr>
-                        <tr><th scope="row" style="border: 1px solid #ccc; text-align: center;">6</th><td style="border: 1px solid #ccc;"></td><td style="border: 1px solid #ccc;"></td><td style="border: 1px solid #ccc;"></td><td style="border: 1px solid #ccc;"></td><td style="border: 1px solid #ccc;"></td></tr>
-                        <!-- Break -->
-                        <tr style="height: 10px; background-color: #f1f5f9;"><td colspan="8" style="border: 1px solid #ccc;"></td></tr>
-                        <!-- Tiết 7 -->
-                        <tr><th scope="row" style="border: 1px solid #ccc; text-align: center;">7</th><td style="border: 1px solid #ccc;"></td><td style="border: 1px solid #ccc;"></td><td style="border: 1px solid #ccc;"></td><td style="border: 1px solid #ccc;"></td><td style="border: 1px solid #ccc;"></td><td style="border: 1px solid #ccc;"></td><td style="border: 1px solid #ccc;"></td></tr>
-                        <tr><th scope="row" style="border: 1px solid #ccc; text-align: center;">8</th><td style="border: 1px solid #ccc;"></td><td style="border: 1px solid #ccc;"></td><td style="border: 1px solid #ccc;"></td><td style="border: 1px solid #ccc;"></td><td style="border: 1px solid #ccc;"></td><td style="border: 1px solid #ccc;"></td><td style="border: 1px solid #ccc;"></td></tr>
-                        <tr><th scope="row" style="border: 1px solid #ccc; text-align: center;">9</th><td style="border: 1px solid #ccc;"></td><td style="border: 1px solid #ccc;"></td><td style="border: 1px solid #ccc;"></td><td style="border: 1px solid #ccc;"></td><td style="border: 1px solid #ccc;"></td><td style="border: 1px solid #ccc;"></td><td style="border: 1px solid #ccc;"></td></tr>
-                        <!-- Tiết 10 -->
-                        <tr>
-                            <th scope="row" style="border: 1px solid #ccc; text-align: center;">10</th>
-                            <td style="border: 1px solid #ccc;"></td>
-                            <td style="border: 1px solid #ccc;"></td>
-                            <td style="border: 1px solid #ccc;"></td>
-                            <td rowspan="3" style="border: 1px solid #ccc; padding: 4px;">31231016 - 24-0103<br><strong>Công nghệ phần mềm</strong><br>Phòng: B3-304</td>
-                            <td style="border: 1px solid #ccc;"></td>
-                            <td rowspan="3" style="border: 1px solid #ccc; padding: 4px;">31221010 - 24-0103<br><strong>An toàn thông tin</strong><br>Phòng: B3-506</td>
-                            <td style="border: 1px solid #ccc;"></td>
-                        </tr>
-                        <tr><th scope="row" style="border: 1px solid #ccc; text-align: center;">11</th><td style="border: 1px solid #ccc;"></td><td style="border: 1px solid #ccc;"></td><td style="border: 1px solid #ccc;"></td><td style="border: 1px solid #ccc;"></td><td style="border: 1px solid #ccc;"></td></tr>
-                        <tr><th scope="row" style="border: 1px solid #ccc; text-align: center;">12</th><td style="border: 1px solid #ccc;"></td><td style="border: 1px solid #ccc;"></td><td style="border: 1px solid #ccc;"></td><td style="border: 1px solid #ccc;"></td><td style="border: 1px solid #ccc;"></td></tr>
-                    </tbody>
-                </table></div>
+                <div id="schedule-container" class="tkb-container">
+                    <div class="bang-chua">
+                        <table class="bang-du-lieu tkb-table">
+                            <caption>Lịch học và hoạt động trong tuần của Phimmasone Khamphouvanh</caption>
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="tkb-col-tiet">Tiết</th>
+                                    <th scope="col" class="tkb-col-ngay">Thứ 2</th>
+                                    <th scope="col" class="tkb-col-ngay">Thứ 3</th>
+                                    <th scope="col" class="tkb-col-ngay">Thứ 4</th>
+                                    <th scope="col" class="tkb-col-ngay">Thứ 5</th>
+                                    <th scope="col" class="tkb-col-ngay">Thứ 6</th>
+                                    <th scope="col" class="tkb-col-ngay">Thứ 7</th>
+                                    <th scope="col" class="tkb-col-ngay">Chủ nhật</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Tiết 1 -->
+                                <tr>
+                                    <th scope="row" class="tkb-cell-center">1</th>
+                                    <td></td>
+                                    <td></td>
+                                    <td rowspan="3" class="tkb-cell-mon">31241283 - 24-0102<br><strong>Hệ quản trị cơ sở dữ liệu</strong><br>Phòng: B3-402</td>
+                                    <td></td>
+                                    <td rowspan="3" class="tkb-cell-mon">31231398 - 24-0101<br><strong>Lập trình mạng</strong><br>Phòng: B3-303</td>
+                                    <td rowspan="3" class="tkb-cell-mon">31231755 - 24-0102<br><strong>Thiết kế và lập trình web</strong><br>Phòng: B3-303</td>
+                                    <td></td>
+                                </tr>
+                                <tr><th scope="row" class="tkb-cell-center">2</th><td></td><td></td><td></td><td></td></tr>
+                                <tr><th scope="row" class="tkb-cell-center">3</th><td></td><td></td><td></td><td></td></tr>
+                                <!-- Tiết 4 -->
+                                <tr>
+                                    <th scope="row" class="tkb-cell-center">4</th>
+                                    <td></td>
+                                    <td></td>
+                                    <td rowspan="3" class="tkb-cell-mon">21221904 - 24-0315<br><strong>Lịch sử Đảng Cộng sản Việt Nam</strong><br>Phòng: A6-502</td>
+                                    <td rowspan="3" class="tkb-cell-mon">31231330 - 24-0103<br><strong>Khai phá dữ liệu</strong><br>Phòng: A5-209</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr><th scope="row" class="tkb-cell-center">5</th><td></td><td></td><td></td><td></td><td></td></tr>
+                                <tr><th scope="row" class="tkb-cell-center">6</th><td></td><td></td><td></td><td></td><td></td></tr>
+                                <!-- Nghỉ trưa -->
+                                <tr class="tkb-hang-nghi"><td colspan="8"></td></tr>
+                                <!-- Tiết 7 -->
+                                <tr><th scope="row" class="tkb-cell-center">7</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                                <tr><th scope="row" class="tkb-cell-center">8</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                                <tr><th scope="row" class="tkb-cell-center">9</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                                <!-- Tiết 10 -->
+                                <tr>
+                                    <th scope="row" class="tkb-cell-center">10</th>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td rowspan="3" class="tkb-cell-mon">31231016 - 24-0103<br><strong>Công nghệ phần mềm</strong><br>Phòng: B3-304</td>
+                                    <td></td>
+                                    <td rowspan="3" class="tkb-cell-mon">31221010 - 24-0103<br><strong>An toàn thông tin</strong><br>Phòng: B3-506</td>
+                                    <td></td>
+                                </tr>
+                                <tr><th scope="row" class="tkb-cell-center">11</th><td></td><td></td><td></td><td></td><td></td></tr>
+                                <tr><th scope="row" class="tkb-cell-center">12</th><td></td><td></td><td></td><td></td><td></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </section>

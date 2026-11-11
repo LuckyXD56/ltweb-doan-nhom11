@@ -1,10 +1,12 @@
 ﻿// Tệp: canhan.js (Người phụ trách: Phimmasone Khamphouvanh - 3120224192)
 // Chức năng: 
-// 1. Ô tìm kiếm lọc danh sách kỹ năng (nhập ký tự để lọc các thẻ li).
-// 2. Nút Thu gọn/Mở rộng thời khóa biểu (Accordion) thay đổi aria-expanded.
+// 1. Ô tìm kiếm lọc danh sách kỹ năng (nhập ký tự để lọc các thẻ li qua CSS class is-hidden).
+// 2. Nút Thu gọn/Mở rộng thời khóa biểu (Accordion) thay đổi aria-expanded và toggle CSS class.
+// 3. Xử lý hộp thoại xác nhận xóa qua data-confirm (100% tuân thủ CSP, không dùng inline onclick).
 // CÁCH THỬ:
 // - C1: Gõ chữ vào ô tìm kiếm kỹ năng, danh sách sẽ tự lọc.
 // - C2: Cuộn xuống Thời khóa biểu, bấm Thu gọn / Mở rộng.
+// - C3: Nhấn nút xóa công việc, xuất hiện hộp thoại xác nhận qua event listener.
 
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Tìm kiếm kỹ năng
@@ -14,13 +16,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (searchInput && skillList) {
         const skills = skillList.querySelectorAll('li');
         searchInput.addEventListener('input', (e) => {
-            const query = e.target.value.toLowerCase();
+            const query = e.target.value.toLowerCase().trim();
             skills.forEach(skill => {
                 const text = skill.textContent.toLowerCase();
-                if (text.includes(query)) {
-                    skill.style.display = '';
+                if (query === '' || text.includes(query)) {
+                    skill.classList.remove('is-hidden');
                 } else {
-                    skill.style.display = 'none';
+                    skill.classList.add('is-hidden');
                 }
             });
         });
@@ -35,14 +37,25 @@ document.addEventListener('DOMContentLoaded', () => {
             const isExpanded = btnToggle.getAttribute('aria-expanded') === 'true';
             
             if (isExpanded) {
-                scheduleContainer.style.display = 'none';
+                scheduleContainer.classList.add('is-hidden');
                 btnToggle.setAttribute('aria-expanded', 'false');
                 btnToggle.textContent = 'Mở rộng';
             } else {
-                scheduleContainer.style.display = 'block';
+                scheduleContainer.classList.remove('is-hidden');
                 btnToggle.setAttribute('aria-expanded', 'true');
                 btnToggle.textContent = 'Thu gọn';
             }
         });
     }
+
+    // 3. Xử lý xác nhận cho các form hành động (chống inline onclick để tuân thủ CSP script-src 'self')
+    const confirmForms = document.querySelectorAll('form[data-confirm]');
+    confirmForms.forEach(form => {
+        form.addEventListener('submit', (e) => {
+            const message = form.getAttribute('data-confirm') || 'Bạn có chắc chắn muốn thực hiện thao tác này?';
+            if (!window.confirm(message)) {
+                e.preventDefault();
+            }
+        });
+    });
 });
