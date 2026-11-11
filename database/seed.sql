@@ -47,17 +47,19 @@ INSERT INTO san_bong (danh_muc_id, ten_san, gia_thue, trang_thai, hinh_anh) VALU
 -- 3. Nạp 5 Người dùng (3 quản trị gồm admin, thành viên Nhân, thành viên Silaphet; 2 khách hàng)
 -- (Mật khẩu mẫu đều là Admin@123, hash bằng password_hash)
 INSERT INTO nguoi_dung (vai_tro, ho_ten, email, mat_khau) VALUES
-('quan_tri', 'Quản trị viên', 'admin@sanbong.vn', '$2y$10$e0MYzXyjpJS7Pd0RVvHwHe1HlCS4bZ08nBIdb2x20V4gT0hC3aO6e'),
-('khach_hang', 'Nguyễn Văn Khách', 'khach1@gmail.com', '$2y$10$e0MYzXyjpJS7Pd0RVvHwHe1HlCS4bZ08nBIdb2x20V4gT0hC3aO6e'),
-('khach_hang', 'Trần Thị Khách', 'khach2@gmail.com', '$2y$10$e0MYzXyjpJS7Pd0RVvHwHe1HlCS4bZ08nBIdb2x20V4gT0hC3aO6e'),
-('quan_tri', 'Lê Nguyễn Gia Nhân', 'nhan@sanbong.vn', '$2y$10$e0MYzXyjpJS7Pd0RVvHwHe1HlCS4bZ08nBIdb2x20V4gT0hC3aO6e'),
-('quan_tri', 'Silaphet Thit', 'silaphet@sanbong.vn', '$2y$10$e0MYzXyjpJS7Pd0RVvHwHe1HlCS4bZ08nBIdb2x20V4gT0hC3aO6e');
+('quan_tri', 'Quản trị viên', 'admin@sanbong.vn', '$2y$12$sLbnXkmnc0Q4TRG4qnM9nuwHsLwTGP8FfqaXHUmwKptIngNb/CZlS'),
+('khach_hang', 'Nguyễn Văn Khách', 'khach1@gmail.com', '$2y$12$sLbnXkmnc0Q4TRG4qnM9nuwHsLwTGP8FfqaXHUmwKptIngNb/CZlS'),
+('khach_hang', 'Trần Thị Khách', 'khach2@gmail.com', '$2y$12$sLbnXkmnc0Q4TRG4qnM9nuwHsLwTGP8FfqaXHUmwKptIngNb/CZlS'),
+('quan_tri', 'Lê Nguyễn Gia Nhân', 'nhan@sanbong.vn', '$2y$12$sLbnXkmnc0Q4TRG4qnM9nuwHsLwTGP8FfqaXHUmwKptIngNb/CZlS'),
+('quan_tri', 'Silaphet Thit', 'silaphet@sanbong.vn', '$2y$12$sLbnXkmnc0Q4TRG4qnM9nuwHsLwTGP8FfqaXHUmwKptIngNb/CZlS');
 
 -- 4. Thành viên có trang cá nhân và dữ liệu mẫu (Sổ lưu bút, Lượt xem 7 ngày)
 INSERT INTO thanh_vien (mssv, ho_ten, nguoi_dung_id) VALUES
 ('3120224105', 'Lê Nguyễn Gia Nhân', 4),
 ('3120224192', 'Phimmasone Khamphouvanh', NULL),
-('3120224188', 'Silaphet Thit', 5);
+('3120224188', 'Silaphet Thit', 5),
+('3120224060', 'Nguyễn Quý Minh Hoàng', NULL),
+('3120224111', 'Trương Nguyễn Ngọc Phú', NULL);
 
 -- Dữ liệu mẫu danh sách công việc cá nhân của Phimmasone (tv_todo_phim)
 INSERT INTO tv_todo_phim (mssv, tieu_de, hoan_thanh, ngay_tao) VALUES
@@ -126,3 +128,13 @@ INSERT INTO lien_he (ho_ten, email, noi_dung, hinh_anh, ngay_gui) VALUES
 ('Trần Quốc Bảo', 'baotq@company.vn', 'Công ty chúng tôi dự kiến tổ chức giải bóng mini 8 đội vào chủ nhật tuần tới. Gửi kèm sơ đồ dự kiến giải đấu.', 'lien-he-giai-dau.jpg', '2026-10-26 14:30:00'),
 ('Lê Thị Mai', 'maile@hotmail.com', 'Sân có dịch vụ cho thuê trọng tài và nước uống đóng chai không ạ? Xin cảm ơn.', NULL, '2026-10-27 09:00:00'),
 ('Hoàng Nam', 'namhoang.fc@gmail.com', 'Hôm qua đội tôi đá ở Sân A1 có để quên 1 quả bóng thi đấu Mikasa màu cam, nhờ sân giữ giúp.', 'lien-he-bong-mikasa.jpg', '2026-10-28 17:20:00');
+
+-- 8. Nạp dữ liệu mẫu lượt xem theo ngày của Hoàng (tv_luot_xem_ngay)
+INSERT INTO tv_luot_xem_ngay (mssv, ngay, so_luot_xem) VALUES
+('3120224060', CURRENT_DATE - INTERVAL 6 DAY, 5),
+('3120224060', CURRENT_DATE - INTERVAL 5 DAY, 8),
+('3120224060', CURRENT_DATE - INTERVAL 4 DAY, 12),
+('3120224060', CURRENT_DATE - INTERVAL 3 DAY, 7),
+('3120224060', CURRENT_DATE - INTERVAL 2 DAY, 15),
+('3120224060', CURRENT_DATE - INTERVAL 1 DAY, 20),
+('3120224060', CURRENT_DATE, 25);

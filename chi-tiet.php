@@ -94,7 +94,16 @@ require __DIR__ . '/inc/header.php';
             </div>
         </div>
         
-        <button type="submit" class="nut nut--chinh">Xác nhận Đặt sân</button>
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <button type="submit" class="nut nut--chinh">Xác nhận Đặt sân ngay</button>
+        </div>
+      </form>
+      
+      <form method="post" action="them-gio.php" style="margin-top: 0.75rem;">
+        <input type="hidden" name="action" value="them">
+        <input type="hidden" name="id" value="<?= e($san->getId()) ?>">
+        <input type="hidden" name="so_luong" value="1">
+        <button type="submit" class="nut nut--phu">🛒 Thêm vào giỏ hàng</button>
       </form>
     <?php else: ?>
       <div style="margin-top: 1.5rem; padding: 1rem; background: #fef3c7; border-left: 4px solid #f59e0b; border-radius: 4px;">

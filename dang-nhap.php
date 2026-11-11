@@ -74,14 +74,6 @@ require __DIR__ . '/inc/header.php';
 
     <button class="nut nut--chinh" type="submit">Đăng nhập</button>
   </form>
-
-  <div style="margin-top: 2rem; padding: 1rem; background: #f0fdf4; border-left: 4px solid #0b6e3c; border-radius: 4px;">
-    <p><strong>💡 Tài khoản thử:</strong></p>
-    <ul style="margin: 0.5rem 0;">
-      <li>Quản trị: <code>admin@sanbong.vn</code> / <code>Admin@123</code></li>
-      <li>Khách hàng: <code>khach1@gmail.com</code> / <code>Admin@123</code></li>
-    </ul>
-  </div>
 </main>
 
 <?php require __DIR__ . '/inc/footer.php'; ?>

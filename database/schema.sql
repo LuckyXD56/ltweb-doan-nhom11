@@ -146,3 +146,13 @@ CREATE TABLE tv_du_an (
     CONSTRAINT fk_tv_du_an_thanh_vien FOREIGN KEY (mssv)
         REFERENCES thanh_vien(mssv) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB;
+
+-- 10. Bảng LƯỢT XEM THEO NGÀY CỦA NGUYỄN QUÝ MINH HOÀNG (tv_luot_xem_ngay)
+CREATE TABLE tv_luot_xem_ngay (
+    mssv VARCHAR(10) NOT NULL,
+    ngay DATE NOT NULL,
+    so_luot_xem INT UNSIGNED NOT NULL DEFAULT 1,
+    PRIMARY KEY (mssv, ngay),
+    CONSTRAINT fk_tv_lxn_thanh_vien FOREIGN KEY (mssv)
+        REFERENCES thanh_vien(mssv) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB;

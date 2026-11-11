@@ -14,8 +14,9 @@ $tieuDeTrang = 'Trang cá nhân Trương Nguyễn Ngọc Phú';
 $customCss = '<link rel="stylesheet" href="style.css">'; // Nạp lại style.css cũ
 
 // ==========================================
-// XỬ LÝ GỬI LỜI NHẮN (SERVER-SIDE)
+// XỬ LÝ GỬI LỜI NHẮN (SERVER-SIDE - CSDL MySQL tv_luu_but)
 // ==========================================
+$mssvPhu = '3120224111';
 $loi = [];
 $du = ['ho_ten' => '', 'noi_dung' => ''];
 
@@ -33,41 +34,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (empty($loi)) {
-        $banGhi = [
-            'thoi_gian' => date('c'),
-            'ho_ten'    => $du['ho_ten'],
-            'noi_dung'  => $du['noi_dung'],
-            'ip'        => $_SERVER['REMOTE_ADDR'] ?? '',
-        ];
-        
-        $fileLuu = DUONG_DAN_STORAGE . '/loi-nhan-phu.jsonl';
-        file_put_contents(
-            $fileLuu,
-            json_encode($banGhi, JSON_UNESCAPED_UNICODE) . "\n",
-            FILE_APPEND | LOCK_EX
-        );
-
-        datFlash('thanh-cong', 'Đã gửi lời nhắn. Cảm ơn bạn!');
+        try {
+            $stmt = $pdo->prepare("INSERT INTO tv_luu_but (mssv, ho_ten, loi_nhan) VALUES (?, ?, ?)");
+            $stmt->execute([$mssvPhu, $du['ho_ten'], $du['noi_dung']]);
+            datFlash('thanh-cong', 'Đã lưu lời nhắn vào CSDL thành công!');
+        } catch (Exception $e) {
+            datFlash('loi', 'Lỗi lưu CSDL: ' . $e->getMessage());
+        }
         chuyenHuong('gioithieu.php');
     }
 }
 
 // ==========================================
-// ĐỌC LỜI NHẮN GẦN ĐÂY
+// ĐỌC LỜI NHẮN GẦN ĐÂY TỪ CSDL (tv_luu_but)
 // ==========================================
 $loiNhan = [];
-$fileLuu = DUONG_DAN_STORAGE . '/loi-nhan-phu.jsonl';
-if (is_file($fileLuu)) {
-    $dong = file($fileLuu, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-    $dong = array_reverse($dong);
-    $dong = array_slice($dong, 0, 5);
-    foreach ($dong as $line) {
-        $obj = json_decode($line, true);
-        if (is_array($obj)) {
-            $loiNhan[] = $obj;
-        }
-    }
-}
+try {
+    $stmt = $pdo->prepare("SELECT ho_ten, loi_nhan AS noi_dung, ngay_tao AS thoi_gian FROM tv_luu_but WHERE mssv = ? ORDER BY id DESC LIMIT 5");
+    $stmt->execute([$mssvPhu]);
+    $loiNhan = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (Exception $e) {}
 
 // ==========================================
 // HIỂN THỊ HTML (GIỮ NGUYÊN CẤU TRÚC CŨ)
