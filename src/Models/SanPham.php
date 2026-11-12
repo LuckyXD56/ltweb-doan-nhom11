@@ -50,6 +50,7 @@ class SanPham
     public function getDanhGia(): float { return $this->danhGia; }
     public function getHinhAnh(): string { return $this->hinhAnh; }
     public function isDangHoatDong(): bool { return $this->dangHoatDong; }
+    public function getTrangThai(): string { return $this->dangHoatDong ? 'hoat_dong' : 'tam_dung'; }
 
     public function toMang(): array
     {

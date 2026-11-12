@@ -22,14 +22,16 @@ if (!function_exists('vnd')) {
 if (!function_exists('postChuoi')) {
     function postChuoi(string $khoa, string $macDinh = ''): string
     {
-        return trim((string) ($_POST[$khoa] ?? $macDinh));
+        $val = $_POST[$khoa] ?? null;
+        return is_string($val) ? trim($val) : $macDinh;
     }
 }
 
 if (!function_exists('getChuoi')) {
     function getChuoi(string $khoa, string $macDinh = ''): string
     {
-        return trim((string) ($_GET[$khoa] ?? $macDinh));
+        $val = $_GET[$khoa] ?? null;
+        return is_string($val) ? trim($val) : $macDinh;
     }
 }
 

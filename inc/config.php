@@ -75,7 +75,7 @@ if (isset($_SESSION['hoat_dong']) && (time() - $_SESSION['hoat_dong'] > 30 * 60)
 $_SESSION['hoat_dong'] = time();
 
 // Má» i request POST (form hoáº·c fetch) pháº£i mang mÃ£ CSRF Ä‘Ãºng
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && !csrfHopLe()) {
+if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' && !csrfHopLe()) {
     ghiLogBaoMat('csrf_sai', ['trang' => $_SERVER['REQUEST_URI'] ?? '']);
     $loi = 'Trang Ä‘Ã£ háº¿t háº¡n, hÃ£y táº£i láº¡i trang rá»“i gá»­i láº¡i';
     if ((isset($_SERVER['CONTENT_TYPE']) && str_contains($_SERVER['CONTENT_TYPE'], 'json')) || 
