@@ -44,14 +44,18 @@ INSERT INTO san_bong (danh_muc_id, ten_san, gia_thue, trang_thai, hinh_anh) VALU
 (3, 'Sân C9', 700000, 'hoat_dong', 'images/san-c9.jpg'),
 (3, 'Levi''s Arena', 800000, 'hoat_dong', 'images/san-levis.jpg');
 
--- 3. Nạp 5 Người dùng (3 quản trị gồm admin, thành viên Nhân, thành viên Silaphet; 2 khách hàng)
+-- 3. Nạp Người dùng (Quản trị viên và khách hàng)
 -- (Mật khẩu mẫu đều là Admin@123, hash bằng password_hash)
 INSERT INTO nguoi_dung (vai_tro, ho_ten, email, mat_khau) VALUES
+('quan_tri', 'Quản trị viên', 'admin@sanbongthangloi.vn', '$2y$12$sLbnXkmnc0Q4TRG4qnM9nuwHsLwTGP8FfqaXHUmwKptIngNb/CZlS'),
 ('quan_tri', 'Quản trị viên', 'admin@sanbong.vn', '$2y$12$sLbnXkmnc0Q4TRG4qnM9nuwHsLwTGP8FfqaXHUmwKptIngNb/CZlS'),
-('khach_hang', 'Nguyễn Văn Khách', 'khach1@gmail.com', '$2y$12$sLbnXkmnc0Q4TRG4qnM9nuwHsLwTGP8FfqaXHUmwKptIngNb/CZlS'),
-('khach_hang', 'Trần Thị Khách', 'khach2@gmail.com', '$2y$12$sLbnXkmnc0Q4TRG4qnM9nuwHsLwTGP8FfqaXHUmwKptIngNb/CZlS'),
+('quan_tri', 'Lê Nguyễn Gia Nhân', 'nhan@sanbongthangloi.vn', '$2y$12$sLbnXkmnc0Q4TRG4qnM9nuwHsLwTGP8FfqaXHUmwKptIngNb/CZlS'),
 ('quan_tri', 'Lê Nguyễn Gia Nhân', 'nhan@sanbong.vn', '$2y$12$sLbnXkmnc0Q4TRG4qnM9nuwHsLwTGP8FfqaXHUmwKptIngNb/CZlS'),
-('quan_tri', 'Silaphet Thit', 'silaphet@sanbong.vn', '$2y$12$sLbnXkmnc0Q4TRG4qnM9nuwHsLwTGP8FfqaXHUmwKptIngNb/CZlS');
+('quan_tri', 'Silaphet Thit', 'silaphet@sanbongthangloi.vn', '$2y$12$sLbnXkmnc0Q4TRG4qnM9nuwHsLwTGP8FfqaXHUmwKptIngNb/CZlS'),
+('quan_tri', 'Silaphet Thit', 'silaphet@sanbong.vn', '$2y$12$sLbnXkmnc0Q4TRG4qnM9nuwHsLwTGP8FfqaXHUmwKptIngNb/CZlS'),
+('khach_hang', 'Nguyễn Văn Khách', 'khach1@sanbongthangloi.vn', '$2y$12$sLbnXkmnc0Q4TRG4qnM9nuwHsLwTGP8FfqaXHUmwKptIngNb/CZlS'),
+('khach_hang', 'Nguyễn Văn Khách', 'khach1@gmail.com', '$2y$12$sLbnXkmnc0Q4TRG4qnM9nuwHsLwTGP8FfqaXHUmwKptIngNb/CZlS'),
+('khach_hang', 'Trần Thị Khách', 'khach2@gmail.com', '$2y$12$sLbnXkmnc0Q4TRG4qnM9nuwHsLwTGP8FfqaXHUmwKptIngNb/CZlS');
 
 -- 4. Thành viên có trang cá nhân và dữ liệu mẫu (Sổ lưu bút, Lượt xem 7 ngày)
 INSERT INTO thanh_vien (mssv, ho_ten, nguoi_dung_id) VALUES
