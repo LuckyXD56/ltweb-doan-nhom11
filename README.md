@@ -1,8 +1,10 @@
-# ⚽ Sân Bóng Thắng Lợi - Nhóm 11 (Phiên bản Bài tập nhóm số 6 - PHP & MySQL)
+# ⚽ Sân Bóng Thắng Lợi - Nhóm 11 (Bài tập nhóm số 7: Bảo mật ứng dụng web)
 
-Website giới thiệu và đặt sân bóng đá Thắng Lợi được xây dựng trong khuôn khổ học phần: **Thiết kế và Lập trình Web** (Bài tập nhóm số 6 – Đưa dữ liệu website đồ án vào MySQL: thiết kế CSDL, tìm kiếm – phân trang, tài khoản, phân quyền, giao dịch và REST API).
+Website quản lý và đặt sân bóng đá Thắng Lợi được gia cố bảo mật toàn diện trong khuôn khổ học phần: **Thiết kế và Lập trình Web** (Bài tập thực hành nhóm số 7 – Chương 7: Bảo mật ứng dụng web).
 
-## 👥 Thông tin nhóm
+---
+
+## 👥 Thông tin nhóm 11
 
 - **Trường:** Trường Đại học Sư phạm - Đại học Đà Nẵng
 - **Khoa:** Toán - Tin
@@ -10,110 +12,89 @@ Website giới thiệu và đặt sân bóng đá Thắng Lợi được xây d�
 - **Học kỳ:** 1, Năm học: 2026 – 2027
 - **Kho GitHub:** [https://github.com/LuckyXD56/ltweb-doan-nhom11](https://github.com/LuckyXD56/ltweb-doan-nhom11)
 
-### Danh sách thành viên
+### Danh sách thành viên và phân công Biện pháp bảo mật (Bảng 1)
 
-| STT | Họ và tên | Mã sinh viên | Tài khoản GitHub | Vai trò | Chức năng phụ trách (Phần A) |
-|---|---|---|---|---|---|
-| 1 | **Phimmasone Khamphouvanh** | **3120224192** | `LuckXD56` | **Trưởng nhóm** | Chức năng 5 (Giỏ hàng & Giao dịch đặt sân) & Bảng 3 (Kiểm thử) |
-| 2 | Nguyễn Quý Minh Hoàng | 3120224060 | `nguyenquyminhhoang` | Thành viên | Chức năng 4 (Đăng ký, Đăng nhập, Quản trị, Đăng xuất) |
-| 3 | Lê Nguyễn Gia Nhân | 3120224105 | `Gianhanle999` | Thành viên | Chức năng 1 (Chi tiết sân kèm danh mục & 4 sân cùng loại, Đã xem gần đây) |
-| 4 | **Silaphet Thit** | **3120224188** | `Silaphet` | **Thành viên** | **Chức năng 1 (Biểu mẫu liên hệ kèm upload ảnh lưu vào bảng `lien_he`, hiển thị quản trị)** |
-| 5 | Trương Nguyễn Ngọc Phú | 3120224111 | `phutruong317-cloud` | Thành viên | Chức năng 2 (Tìm kiếm, lọc danh mục & giá, sắp xếp, phân trang) |
+| TT | Họ và tên | Mã sinh viên | Tài khoản GitHub | Vai trò | Biện pháp phụ trách (Chương 7) |
+|:---|:---|:---|:---|:---|:---|
+| 1 | **Phimmasone Khamphouvanh** | **3120224192** | `LuckyXD56` | **Trưởng nhóm** | Biện pháp 1 (Mã CSRF) & Biện pháp 2 (Cookie phiên an toàn) |
+| 2 | Nguyễn Quý Minh Hoàng | 3120224060 | `nguyenquyminhhoang` | Thành viên | Biện pháp 7 (Chống đoán mật khẩu & ghi log bảo mật) |
+| 3 | Lê Nguyễn Gia Nhân | 3120224105 | `Gianhanle999` | Thành viên | Biện pháp 3 (Header bảo mật & Content Security Policy) |
+| 4 | **Silaphet Thit** | **3120224188** | `Silaphet` | **Thành viên** | Biện pháp 5 (Chặn tệp nội bộ Apache qua `.htaccess`) |
+| 5 | Trương Nguyễn Ngọc Phú | 3120224111 | `phutruong317-cloud` | Thành viên | Biện pháp 4 (Cấu hình tệp `.env`) & Biện pháp 6 (Quyền CSDL tối thiểu) |
+
+---
+
+## 🛡️ Bảng 1. Bảy biện pháp bảo mật bắt buộc đã triển khai
+
+| TT | Biện pháp, tệp chính | Yêu cầu bắt buộc | Người phụ trách, mã commit |
+|:---|:---|:---|:---|
+| 1 | **Mã CSRF cho mọi form POST và fetch**<br>`inc/csrf.php`, `inc/config.php`, `inc/header.php`, `js/gio-hang.js`, `dang-xuat.php` | `csrfToken()`, `csrfField()`, `csrfHopLe()` sinh bằng `random_bytes(32)`, so khớp `hash_equals()`; `inc/config.php` chặn tập trung mọi POST thiếu mã (trả 403 HTML hoặc JSON cho API); mọi form `method="post"` có `csrfField()`; thẻ `<meta name="csrf-token">` và header `X-CSRF-Token` cho AJAX fetch; Đăng xuất là form POST; không thao tác đổi dữ liệu nào dùng GET. | Phimmasone Khamphouvanh (`8e86b11`) |
+| 2 | **Cookie phiên và phiên an toàn**<br>`inc/config.php`, `inc/xac-thuc.php` | `session.use_strict_mode = 1`; cookie `HttpOnly`, `SameSite=Lax`, `Secure` khi có HTTPS, đặt trước `session_start()`; tự hủy và cấp mã mới sau 30 phút không hoạt động; `dangNhap()` đổi mã phiên (`session_regenerate_id(true)`); `dangXuat()` xóa sạch session và cookie phiên. | Phimmasone Khamphouvanh (`8e86b11`) |
+| 3 | **Header bảo mật và CSP**<br>`inc/config.php`, `css/*.css`, `js/*.js` | `Content-Security-Policy: default-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; connect-src 'self' https://api.open-meteo.com; frame-src 'self' https://www.google.com; img-src 'self' data:;`; `X-Content-Type-Options: nosniff`; `Referrer-Policy: strict-origin-when-cross-origin`; xóa bỏ header `X-Powered-By`; loại bỏ toàn bộ inline script/style; Console không vi phạm CSP. | Lê Nguyễn Gia Nhân |
+| 4 | **Cấu hình và bí mật trong tệp `.env`**<br>`.env.example`, `.gitignore`, `composer.json`, `inc/config.php`, `inc/db.php` | Cài đặt `vlucas/phpdotenv` qua Composer; biến `APP_DEBUG`, `DB_HOST`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`; `required(['DB_HOST', 'DB_DATABASE', 'DB_USERNAME'])` báo lỗi khi thiếu; `APP_DEBUG=false` tắt chế độ gỡ lỗi; tệp `.env` được ignore hoàn toàn, không có trong kho và lịch sử Git; chỉ commit `.env.example`. | Trương Nguyễn Ngọc Phú |
+| 5 | **Chặn tệp nội bộ trên Apache**<br>`.htaccess`, `uploads/.htaccess` | Root `.htaccess`: `Options -Indexes`, trả 404 cho tệp/thư mục ẩn (`.env`, `.git/`), thư mục nội bộ (`inc/`, `src/`, `vendor/`, `database/`, `logs/`, `storage/`); chặn tải tệp `.sql`, `.log`, `.bak`, `.ini`, `.lock`, `composer.json` (403); `uploads/.htaccess` cấm thực thi script (`.php`, `.phtml`, `.sh`...), cấm liệt kê thư mục, bổ sung `nosniff`. Chú thích trên dòng riêng. | Silaphet Thit |
+| 6 | **Tài khoản CSDL quyền tối thiểu**<br>`database/tai-khoan.sql`, `.env` | Tạo tài khoản `nhom11_app` chỉ có quyền `SELECT, INSERT, UPDATE, DELETE` trên `ltweb_nhom11.*`; website chạy đầy đủ chức năng khi `.env` trỏ về tài khoản này; ngăn chặn các lệnh phá hoại như `DROP TABLE`, `CREATE TABLE` (lỗi MariaDB 1142). | Trương Nguyễn Ngọc Phú |
+| 7 | **Chống đoán mật khẩu & ghi log bảo mật**<br>`database/schema.sql`, `inc/xac-thuc.php`, `inc/ham.php`, `dang-nhap.php` | Bảng `dang_nhap_sai`; đếm số lần sai trong 15 phút: quá 5 lần -> HTTP 429 Too Many Requests, khóa tạm 15 phút, trả thông báo chung; `ghiLogBaoMat()` ghi nhận các sự kiện `csrf_sai`, `cam_truy_cap`, `dang_nhap_sai` vào `logs/bao-mat.log` (tuyệt đối không ghi mật khẩu hay mã phiên). | Nguyễn Quý Minh Hoàng |
 
 ---
 
 ## 🛠 Yêu cầu môi trường
 
-Để chạy dự án này, môi trường cần cài đặt:
-- **PHP** phiên bản ≥ 8.1 (có bật extension `pdo_mysql`, `fileinfo`, `mbstring`, `session`)
+- **PHP** phiên bản ≥ 8.1 (bật extension `pdo_mysql`, `fileinfo`, `mbstring`, `session`)
 - **MySQL / MariaDB** (trong XAMPP hoặc Laragon, collation `utf8mb4_unicode_ci`)
-- **Composer** (để quản lý autoload PSR-4)
-- Web server: PHP built-in server (`php -S`) hoặc Apache XAMPP / Laragon
+- **Composer** (để cài đặt và autoload `vlucas/phpdotenv`)
+- **Web Server:** PHP built-in server (`php -S`) hoặc Apache (XAMPP / Laragon)
 
 ---
 
-## 🚀 Các lệnh cài đặt và chạy
+## 🚀 Hướng dẫn Cài đặt và Chạy
 
-Mở Terminal / PowerShell tại thư mục gốc của dự án và thực hiện theo 3 bước:
+Thực hiện các lệnh sau tại thư mục gốc của dự án:
 
-**1. Cài đặt các phụ thuộc (Autoload PSR-4):**
 ```bash
-composer dump-autoload
-```
+# 1. Cài đặt các thư viện phụ thuộc (phpdotenv, autoload)
+composer install
 
-**2. Tạo cơ sở dữ liệu `ltweb_nhom11`:**
-- Mở **phpMyAdmin** → Tạo CSDL `ltweb_nhom11` (hoặc import trực tiếp `database/schema.sql`, sau đó import `database/seed.sql`).
-- Hoặc chạy qua dòng lệnh (MySQL của XAMPP tại `C:\xampp\mysql\bin`):
-```bash
+# 2. Tạo cơ sở dữ liệu và nạp dữ liệu mẫu
 mysql -u root < database/schema.sql
 mysql -u root ltweb_nhom11 < database/seed.sql
-```
 
-**3. Khởi động Web Server cục bộ của PHP:**
-```bash
+# 3. Tạo tệp cấu hình môi trường từ mẫu
+cp .env.example .env
+# (Trên Windows PowerShell: Copy-Item .env.example .env)
+
+# 4. Khởi động máy chủ cục bộ PHP
 php -S localhost:8000
 ```
-Mở trình duyệt và truy cập: [http://localhost:8000](http://localhost:8000)
+Truy cập website tại: [http://localhost:8000](http://localhost:8000)
+
+### Kích hoạt tài khoản quyền tối thiểu (Tùy chọn)
+Để chạy website dưới tài khoản bảo mật `nhom11_app`:
+1. Chạy tệp phân quyền bằng tài khoản root:
+   ```bash
+   mysql -u root ltweb_nhom11 < database/tai-khoan.sql
+   ```
+2. Mở tệp `.env` và cập nhật:
+   ```ini
+   DB_USERNAME=nhom11_app
+   DB_PASSWORD=thay-bang-mat-khau-dai-ngau-nhien
+   ```
+*Lưu ý: Tệp `.htaccess` chỉ có tác dụng khi chạy trên Apache (htdocs của XAMPP). Máy chủ `php -S` bỏ qua các tệp `.htaccess`.*
 
 ---
 
 ## 🔐 Tài khoản thử nghiệm (Mật khẩu: `Admin@123`)
 
-- **admin@sanbong.vn**: Quản trị viên hệ thống (quyền `quan_tri` — truy cập `quan-tri.php`).
-- **silaphet@sanbong.vn**: Tài khoản chủ trang Silaphet Thit (quyền `quan_tri` — có toàn quyền quản lý, thêm/xóa dự án và xóa lưu bút tại trang cá nhân).
-- **khach1@gmail.com**, **khach2@gmail.com**: Tài khoản khách hàng (quyền `khach_hang` — mỗi khách đã có ít nhất 1 đơn đặt sân).
+- **admin@sanbongthangloi.vn**: Tài khoản Quản trị viên (vai trò `quan_tri` — truy cập `quan-tri.php`).
+- **khach1@sanbongthangloi.vn**: Tài khoản Khách hàng (vai trò `khach_hang` — đặt sân và quản lý giỏ).
+- **khach2@sanbongthangloi.vn**: Tài khoản Khách hàng 2.
+- **silaphet@sanbongthangloi.vn**: Tài khoản thành viên Silaphet.
 
 ---
 
-## 🗺 Bảng Chức năng – URL – Tệp PHP (Bảng 1)
+## 🧪 Kiểm thử bảo mật (Regression Tests)
 
-| TT | Chức năng | URL truy cập | Tệp PHP xử lý chính | Người phụ trách |
-|:---|:---|:---|:---|:---|
-| 1 | Trang chủ, chi tiết sân, giỏ hàng, liên hệ (kèm ảnh) lưu bảng `lien_he` | `/index.php`, `/chi-tiet.php`, `/lien-he.php` | `lien-he.php`, `inc/xu-ly-lien-he.php`, `src/Data/KhoLienHe.php` | **Silaphet Thit** (phụ trách Liên hệ & CSDL `lien_he`), Lê Nguyễn Gia Nhân |
-| 2 | Danh sách sân bóng (tìm kiếm LIKE, lọc loại sân/giá, sắp xếp, phân trang) | `/danh-sach.php` | `danh-sach.php`, `src/Data/KhoSanPham.php` | Trương Nguyễn Ngọc Phú |
-| 3 | Quản trị sân bóng & xem danh sách liên hệ đã nhận kèm ảnh | `/quan-tri.php` | `quan-tri.php` | Nguyễn Quý Minh Hoàng, Silaphet Thit |
-| 4 | Đăng ký, đăng nhập (password_hash), đăng xuất với `nguoi_dung` | `/dang-nhap.php`, `/tai-khoan.php`, `/dang-xuat.php` | `dang-nhap.php`, `tai-khoan.php`, `dang-xuat.php` | Nguyễn Quý Minh Hoàng |
-| 5 | Đặt sân từ giỏ hàng trong giao dịch (Transaction), lịch sử đơn | `/dat-san.php`, `/lich-su.php` | `dat-san.php`, `lich-su.php`, `src/Data/KhoDatSan.php` | Phimmasone Khamphouvanh |
-| 6 | REST API trả JSON: tìm kiếm, xem sân, giỏ hàng | `/api/san-bong.php`, `/api/gio-hang.php` | `api/san-bong.php`, `api/gio-hang.php`, `js/tim-kiem.js` | Phimmasone Khamphouvanh |
-
----
-
-## 📋 Bảng 5. Kết quả Phần B của từng thành viên
-
-| TT | Họ và tên | Bảng riêng (`tv_...`) | Hai chức năng dùng CSDL (Phần B) | Chức năng phụ trách ở Bảng 1 | Lỗi PHP | Số commit |
-|:---|:---|:---|:---|:---|:---|:---|
-| 1 | Phimmasone Khamphouvanh | `tv_todo_phim`, `tv_bmi_phim` | 1. Quản lý công việc cá nhân; 2. Tính và lưu lịch sử chỉ số BMI | Chức năng 5 (Giỏ hàng & Đặt sân) | 0 | 5 |
-| 2 | Nguyễn Quý Minh Hoàng | `tv_luu_but` | 1. Sổ lưu bút CSDL; 2. Thống kê lượt xem theo ngày | Chức năng 4 (Xác thực, Quản trị) | 0 | 4 |
-| 3 | Lê Nguyễn Gia Nhân | `tv_luot_xem` | 1. Sổ lưu bút CSDL; 2. Đếm lượt xem theo ngày 7 ngày gần nhất | Chức năng 1 (Chi tiết & Đã xem gần đây) | 0 | 4 |
-| 4 | **Silaphet Thit** | **`tv_du_an`** | **1. Sổ lưu bút CSDL (`tv_luu_but`) có phân trang 5 mục/trang, phân quyền máy chủ chỉ chủ trang xóa (`DELETE ... WHERE id = ? AND mssv = ?`); 2. Quản lý Dự án & Kỹ năng cá nhân (`tv_du_an`): tìm kiếm từ khóa (LIKE), lọc theo loại, sắp xếp Whitelist, tính tiến độ trung bình bằng SQL (AVG), chủ trang có quyền thêm & xóa dự án** | **Chức năng 1 (Liên hệ lưu bảng `lien_he` kèm upload ảnh an toàn, hiển thị trong quản trị)** | **0** | **4** |
-| 5 | Trương Nguyễn Ngọc Phú | `tv_ky_nang` | 1. Sổ lưu bút CSDL; 2. Danh mục kỹ năng | Chức năng 2 (Lọc & Phân trang) | 0 | 3 |
-
----
-
-## 🌟 Chi tiết thực hiện của thành viên Silaphet Thit (MSSV: 3120224188)
-
-### 1. Phần A (Chức năng Liên hệ & Quản trị liên hệ)
-- **Cơ sở dữ liệu**: Bảng `lien_he` trong `database/schema.sql` có cột `hinh_anh VARCHAR(255) NULL`, nạp sẵn dữ liệu mẫu trong `database/seed.sql`.
-- **Lớp truy cập dữ liệu**: `src/Data/KhoLienHe.php` sử dụng Prepared Statement để thêm liên hệ (`them`), lấy danh sách mới nhất (`tatCa`), đếm số lượng (`dem`) và hỗ trợ phân trang (`trang`).
-- **Xử lý Upload ảnh an toàn**: `inc/xu-ly-lien-he.php` kiểm tra mã lỗi, kiểm tra kích thước ≤ 2MB, xác minh MIME Type chuẩn qua extension `fileinfo` (`finfo`), sinh tên ngẫu nhiên tránh ghi đè và lưu tệp vào thư mục `uploads/`.
-- **Hiển thị Quản trị**: `quan-tri.php` hiển thị danh sách 10 liên hệ mới nhất kèm hình ảnh đính kèm (nếu có).
-
-### 2. Phần B (Trang cá nhân `thanhvien/3120224188_silaphet/gioithieu.php`)
-- **Bảng riêng `tv_du_an`**:
-  + Thiết kế bảng riêng cho Silaphet với các cột `id`, `mssv`, `ten_du_an`, `loai_du_an` (Web, Mobile, Design, Data), `mo_ta`, `cong_nghe`, `tien_do` (CHECK `tien_do <= 100`), `trang_thai`, `ngay_tao`. Khóa ngoại `mssv` tham chiếu tới `thanh_vien(mssv)` ON DELETE CASCADE.
-  + Chức năng quản lý dự án có tìm kiếm từ khóa với `LIKE %...%` và `addcslashes`, lọc theo loại dự án, sắp xếp bằng Whitelist an toàn chống SQL Injection.
-  + Thống kê trực tiếp bằng hàm tổng hợp SQL: Tổng số dự án (`COUNT`), dự án hoàn thành (`SUM`), tiến độ trung bình (`ROUND(AVG(tien_do), 0)`).
-  + Phân quyền máy chủ: Chỉ khi đăng nhập với tài khoản của Silaphet (`silaphet@sanbong.vn` / quyền `quan_tri`) mới xuất hiện biểu mẫu Thêm dự án và nút Xóa dự án.
-- **Sổ lưu bút CSDL (`tv_luu_but`)**:
-  + Chuyển đổi toàn diện từ file JSONL cũ sang bảng CSDL `tv_luu_but` với `mssv = '3120224188'`.
-  + Phân trang 5 lời nhắn mỗi trang qua Prepared Statement `LIMIT 5 OFFSET ?`, giữ nguyên trạng thái khi đổi trang.
-  + Phân quyền máy chủ: Nút xóa chỉ hiển thị cho chủ trang/quản trị viên, câu truy vấn xóa bảo vệ chặt chẽ `DELETE FROM tv_luu_but WHERE id = ? AND mssv = ?` để ngăn xóa nhầm dữ liệu của thành viên khác.
-  + Áp dụng triệt để mô hình PRG (Post-Redirect-Get) và Flash message, F5 không bị gửi lại dữ liệu.
-- **Bộ đếm lượt xem theo ngày (`tv_luot_xem`)**:
-  + Ghi nhận lượt xem bằng `INSERT INTO tv_luot_xem (mssv, ngay, luot_xem) VALUES (?, CURRENT_DATE, 1) ON DUPLICATE KEY UPDATE luot_xem = luot_xem + 1`.
-  + Hiển thị số lượt xem hôm nay, tổng số lượt xem và bảng thống kê 7 ngày gần nhất.
-- **Tiêu chuẩn chất lượng**:
-  + 100% Prepared Statement với PDO, không nối chuỗi biến người dùng vào SQL.
-  + Toàn bộ dữ liệu in ra màn hình đều qua hàm `e()` để chống XSS.
-  + 0 lỗi Warning, Notice, Deprecated trong PHP.
-  + Responsive mượt mà trên thiết bị di động (chiều rộng 360px không bị cuộn ngang).
+- Tệp kiểm thử REST Client: `tests/bao-mat.http`
+- Tệp kịch bản kiểm thử curl: `tests/bao-mat.sh`
+- Tệp kịch bản API hệ thống: `api.http`
+- Toàn bộ nhật ký bảo mật được lưu tại: `logs/bao-mat.log`

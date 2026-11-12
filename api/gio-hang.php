@@ -38,9 +38,10 @@ if ($method === 'GET') {
 }
 
 if ($method === 'POST') {
-    $action   = postChuoi('action', 'them');
-    $idSan    = postChuoi('id_san', postChuoi('id'));
-    $soLuong  = max(1, (int) postChuoi('so_luong', '1'));
+    $jsonInput = json_decode(file_get_contents('php://input'), true) ?? [];
+    $action   = postChuoi('action', $jsonInput['action'] ?? 'them');
+    $idSan    = postChuoi('id_san', postChuoi('id', (string)($jsonInput['id_san'] ?? $jsonInput['id'] ?? '')));
+    $soLuong  = max(1, (int) postChuoi('so_luong', (string)($jsonInput['so_luong'] ?? '1')));
 
     if ($action === 'them') {
         if ($idSan === '' || $kho->timTheoId($idSan) === null) {

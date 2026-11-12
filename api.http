@@ -1,0 +1,60 @@
+### REST CLIENT API TEST — SÂN BÓNG THẮNG LỢI (NHÓM 11)
+### Cập nhật Chương 7: Bổ sung Header X-CSRF-Token cho mọi request POST
+
+@baseUrl = http://localhost:8000
+@csrf = thay_bang_csrf_token_that
+@cookie = PHPSESSID=thay_bang_cookie_phien_that
+
+### 1. API Lấy danh sách toàn bộ sân bóng (GET)
+GET {{baseUrl}}/api/san.php
+Accept: application/json
+
+### 2. API Lấy chi tiết sân bóng theo ID (GET)
+GET {{baseUrl}}/api/san.php?id=san-a1
+Accept: application/json
+
+### 3. API Lấy chi tiết sân bóng ID không tồn tại -> 404 (GET)
+GET {{baseUrl}}/api/san.php?id=khong-ton-tai
+Accept: application/json
+
+### 4. API Lấy thông tin giỏ hàng (GET)
+GET {{baseUrl}}/api/gio-hang.php
+Accept: application/json
+Cookie: {{cookie}}
+
+### 5. API Thêm sân vào giỏ hàng (POST có Header X-CSRF-Token)
+POST {{baseUrl}}/api/gio-hang.php
+Content-Type: application/json
+Accept: application/json
+Cookie: {{cookie}}
+X-CSRF-Token: {{csrf}}
+
+{
+  "action": "them",
+  "id": "san-a1",
+  "so_luong": 1
+}
+
+### 6. API Thêm vào giỏ không có X-CSRF-Token -> 403 Forbidden
+POST {{baseUrl}}/api/gio-hang.php
+Content-Type: application/json
+Accept: application/json
+Cookie: {{cookie}}
+
+{
+  "action": "them",
+  "id": "san-a1",
+  "so_luong": 1
+}
+
+### 7. API Xóa sân khỏi giỏ hàng (POST có Header X-CSRF-Token)
+POST {{baseUrl}}/api/gio-hang.php
+Content-Type: application/json
+Accept: application/json
+Cookie: {{cookie}}
+X-CSRF-Token: {{csrf}}
+
+{
+  "action": "xoa",
+  "id": "san-a1"
+}

@@ -5,7 +5,8 @@ logs/*.log
 uploads/*
 !uploads/.htaccess
 !uploads/.gitkeep
-storage/anh/*
+storage/*
+!storage/anh/
 !storage/anh/.gitkeep
 
 # File táº¡m
