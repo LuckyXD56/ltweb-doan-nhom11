@@ -13,3 +13,15 @@ storage/*
 .DS_Store
 Thumbs.db
 *.log
+
+*.zip
+
+# Báo cáo / Reports (không đưa lên GitHub)
+*.docx
+*.pdf
+[Bb]ao_[Cc]ao_*
+[Bb]ao[Cc]ao_*
+Nhom11_Baitap*
+report.html
+kiemtra/baocao/
+
