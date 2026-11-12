@@ -122,6 +122,7 @@ require __DIR__ . '/inc/header.php';
           <div style="display: flex; gap: 0.5rem; margin-top: 0.75rem; flex-wrap: wrap;">
             <a class="nut nut--chinh" href="chi-tiet.php?id=<?= urlencode($san->getId()) ?>">Chi tiết &amp; Đặt</a>
             <form method="post" action="them-gio.php" style="display: inline;">
+              <?= csrfField() ?>
               <input type="hidden" name="action" value="them">
               <input type="hidden" name="id" value="<?= e($san->getId()) ?>">
               <input type="hidden" name="so_luong" value="1">

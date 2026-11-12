@@ -10,6 +10,7 @@ $du  = ['ho_ten' => '', 'email' => '', 'noi_dung' => ''];
 $loi = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    kiemTraCsrf();
     $thanhCong = xuLyLienHe($du, $loi);
 
     if ($thanhCong) {
@@ -45,6 +46,7 @@ require __DIR__ . '/inc/header.php';
   <h2>Gửi câu hỏi cho chúng tôi</h2>
   <form class="bieu-mau" id="form-lien-he" method="post"
         action="lien-he.php" enctype="multipart/form-data" novalidate>
+    <?= csrfField() ?>
 
     <label class="truong__nhan" for="lh-ho-ten">Họ và tên (*)</label>
     <input class="truong__nhap" type="text" id="lh-ho-ten" name="ho_ten"

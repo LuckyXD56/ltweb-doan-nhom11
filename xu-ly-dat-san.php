@@ -16,12 +16,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     chuyenHuong('index.php');
 }
 
-// Kiểm tra CSRF nếu có hàm
-if (function_exists('csrfHopLe') && !csrfHopLe($_POST['csrf'] ?? '')) {
-    http_response_code(403);
-    datFlash('loi', 'Mã bảo mật CSRF không hợp lệ hoặc đã hết hạn.');
-    chuyenHuong('danh-sach.php');
-}
+// Kiểm tra CSRF bảo vệ đơn đặt sân
+kiemTraCsrf();
 
 // 3. Lấy dữ liệu
 $sanBongId   = (int) postChuoi('ma_san'); // Ép kiểu về số nguyên

@@ -47,6 +47,7 @@ $demSoMuc  = $gio->demSoMuc();
               <td><?= vnd($san->getGiaThuong()) ?></td>
               <td>
                 <form method="post" action="them-gio.php" style="display:flex; gap: 0.25rem;">
+                  <?= csrfField() ?>
                   <input type="hidden" name="action" value="doi">
                   <input type="hidden" name="id" value="<?= e($san->getId()) ?>">
                   <input type="hidden" name="quay_lai" value="gio-hang.php">
@@ -58,6 +59,7 @@ $demSoMuc  = $gio->demSoMuc();
               <td><?= vnd($muc['thanhTien']) ?></td>
               <td>
                 <form method="post" action="them-gio.php" style="display:inline;">
+                  <?= csrfField() ?>
                   <input type="hidden" name="action" value="xoa-mot">
                   <input type="hidden" name="id" value="<?= e($san->getId()) ?>">
                   <input type="hidden" name="quay_lai" value="gio-hang.php">
@@ -79,6 +81,7 @@ $demSoMuc  = $gio->demSoMuc();
     <p class="mt-2">
       <a class="nut nut--chinh" href="dat-san.php">Tiến hành đặt sân</a>
       <form method="post" action="them-gio.php" style="display:inline;">
+        <?= csrfField() ?>
         <input type="hidden" name="action" value="xoa-het">
         <input type="hidden" name="quay_lai" value="gio-hang.php">
         <button type="submit" class="nut nut--phu">Xoá toàn bộ giỏ</button>

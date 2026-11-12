@@ -73,6 +73,7 @@ require __DIR__ . '/inc/header.php';
     <!-- FORM ĐẶT SÂN -->
     <?php if (!empty($_SESSION['da_dang_nhap'])): ?>
       <form method="post" action="xu-ly-dat-san.php" style="margin-top: 1.5rem; background: #f8faf9; padding: 1.5rem; border-radius: 8px; border: 1px solid #e5e7eb;">
+        <?= csrfField() ?>
         <h3 style="margin-top: 0; color: #0b6e3c;">Đặt sân này</h3>
         
         <!-- Truyền ID số của sân (VD: 1, 2, 3...) -->
@@ -100,6 +101,7 @@ require __DIR__ . '/inc/header.php';
       </form>
       
       <form method="post" action="them-gio.php" style="margin-top: 0.75rem;">
+        <?= csrfField() ?>
         <input type="hidden" name="action" value="them">
         <input type="hidden" name="id" value="<?= e($san->getId()) ?>">
         <input type="hidden" name="so_luong" value="1">

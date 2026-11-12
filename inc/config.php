@@ -18,6 +18,7 @@ define('DUONG_DAN_LOG', DUONG_DAN_GOC . '/logs');
 
 require DUONG_DAN_GOC . '/vendor/autoload.php';
 require_once __DIR__ . '/db.php';
+require_once __DIR__ . '/csrf.php';
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();

@@ -17,6 +17,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     chuyenHuong('gio-hang.php');
 }
 
+kiemTraCsrf();
+
 $action  = postChuoi('action', 'them');
 $idSan   = postChuoi('id');
 $quayLai = postChuoi('quay_lai', 'gio-hang.php');

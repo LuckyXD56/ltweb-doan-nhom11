@@ -14,6 +14,7 @@ require __DIR__ . '/inc/header.php';
     Đơn đặt sân sẽ được xác nhận qua số điện thoại hoặc email trong vòng 30 phút.</p>
 
   <form class="bieu-mau" id="form-dat-san" action="#" method="post">
+    <?= csrfField() ?>
     <fieldset class="nhom-truong">
       <legend class="nhom-truong__tieu-de">Thông tin khách hàng</legend>
 

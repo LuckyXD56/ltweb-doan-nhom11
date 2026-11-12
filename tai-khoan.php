@@ -9,6 +9,7 @@ $loiDangNhap = '';
 $loiDangKy = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    kiemTraCsrf();
     $action = postChuoi('action');
 
     // 1. Xử lý ĐĂNG NHẬP
@@ -104,6 +105,7 @@ require __DIR__ . '/inc/header.php';
   <?php endif; ?>
 
   <form class="bieu-mau" id="form-dang-nhap" action="tai-khoan.php" method="post">
+    <?= csrfField() ?>
     <input type="hidden" name="action" value="dang_nhap">
     <label class="truong__nhan" for="dn-email">Email (*)</label>
     <input class="truong__nhap" type="email" id="dn-email" name="tai_khoan" required>
@@ -122,6 +124,7 @@ require __DIR__ . '/inc/header.php';
   <?php endif; ?>
 
   <form class="bieu-mau" id="form-dang-ky" action="tai-khoan.php" method="post">
+    <?= csrfField() ?>
     <input type="hidden" name="action" value="dang_ky">
     <label class="truong__nhan" for="dk-ho-ten">Họ và tên (*)</label>
     <input class="truong__nhap" type="text" id="dk-ho-ten" name="ho_ten" required minlength="2">

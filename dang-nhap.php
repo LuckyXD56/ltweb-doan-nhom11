@@ -17,6 +17,7 @@ $loi = '';
 $email = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    kiemTraCsrf();
     $email = postChuoi('email');
     $password = postChuoi('password');
 
@@ -66,6 +67,7 @@ require __DIR__ . '/inc/header.php';
   <?php endif; ?>
 
   <form class="bieu-mau" method="post" action="dang-nhap.php">
+    <?= csrfField() ?>
     <label class="truong__nhan" for="email">Email (*)</label>
     <input class="truong__nhap" type="email" id="email" name="email" value="<?= e($email) ?>" required autofocus>
 

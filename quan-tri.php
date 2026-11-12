@@ -10,6 +10,7 @@ if (empty($_SESSION['da_dang_nhap']) || ($_SESSION['vai_tro'] ?? '') !== 'quan_t
 
 // Xử lý các thao tác quản trị POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    kiemTraCsrf();
     $action = postChuoi('action');
 
     // 1. Đổi trạng thái đơn đặt sân
@@ -153,6 +154,7 @@ require __DIR__ . '/inc/header.php';
               </td>
               <td>
                 <form method="post" action="quan-tri.php" style="display: flex; gap: 4px; align-items: center;">
+                  <?= csrfField() ?>
                   <input type="hidden" name="action" value="doi_trang_thai_don">
                   <input type="hidden" name="id_don" value="<?= $don['id'] ?>">
                   <select name="trang_thai" class="truong__nhap" style="padding: 2px 6px; font-size: 0.85rem;">
@@ -178,6 +180,7 @@ require __DIR__ . '/inc/header.php';
   <div class="the" style="margin-bottom: 1.5rem; background: #f8fafc; border: 1px solid #e2e8f0;">
     <h3 style="margin-top: 0; color: #0b6e3c;">➕ Thêm sân bóng mới</h3>
     <form method="post" action="quan-tri.php" style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: flex-end;">
+      <?= csrfField() ?>
       <input type="hidden" name="action" value="them_san">
       
       <div style="flex: 1; min-width: 150px;">
@@ -241,6 +244,7 @@ require __DIR__ . '/inc/header.php';
               <div style="display: flex; gap: 6px; align-items: center;">
                 <!-- Form sửa nhanh giá & trạng thái -->
                 <form method="post" action="quan-tri.php" style="display: flex; gap: 4px; align-items: center;">
+                  <?= csrfField() ?>
                   <input type="hidden" name="action" value="sua_san">
                   <input type="hidden" name="id_san" value="<?= $san['id'] ?>">
                   <input type="hidden" name="ten_san" value="<?= e($san['ten_san']) ?>">
@@ -255,6 +259,7 @@ require __DIR__ . '/inc/header.php';
 
                 <!-- Form xóa sân -->
                 <form method="post" action="quan-tri.php" onsubmit="return confirm('Bạn có chắc chắn muốn xóa sân <?= e($san['ten_san']) ?>?');">
+                  <?= csrfField() ?>
                   <input type="hidden" name="action" value="xoa_san">
                   <input type="hidden" name="id_san" value="<?= $san['id'] ?>">
                   <button type="submit" class="nut" style="padding: 2px 6px; font-size: 0.8rem; background: #ef4444; color: white;">Xóa</button>
