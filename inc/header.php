@@ -18,6 +18,7 @@ if ($trangHienTai === 'gioithieu.php') {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="csrf-token" content="<?= csrfToken() ?>">
   <title><?= e($tieuDeTrang) ?> | Sân Bóng Thắng Lợi</title>
   <link rel="stylesheet" href="<?= $baseUrl ?>css/chung.css">
   <link rel="stylesheet" href="<?= $baseUrl ?>css/thanh-phan.css">
@@ -64,7 +65,10 @@ if ($trangHienTai === 'gioithieu.php') {
         <?php if (($_SESSION['vai_tro'] ?? '') === 'quan_tri'): ?>
           · <a href="<?= $baseUrl ?>quan-tri.php" style="font-weight: bold; color: #0b6e3c;">Trang quản trị</a>
         <?php endif; ?>
-        · <a href="<?= $baseUrl ?>dang-xuat.php" style="font-weight: bold; color: #b91c1c;">Đăng xuất</a>
+        · <form method="post" action="<?= $baseUrl ?>dang-xuat.php" class="dang-xuat" style="display:inline;">
+            <?= csrfField() ?>
+            <button type="submit" style="background:none;border:none;color:#b91c1c;font-weight:bold;cursor:pointer;padding:0;font-size:inherit;font-family:inherit;text-decoration:underline;">Đăng xuất</button>
+          </form>
       <?php else: ?>
         <!-- Nếu chưa đăng nhập: Hiện link Đăng nhập / Đăng ký -->
         <a href="<?= $baseUrl ?>dang-nhap.php" style="font-weight: bold; color: #0b6e3c;">Đăng nhập</a> 

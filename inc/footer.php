@@ -19,6 +19,7 @@ if (!isset($baseUrl)) $baseUrl = '';
   <!-- Script chung -->
   <script type="module" src="<?= $baseUrl ?>js/trang-chung.js"></script>
   <script type="module" src="<?= $baseUrl ?>js/modules/yeuThich.js"></script>
+  <script src="<?= $baseUrl ?>js/gio-hang.js"></script>
   
   <!-- Script riêng của trang (nếu có) -->
   <?php if (!empty($scriptRieng)) echo $scriptRieng; ?>
