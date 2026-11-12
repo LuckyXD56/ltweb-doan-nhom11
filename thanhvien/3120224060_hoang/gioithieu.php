@@ -132,7 +132,7 @@ unset($_SESSION['flash_thanh_cong'], $_SESSION['flash_loi']);
 // Nạp Header chung của nhóm kèm custom CSS riêng
 $tieuDeTrang = 'Giới thiệu thành viên - Nguyễn Quý Minh Hoàng';
 $customCss = '<link rel="stylesheet" href="profile.css">';
-require_once $baseUrl . 'inc/header.php';
+require_once __DIR__ . '/../../inc/header.php';
 ?>
 
 <main class="trang__main">
@@ -305,5 +305,5 @@ require_once $baseUrl . 'inc/header.php';
 <?php
 // Nạp script riêng đúng chuẩn W3C thông qua biến của footer chung
 $scriptRieng = '<script src="js/canhan.js"></script>';
-require_once $baseUrl . 'inc/footer.php';
+require_once __DIR__ . '/../../inc/footer.php';
 ?>
