@@ -1,0 +1,19 @@
+# .htaccess â€” thÆ° má»¥c gá»‘c dá»± Ã¡n (XAMPP, hosting)
+# KhÃ´ng liá»‡t kÃª ná»™i dung thÆ° má»¥c
+Options -Indexes
+
+# Tá»‡p, thÆ° má»¥c áº©n (.env, .gitâ€¦) â€” chá»«a .well-known
+RedirectMatch 404 /\.(?!well-known/)
+
+# ThÆ° má»¥c ná»™i bá»™ cá»§a dá»± Ã¡n
+RedirectMatch 404 /(inc|src|vendor|database|logs|storage)(/|$)
+
+# Tá»‡p SQL, log, sao lÆ°u, cáº¥u hÃ¬nh Composer
+<FilesMatch "\.(sql|log|bak|ini|lock)$|^composer\.json$">
+    Require all denied
+</FilesMatch>
+
+# Hosting cÃ³ HTTPS: bá»  dáº¥u # á»Ÿ ba dÃ²ng dÆ°á»›i
+# RewriteEngine On
+# RewriteCond %{HTTPS} !=on
+# RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]

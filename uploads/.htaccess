@@ -1,0 +1,11 @@
+# uploads/.htaccess â€” chá»‰ chá»©a áº£nh táº£i lÃªn
+Options -Indexes
+
+# KhÃ´ng cháº¡y mÃ£: cháº·n cÃ¡c Ä‘uÃ´i tá»‡p thá»±c thi Ä‘Æ°á»£c
+<FilesMatch "\.(php\d?|phtml|phar|cgi|pl|py|sh)$">
+    Require all denied
+</FilesMatch>
+
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+</IfModule>
