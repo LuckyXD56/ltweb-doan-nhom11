@@ -156,3 +156,12 @@ CREATE TABLE tv_luot_xem_ngay (
     CONSTRAINT fk_tv_lxn_thanh_vien FOREIGN KEY (mssv)
         REFERENCES thanh_vien(mssv) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB;
+
+-- 11. Bảng ĐĂNG NHẬP SAI — Chặn đoán mật khẩu (Chương 7)
+CREATE TABLE IF NOT EXISTS dang_nhap_sai (
+    id        INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    email     VARCHAR(255) NOT NULL,
+    ip        VARCHAR(45) NOT NULL,            -- đủ chỗ cho địa chỉ IPv6
+    thoi_gian DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    INDEX (email, thoi_gian)
+) ENGINE=InnoDB;

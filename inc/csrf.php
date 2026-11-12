@@ -1,11 +1,11 @@
 <?php
 /**
- * inc/csrf.php — Quản lý mã chống giả mạo yêu cầu chéo trang (CSRF Protection)
+ * inc/csrf.php â€” Quáº£n lÃ½ mÃ£ chá»‘ng giáº£ máº¡o yÃªu cáº§u chÃ©o trang (CSRF Protection)
  *
- * Tiêu chuẩn bảo mật Chương 7:
- * - Sinh mã ngẫu nhiên an toàn bằng random_bytes(32)
- * - Kiểm tra khớp mã bằng hash_equals() chống tấn công Timing Attack
- * - Cung cấp hàm sinh trường ẩn HTML csrfField() và hàm tự động kiểm tra kiemTraCsrf()
+ * TiÃªu chuáº©n báº£o máº­t ChÆ°Æ¡ng 7:
+ * - Sinh mÃ£ ngáº«u nhiÃªn an toÃ n báº±ng random_bytes(32)
+ * - Kiá»ƒm tra khá»›p mÃ£ báº±ng hash_equals() chá»‘ng táº¥n cÃ´ng Timing Attack
+ * - Cung cáº¥p hÃ m sinh trÆ°á» ng áº©n HTML csrfField() vÃ  hÃ m kiá»ƒm tra csrfHopLe()
  */
 
 declare(strict_types=1);
@@ -16,10 +16,11 @@ if (!function_exists('csrfToken')) {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
-        if (empty($_SESSION['csrf_token'])) {
-            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+        if (empty($_SESSION['csrf'])) {
+            $_SESSION['csrf'] = bin2hex(random_bytes(32));
         }
-        return $_SESSION['csrf_token'];
+        $_SESSION['csrf_token'] = $_SESSION['csrf']; // Ä á»“ng bá»™ cáº£ 2 key
+        return $_SESSION['csrf'];
     }
 }
 
@@ -31,31 +32,37 @@ if (!function_exists('csrfField')) {
 }
 
 if (!function_exists('csrfHopLe')) {
-    function csrfHopLe(?string $token): bool
+    function csrfHopLe(?string $token = null): bool
     {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
-        if (empty($_SESSION['csrf_token']) || empty($token)) {
+        $gui = $token ?? $_POST['csrf'] ?? $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
+        if (!is_string($gui) || $gui === '') {
             return false;
         }
-        return hash_equals($_SESSION['csrf_token'], $token);
+        $ssToken = $_SESSION['csrf'] ?? $_SESSION['csrf_token'] ?? '';
+        if ($ssToken === '') {
+            return false;
+        }
+        return hash_equals($ssToken, $gui);
     }
 }
 
 if (!function_exists('kiemTraCsrf')) {
     function kiemTraCsrf(): void
     {
-        $token = is_string($_POST['csrf'] ?? null) ? $_POST['csrf'] : '';
-        if ($token === '' && !empty($_SERVER['HTTP_X_CSRF_TOKEN'])) {
-            $token = (string) $_SERVER['HTTP_X_CSRF_TOKEN'];
-        }
-        if (!csrfHopLe($token)) {
+        if (!csrfHopLe()) {
+            if (function_exists('ghiLogBaoMat')) {
+                ghiLogBaoMat('csrf_sai', ['trang' => $_SERVER['REQUEST_URI'] ?? '']);
+            }
             http_response_code(403);
-            if (isset($_SERVER['HTTP_ACCEPT']) && str_contains($_SERVER['HTTP_ACCEPT'], 'application/json')) {
+            if ((isset($_SERVER['CONTENT_TYPE']) && str_contains($_SERVER['CONTENT_TYPE'], 'json')) || 
+                (isset($_SERVER['HTTP_ACCEPT']) && str_contains($_SERVER['HTTP_ACCEPT'], 'application/json'))) {
                 header('Content-Type: application/json; charset=utf-8');
                 echo json_encode([
                     'status'  => 'error',
+                    'loi'     => 'Trang đã hết hạn, hãy tải lại trang rồi gửi lại',
                     'message' => 'Lỗi bảo mật CSRF: Mã bảo vệ không hợp lệ hoặc đã hết hạn.'
                 ], JSON_UNESCAPED_UNICODE);
                 exit;
@@ -64,7 +71,7 @@ if (!function_exists('kiemTraCsrf')) {
             if (file_exists($file403)) {
                 require $file403;
             } else {
-                echo '<!DOCTYPE html><html lang="vi"><head><meta charset="UTF-8"><title>403 Forbidden</title></head><body><h1>403 Forbidden</h1><p>Yêu cầu bị từ chối: Mã bảo vệ CSRF không hợp lệ hoặc đã hết hạn.</p><p><a href="index.php">Quay lại trang chủ</a></p></body></html>';
+                echo 'Trang đã hết hạn, hãy tải lại trang rồi gửi lại';
             }
             exit;
         }

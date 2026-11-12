@@ -2,41 +2,29 @@
 require __DIR__ . '/inc/config.php';
 require __DIR__ . '/inc/ham.php';
 
-// Nếu người dùng đang có session cũ, nhưng lại truy cập vào trang đăng nhập (phương thức GET)
-// -> Tự động hủy session cũ để cho phép đăng nhập tài khoản mới tinh.
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    if (!empty($_SESSION['da_dang_nhap'])) {
-        $_SESSION = [];
-        session_destroy();
-        session_start();
-        datFlash('thanh-cong', 'Bạn đã đăng xuất khỏi tài khoản cũ. Vui lòng đăng nhập lại.');
-    }
-}
-
 $loi = '';
 $email = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     kiemTraCsrf();
-    $email = postChuoi('email');
-    $password = postChuoi('password');
+    $email = chuoi($_POST['email'] ?? '');
+    $password = chuoi($_POST['password'] ?? '');
 
     if ($email === '' || $password === '') {
         $loi = 'Vui lòng nhập đầy đủ email và mật khẩu.';
+    } elseif (soLanSai($email) >= 5) {
+        http_response_code(429);
+        $loi = 'Sai quá nhiều lần, hãy thử lại sau 15 phút';
     } else {
         $user = $khoNguoiDung->timTheoEmail($email);
         
         if ($user && password_verify($password, $user['mat_khau'])) {
-            // Xóa sạch session cũ trước khi ghi session mới (tránh lẫn lộn quyền)
-            $_SESSION = [];
-            session_regenerate_id(true); 
-            
-            $_SESSION['da_dang_nhap'] = true;
-            $_SESSION['nguoi_dung_id'] = $user['id'];
-            $_SESSION['email']       = $user['email'];
-            $_SESSION['ho_ten']      = $user['ho_ten'];
-            $_SESSION['vai_tro']     = $user['vai_tro'];
+            // Đúng: Xóa các lần đăng nhập sai của email này
+            try {
+                db()->prepare('DELETE FROM dang_nhap_sai WHERE email = ?')->execute([$email]);
+            } catch (Throwable) {}
 
+            dangNhap($user['id']);
             datFlash('thanh-cong', 'Đăng nhập thành công. Xin chào ' . e($user['ho_ten']) . '!');
 
             // Điều hướng: Nếu là khách hàng thì về trang chủ/lịch sử, nếu là admin thì vào quản trị
@@ -46,7 +34,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 chuyenHuong('index.php');
             }
         } else {
-            $loi = 'Sai email hoặc mật khẩu.';
+            ghiLanSai($email);
+            $loi = 'Sai email hoặc mật khẩu';
         }
     }
 }

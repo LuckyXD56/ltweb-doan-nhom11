@@ -100,3 +100,39 @@ if (!function_exists('themDaXem')) {
         ]);
     }
 }
+
+if (!function_exists('chuoi')) {
+    // ?q[]=ao gửi lên MẢNG: chỉ nhận chuỗi, mảng → ''
+    function chuoi(mixed $v): string
+    {
+        return is_string($v) ? trim($v) : '';
+    }
+}
+
+if (!function_exists('traJson')) {
+    function traJson(array $duLieu, int $ma = 200): void
+    {
+        http_response_code($ma);
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode($duLieu, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        exit;
+    }
+}
+
+if (!function_exists('ghiLogBaoMat')) {
+    // Một sự kiện bảo mật = một dòng trong logs/bao-mat.log
+    function ghiLogBaoMat(string $suKien, array $chiTiet = []): void
+    {
+        $chiTiet += [
+            'ip'  => $_SERVER['REMOTE_ADDR'] ?? '-',
+            'uid' => $_SESSION['uid'] ?? null
+        ];
+        $json = json_encode($chiTiet, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        $dong = date('Y-m-d H:i:s') . " $suKien $json";
+        $logDir = dirname(__DIR__) . '/logs';
+        if (!is_dir($logDir)) {
+            mkdir($logDir, 0755, true);
+        }
+        error_log($dong . PHP_EOL, 3, $logDir . '/bao-mat.log');
+    }
+}

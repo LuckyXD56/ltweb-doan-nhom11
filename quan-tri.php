@@ -2,11 +2,8 @@
 require __DIR__ . '/inc/config.php';
 require __DIR__ . '/inc/ham.php';
 
-// Kiểm tra quyền Admin
-if (empty($_SESSION['da_dang_nhap']) || ($_SESSION['vai_tro'] ?? '') !== 'quan_tri') {
-    datFlash('loi', 'Bạn cần đăng nhập bằng tài khoản quản trị.');
-    chuyenHuong('dang-nhap.php');
-}
+// Kiểm tra quyền Admin bằng yeuCauQuyen (sẽ ghi log cam_truy_cap nếu sai vai trò)
+$nd = yeuCauQuyen('quan_tri');
 
 // Xử lý các thao tác quản trị POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
