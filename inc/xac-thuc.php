@@ -105,6 +105,18 @@ if (!function_exists('soLanSai')) {
     }
 }
 
+if (!function_exists('soLanSaiIp')) {
+    function soLanSaiIp(string $ip): int
+    {
+        if ($ip === '' || $ip === '-') {
+            return 0;
+        }
+        $st = db()->prepare('SELECT COUNT(*) FROM dang_nhap_sai WHERE ip = ? AND thoi_gian > NOW() - INTERVAL 15 MINUTE');
+        $st->execute([$ip]);
+        return (int) $st->fetchColumn();
+    }
+}
+
 if (!function_exists('ghiLanSai')) {
     function ghiLanSai(string $email): void
     {

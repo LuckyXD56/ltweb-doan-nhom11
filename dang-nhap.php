@@ -10,9 +10,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = chuoi($_POST['email'] ?? '');
     $password = chuoi($_POST['password'] ?? '');
 
+    $ip = $_SERVER['REMOTE_ADDR'] ?? '';
     if ($email === '' || $password === '') {
         $loi = 'Vui lòng nhập đầy đủ email và mật khẩu.';
-    } elseif (soLanSai($email) >= 5) {
+    } elseif (soLanSai($email) >= 5 || ($ip !== '' && function_exists('soLanSaiIp') && soLanSaiIp($ip) >= 10)) {
         http_response_code(429);
         $loi = 'Sai quá nhiều lần, hãy thử lại sau 15 phút';
     } else {

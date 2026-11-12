@@ -19,10 +19,10 @@ if (file_exists($envDir . '/.env')) {
     $env->load();
     $env->required(['DB_HOST', 'DB_DATABASE', 'DB_USERNAME']);
 } else {
-    $_ENV['APP_DEBUG'] = 'true';
+    $_ENV['APP_DEBUG'] = 'false';
     $_ENV['DB_HOST'] = 'localhost';
     $_ENV['DB_DATABASE'] = 'ltweb_nhom11';
-    $_ENV['DB_USERNAME'] = 'root';
+    $_ENV['DB_USERNAME'] = 'nhom11_app';
     $_ENV['DB_PASSWORD'] = '';
 }
 
