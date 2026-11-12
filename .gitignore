@@ -1,20 +1,14 @@
-# Composer
-/vendor/
-/composer.phar
+# khÃ´ng Ä‘Æ°a lÃªn GitHub
+.env
+vendor/
+logs/*.log
+uploads/*
+!uploads/.htaccess
+!uploads/.gitkeep
+storage/anh/*
+!storage/anh/.gitkeep
 
-# Thư mục logs, uploads & storage
-/logs/*
-!/logs/.htaccess
-/storage/*
-!/storage/.htaccess
-!/storage/.gitkeep
-/uploads/*
-!/uploads/.gitkeep
-
-# File tạm
+# File táº¡m
 .DS_Store
 Thumbs.db
-*.logvendor/
-logs/
-storage/
-uploads/
+*.log
