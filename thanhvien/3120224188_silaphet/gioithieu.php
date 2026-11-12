@@ -606,6 +606,7 @@ require_once __DIR__ . '/../../inc/header.php';
 
                                 <?php if ($laChuTrang): ?>
                                     <form method="post" action="gioithieu.php#quan-ly-du-an" onsubmit="return confirm('Bạn có chắc chắn muốn xóa dự án này?');" style="margin: 0;">
+                                        <?= csrfField() ?>
                                         <input type="hidden" name="action" value="xoa_du_an">
                                         <input type="hidden" name="id_du_an" value="<?= (int)$da['id'] ?>">
                                         <button type="submit" style="background: none; border: none; color: #dc2626; cursor: pointer; font-size: 0.8rem; padding: 0; text-decoration: underline;">
@@ -626,6 +627,7 @@ require_once __DIR__ . '/../../inc/header.php';
                 <h4 style="margin-top: 0; color: #0b6e3c;">Thêm dự án cá nhân mới vào CSDL (Quyền chủ trang)</h4>
 
                 <form method="post" action="gioithieu.php#quan-ly-du-an">
+                    <?= csrfField() ?>
                     <input type="hidden" name="action" value="them_du_an">
 
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
@@ -692,6 +694,7 @@ require_once __DIR__ . '/../../inc/header.php';
 
         <!-- Form gửi lưu bút -->
         <form action="gioithieu.php#so-luu-but" method="post" style="background: #f8fafc; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; border: 1px solid #e2e8f0;">
+            <?= csrfField() ?>
             <input type="hidden" name="action" value="them_luubut">
 
             <div style="margin-bottom: 1rem;">
@@ -751,6 +754,7 @@ require_once __DIR__ . '/../../inc/header.php';
                         <?php if ($laChuTrang): ?>
                             <div style="text-align: right; border-top: 1px dashed #e2e8f0; padding-top: 0.4rem; margin-top: 0.4rem;">
                                 <form method="post" action="gioithieu.php#so-luu-but" style="display: inline; margin: 0;" onsubmit="return confirm('Bạn có chắc muốn xóa lời nhắn này khỏi CSDL?');">
+                                    <?= csrfField() ?>
                                     <input type="hidden" name="action" value="xoa_luubut">
                                     <input type="hidden" name="id_xoa" value="<?= (int)$tin['id'] ?>">
                                     <button type="submit" class="nut nut--phu" style="padding: 0.2rem 0.6rem; font-size: 0.75rem; color: #b91c1c; border-color: #fca5a5;">

@@ -413,6 +413,7 @@ require __DIR__ . '/../../inc/header.php';
             </p>
 
             <form action="gioithieu.php" method="POST" class="grade-form">
+                <?= csrfField() ?>
                 <input type="hidden" name="action" value="tinhdiem">
 
                 <div class="grade-grid">
@@ -486,6 +487,7 @@ require __DIR__ . '/../../inc/header.php';
                 <?php endif; ?>
             </p>
             <form action="gioithieu.php" method="POST" class="guestbook-form">
+                <?= csrfField() ?>
                 <input type="hidden" name="action" value="luubut">
                 <div class="guestbook-field">
                     <label for="ten">Họ và tên</label>
@@ -512,6 +514,7 @@ require __DIR__ . '/../../inc/header.php';
                                     </div>
                                     <?php if ($laChuTrang): ?>
                                         <form action="gioithieu.php" method="POST" style="margin: 0;" onsubmit="return confirm('Bạn có chắc chắn muốn xóa lời nhắn này?');">
+                                            <?= csrfField() ?>
                                             <input type="hidden" name="action" value="xoa_luubut">
                                             <input type="hidden" name="id_luubut" value="<?= e((string)$lb['id']) ?>">
                                             <button type="submit" style="background:#ef4444; color:#fff; border:none; padding:4px 10px; border-radius:4px; font-size:12px; cursor:pointer;">Xóa</button>

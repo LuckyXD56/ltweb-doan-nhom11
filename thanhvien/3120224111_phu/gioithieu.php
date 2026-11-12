@@ -117,6 +117,7 @@ require __DIR__ . '/../../inc/header.php';
   <article class="the-nho the-nho--full" style="margin-bottom: 1.5rem;">
     <h3 class="the-nho__tieu-de">📝 Gửi lời nhắn cho tôi</h3>
     <form class="bieu-mau" method="post" action="gioithieu.php" novalidate style="margin-top: 1rem;">
+      <?= csrfField() ?>
       <label class="truong__nhan" for="ho_ten">Họ và tên (*)</label>
       <input class="truong__nhap" type="text" id="ho_ten" name="ho_ten" value="<?= e($du['ho_ten']) ?>" required>
       <?php if (!empty($loi['ho_ten'])): ?>

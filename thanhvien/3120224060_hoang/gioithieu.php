@@ -6,15 +6,10 @@
  *        (Thống kê lượt xem và sổ lưu bút phân trang có phân quyền xóa phía máy chủ).
  */
 
-session_start();
+require_once __DIR__ . '/../../inc/config.php';
+require_once __DIR__ . '/../../inc/ham.php';
 
-// Thiết lập đường dẫn tương đối ngược về thư mục gốc của đồ án nhóm
 $baseUrl = '../../';
-
-// Nạp kết nối CSDL và các hàm dùng chung
-require_once $baseUrl . 'inc/db.php';
-require_once $baseUrl . 'inc/ham.php';
-
 $mssv = '3120224060';
 
 if (!function_exists('e')) {
@@ -69,13 +64,14 @@ try {
 $laChuTrang = isset($_SESSION['nguoi_dung_id']) && (($_SESSION['vai_tro'] ?? '') === 'quan_tri' || ($_SESSION['mssv'] ?? '') === $mssv);
 
 // -------------------------------------------------------------------------
-// CHỨC NĂNG 2: XỬ LÝ SỔ LƯU BÚT (XÓA & THÊM THEO MÔ HÌNH PRG)
+// CHỨC NĂNG 2: XỬ LÝ SỔ LƯU BÚT (XÓA & THÊM THEO MÔ HÌNH PRG VÀ POST)
 // -------------------------------------------------------------------------
-if (isset($_GET['hanh_dong']) && $_GET['hanh_dong'] === 'xoa' && isset($_GET['id'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['hanh_dong']) && $_POST['hanh_dong'] === 'xoa') {
+    kiemTraCsrf();
     if (!$laChuTrang) {
         $_SESSION['flash_loi'] = 'Bạn không có quyền thực hiện thao tác này!';
     } else {
-        $idXoa = (int)$_GET['id'];
+        $idXoa = (int)($_POST['id'] ?? 0);
         $stmtDel = db()->prepare("DELETE FROM tv_luu_but WHERE id = ? AND mssv = ?");
         $stmtDel->execute([$idXoa, $mssv]);
         $_SESSION['flash_thanh_cong'] = 'Đã xóa lời nhắn thành công!';
@@ -85,8 +81,9 @@ if (isset($_GET['hanh_dong']) && $_GET['hanh_dong'] === 'xoa' && isset($_GET['id
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['gui_luu_but'])) {
-    $hoTen = trim($_POST['ho_ten'] ?? '');
-    $loiNhan = trim($_POST['loi_nhan'] ?? '');
+    kiemTraCsrf();
+    $hoTen = trim(chuoi($_POST['ho_ten'] ?? ''));
+    $loiNhan = trim(chuoi($_POST['loi_nhan'] ?? ''));
 
     if ($hoTen === '' || $loiNhan === '') {
         $_SESSION['flash_loi'] = 'Vui lòng nhập đầy đủ thông tin!';
@@ -222,6 +219,7 @@ require_once $baseUrl . 'inc/header.php';
       <?php endif; ?>
 
       <form action="gioithieu.php" method="POST" style="margin-top: 1rem;">
+        <?= csrfField() ?>
         <div style="margin-bottom: 0.75rem;">
           <input type="text" name="ho_ten" placeholder="Họ và tên của bạn..." required 
                  style="width: 100%; padding: 0.6rem; border: 1px solid var(--mau-vien); background: var(--mau-the); color: var(--mau-chu); border-radius: var(--bo-goc-sm); font-size: 0.9rem;">
@@ -249,9 +247,12 @@ require_once $baseUrl . 'inc/header.php';
               <p style="margin: 0.3rem 0 0 0; font-size: 0.9rem; color: var(--mau-chu-phu);"><?= e($item['noi_dung']) ?></p>
               <?php if ($laChuTrang): ?>
                 <div style="margin-top: 0.4rem; text-align: right;">
-                  <a href="gioithieu.php?hanh_dong=xoa&id=<?= $item['id'] ?>" 
-                     onclick="return confirm('Bạn có chắc chắn muốn xóa lời nhắn này không?');"
-                     style="color: #dc2626; font-size: 0.8rem; text-decoration: none; font-weight: bold;">[❌ Xóa lời nhắn]</a>
+                  <form method="post" action="gioithieu.php" style="display:inline;" onsubmit="return confirm('Bạn có chắc chắn muốn xóa lời nhắn này không?');">
+                    <?= csrfField() ?>
+                    <input type="hidden" name="hanh_dong" value="xoa">
+                    <input type="hidden" name="id" value="<?= (int)$item['id'] ?>">
+                    <button type="submit" style="background:none; border:none; color: #dc2626; font-size: 0.8rem; cursor:pointer; font-weight: bold; text-decoration: underline; padding:0;">[❌ Xóa lời nhắn]</button>
+                  </form>
                 </div>
               <?php endif; ?>
             </li>
