@@ -50,7 +50,7 @@ require __DIR__ . '/inc/header.php';
   <p>Đăng nhập để đặt sân hoặc truy cập trang quản trị.</p>
 
   <?php if ($loi !== ''): ?>
-    <div class="vung-thong-bao vung-thong-bao--loi" role="alert" style="padding: 0.75rem 1rem; background: #fee2e2; color: #991b1b; border-radius: 8px; margin-bottom: 1rem;">
+    <div class="vung-thong-bao vung-thong-bao--loi" role="alert">
       <?= e($loi) ?>
     </div>
   <?php endif; ?>

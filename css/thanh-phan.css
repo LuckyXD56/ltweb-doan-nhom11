@@ -271,18 +271,206 @@
 
 /* ==== Vùng thông báo trạng thái (đang tải / lỗi / rỗng / thành công) ==== */
 .vung-thong-bao {
-  padding: 0.6rem 0.9rem;
+  max-width: 1100px;
+  margin: 1rem auto;
+  padding: 0.75rem 1rem;
   border-radius: var(--bo-goc);
-  margin: var(--khoang-nho) 0 var(--khoang);
   font-size: var(--co-chu-nho);
   min-height: 1.4em;
 }
 .vung-thong-bao:empty { padding: 0; margin: 0; min-height: 0; }
 .vung-thong-bao[data-trang-thai="dang-tai"] { background-color: var(--mau-nen-phu); color: #555; }
-.vung-thong-bao[data-trang-thai="loi"] { background-color: #fdecea; color: #a33a2e; }
+.vung-thong-bao[data-trang-thai="loi"],
+.vung-thong-bao--loi {
+  background-color: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #f87171;
+}
 .vung-thong-bao[data-trang-thai="rong"] { background-color: var(--mau-nen-phu); color: #777; }
-.vung-thong-bao[data-trang-thai="thanh-cong"] { background-color: #e7f6ec; color: #0b6e3c; }
+.vung-thong-bao[data-trang-thai="thanh-cong"],
+.vung-thong-bao--thanh-cong {
+  background-color: #f0fdf4;
+  color: #166534;
+  border: 1px solid #86efac;
+}
 .thong-bao__noi-dung--loi { margin: 0 0 var(--khoang-nho); }
+
+/* ==== Trạng thái tài khoản trên Header ==== */
+.trang-thai-tai-khoan {
+  text-align: center;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  background: #ffffff;
+  border-radius: var(--bo-goc);
+  margin: 0.75rem auto;
+  max-width: 500px;
+  color: #1e293b;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.trang-thai-tai-khoan a {
+  font-weight: 700;
+  color: #0b6e3c;
+  text-decoration: underline;
+}
+.trang-thai-tai-khoan a:hover {
+  color: #064e3b;
+}
+.trang-thai-tai-khoan .form-dang-xuat {
+  display: inline;
+}
+.trang-thai-tai-khoan .nut-dang-xuat {
+  background: none;
+  border: none;
+  color: #b91c1c;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
+  font-size: inherit;
+  font-family: inherit;
+  text-decoration: underline;
+}
+
+/* ==== Trang Quản Trị ==== */
+.hang-thong-ke {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+.the-thong-ke {
+  flex: 1;
+  min-width: 200px;
+  text-align: center;
+}
+.the-thong-ke__tieu-de {
+  color: #4b5563;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+.the-thong-ke__so {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #0b6e3c;
+  margin: 0;
+}
+.bang-chua {
+  overflow-x: auto;
+}
+.form-doi-trang-thai,
+.form-sua-san {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+.nhap-nho {
+  padding: 2px 6px;
+  font-size: 0.85rem;
+}
+.nut-luu-nho {
+  padding: 2px 8px;
+  font-size: 0.8rem;
+}
+.khung-them-san {
+  margin-bottom: 1.5rem;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+.khung-them-san__tieu-de {
+  margin-top: 0;
+  color: #0b6e3c;
+}
+.form-them-san {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+.cot-them-san {
+  flex: 1;
+  min-width: 150px;
+}
+.cot-them-san--nho {
+  flex: 1;
+  min-width: 120px;
+}
+.nhom-nut-san {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.nhap-gia-san {
+  width: 100px;
+  padding: 2px 4px;
+  font-size: 0.85rem;
+}
+.nut-xoa-san {
+  padding: 2px 6px;
+  font-size: 0.8rem;
+  background: #ef4444;
+  color: #ffffff;
+}
+.anh-lien-he-thumb {
+  max-height: 40px;
+  border-radius: 4px;
+  border: 1px solid #e5e7eb;
+  vertical-align: middle;
+}
+.chu-khong-co {
+  color: #9ca3af;
+  font-size: 0.85rem;
+}
+.muc-quan-tri-cach {
+  margin-top: 2.5rem;
+}
+
+/* ==== Danh sách sân & Giỏ hàng ==== */
+.nhom-nut-san-card {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  flex-wrap: wrap;
+}
+.form-them-gio {
+  display: inline;
+}
+.hop-rong {
+  text-align: center;
+  padding: 2rem;
+}
+.hop-rong__bieu-tuong {
+  font-size: 2.5rem;
+  margin: 0;
+}
+.phan-trang {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 2rem 0;
+  flex-wrap: wrap;
+}
+.nut-phan-trang {
+  padding: 6px 12px;
+  min-width: 38px;
+  text-align: center;
+}
+.nhom-loc-nut {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-end;
+}
+.form-doi-sl {
+  display: flex;
+  gap: 0.25rem;
+}
+.nhap-sl-gio {
+  width: 4rem;
+}
+.nut-gio-nho {
+  padding: 0.25rem 0.5rem;
+}
+.chu-can-phai {
+  text-align: right;
+}
 
 /* ==== Bộ lọc danh sách sân ==== */
 .bo-loc-san {
@@ -294,7 +482,15 @@
   .bo-loc-san { grid-template-columns: repeat(2, 1fr); align-items: end; }
 }
 
-/* ==== Nút nhỏ dùng trong bảng ==== */
+/* ==== Tiện ích thời tiết ==== */
+.thoi-tiet-container {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: var(--bo-goc);
+  text-align: center;
+  padding: 1rem;
+  margin: 1rem 0;
+}
 .nut--nho { padding: 0.35rem 0.75rem; font-size: var(--co-chu-nho); }
 
 /* ==== Hộp thoại chi tiết sân ==== */

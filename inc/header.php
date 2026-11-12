@@ -30,9 +30,6 @@ if ($trangHienTai === 'gioithieu.php') {
     <button type="button" class="nut-mo-menu" aria-expanded="false" aria-controls="danh-sach-dieu-huong-chinh">
       <span class="nut-mo-menu__nhan">Mở menu</span>
     </button>
-    <noscript>
-      <style>@scope { .dieu-huong__danh-sach { display: flex !important; } }</style>
-    </noscript>
     <nav class="dieu-huong" aria-label="Điều hướng chính">
       <ul class="dieu-huong__danh-sach" id="danh-sach-dieu-huong-chinh">
         <?php
@@ -58,29 +55,28 @@ if ($trangHienTai === 'gioithieu.php') {
     </nav>
 
     <!-- KHỐI HIỂN THỊ ĐĂNG NHẬP / ĐĂNG XUẤT -->
-    <div class="trang-thai-tai-khoan" style="text-align: center; padding: 0.5rem; font-size: 0.9rem; background: #f0fdf4; border-bottom: 1px solid #bbf7d0; margin-bottom: 1rem; color: #064e3b;">
+    <div class="trang-thai-tai-khoan">
       <?php if (!empty($_SESSION['da_dang_nhap'])): ?>
         <!-- Nếu đã đăng nhập: Hiện tên và nút Đăng xuất -->
         Xin chào, <strong><?= e($_SESSION['ho_ten'] ?? 'Người dùng') ?></strong>!
         <?php if (($_SESSION['vai_tro'] ?? '') === 'quan_tri'): ?>
-          · <a href="<?= $baseUrl ?>quan-tri.php" style="font-weight: bold; color: #0b6e3c;">Trang quản trị</a>
+          · <a href="<?= $baseUrl ?>quan-tri.php">Trang quản trị</a>
         <?php endif; ?>
-        · <form method="post" action="<?= $baseUrl ?>dang-xuat.php" class="dang-xuat" style="display:inline;">
+        · <form method="post" action="<?= $baseUrl ?>dang-xuat.php" class="dang-xuat form-dang-xuat">
             <?= csrfField() ?>
-            <button type="submit" style="background:none;border:none;color:#b91c1c;font-weight:bold;cursor:pointer;padding:0;font-size:inherit;font-family:inherit;text-decoration:underline;">Đăng xuất</button>
+            <button type="submit" class="nut-dang-xuat">Đăng xuất</button>
           </form>
       <?php else: ?>
         <!-- Nếu chưa đăng nhập: Hiện link Đăng nhập / Đăng ký -->
-        <a href="<?= $baseUrl ?>dang-nhap.php" style="font-weight: bold; color: #0b6e3c;">Đăng nhập</a> 
+        <a href="<?= $baseUrl ?>dang-nhap.php">Đăng nhập</a> 
         | 
-        <a href="<?= $baseUrl ?>tai-khoan.php" style="font-weight: bold; color: #0b6e3c;">Đăng ký</a>
+        <a href="<?= $baseUrl ?>tai-khoan.php">Đăng ký</a>
       <?php endif; ?>
     </div>
   </header>
 
   <?php $flashHeader = layFlash(); if ($flashHeader): ?>
-    <div class="vung-thong-bao vung-thong-bao--<?= e($flashHeader['loai']) ?>" role="alert"
-         style="max-width: 1100px; margin: 1rem auto; padding: 0.75rem 1rem;">
+    <div class="vung-thong-bao vung-thong-bao--<?= e($flashHeader['loai']) ?>" role="alert">
       <?= e($flashHeader['noiDung']) ?>
     </div>
   <?php endif; ?>

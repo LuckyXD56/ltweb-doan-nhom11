@@ -17,8 +17,8 @@ $demSoMuc  = $gio->demSoMuc();
   <h1>Giỏ hàng của bạn</h1>
 
   <?php if ($demSoMuc === 0): ?>
-    <div class="the" style="text-align: center; padding: 2rem;">
-      <p style="font-size: 3rem; margin: 0;">🛒</p>
+    <div class="the hop-rong">
+      <p class="hop-rong__bieu-tuong">🛒</p>
       <p><strong>Giỏ hàng đang trống.</strong></p>
       <p>Hãy chọn sân và bấm "Thêm vào giỏ".</p>
       <a class="nut nut--chinh" href="danh-sach.php">Xem danh sách sân</a>
@@ -46,24 +46,24 @@ $demSoMuc  = $gio->demSoMuc();
               <td><?= $san->getLoaiSan() ?> người</td>
               <td><?= vnd($san->getGiaThuong()) ?></td>
               <td>
-                <form method="post" action="them-gio.php" style="display:flex; gap: 0.25rem;">
+                <form method="post" action="them-gio.php" class="form-doi-sl">
                   <?= csrfField() ?>
                   <input type="hidden" name="action" value="doi">
                   <input type="hidden" name="id" value="<?= e($san->getId()) ?>">
                   <input type="hidden" name="quay_lai" value="gio-hang.php">
                   <input type="number" name="so_luong" min="1" max="5"
-                         value="<?= $muc['soLuong'] ?>" style="width: 4rem;">
-                  <button type="submit" class="nut nut--phu" style="padding: 0.25rem 0.5rem;">Đổi</button>
+                         value="<?= $muc['soLuong'] ?>" class="truong__nhap nhap-sl-gio">
+                  <button type="submit" class="nut nut--phu nut-gio-nho">Đổi</button>
                 </form>
               </td>
               <td><?= vnd($muc['thanhTien']) ?></td>
               <td>
-                <form method="post" action="them-gio.php" style="display:inline;">
+                <form method="post" action="them-gio.php" class="form-them-gio">
                   <?= csrfField() ?>
                   <input type="hidden" name="action" value="xoa-mot">
                   <input type="hidden" name="id" value="<?= e($san->getId()) ?>">
                   <input type="hidden" name="quay_lai" value="gio-hang.php">
-                  <button type="submit" class="nut nut--phu" style="padding: 0.25rem 0.5rem;">Xoá</button>
+                  <button type="submit" class="nut nut--phu nut-gio-nho">Xoá</button>
                 </form>
               </td>
             </tr>
@@ -71,7 +71,7 @@ $demSoMuc  = $gio->demSoMuc();
         </tbody>
         <tfoot>
           <tr>
-            <th scope="row" colspan="4" style="text-align: right;">Tổng tiền:</th>
+            <th scope="row" colspan="4" class="chu-can-phai">Tổng tiền:</th>
             <th colspan="2"><?= vnd($tongTien) ?></th>
           </tr>
         </tfoot>
@@ -80,7 +80,7 @@ $demSoMuc  = $gio->demSoMuc();
 
     <p class="mt-2">
       <a class="nut nut--chinh" href="dat-san.php">Tiến hành đặt sân</a>
-      <form method="post" action="them-gio.php" style="display:inline;">
+      <form method="post" action="them-gio.php" class="form-them-gio">
         <?= csrfField() ?>
         <input type="hidden" name="action" value="xoa-het">
         <input type="hidden" name="quay_lai" value="gio-hang.php">

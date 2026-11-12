@@ -105,14 +105,14 @@ require __DIR__ . '/inc/header.php';
   <h1>Trang quản trị hệ thống</h1>
   <p>Xin chào <strong><?= e($_SESSION['ho_ten'] ?? 'Admin') ?></strong>. Dưới đây là bảng điều khiển quản lý sân bóng và đơn đặt.</p>
 
-  <div style="display: flex; gap: 1.5rem; margin-bottom: 2rem; flex-wrap: wrap;">
-    <div class="the" style="flex: 1; min-width: 200px; text-align: center;">
-      <h3 style="color: #4b5563; margin-bottom: 0.5rem; font-size: 1rem;">Tổng số đơn đặt</h3>
-      <p style="font-size: 2rem; font-weight: 800; color: #0b6e3c; margin: 0;"><?= $tongDon ?></p>
+  <div class="hang-thong-ke">
+    <div class="the the-thong-ke">
+      <h3 class="the-thong-ke__tieu-de">Tổng số đơn đặt</h3>
+      <p class="the-thong-ke__so"><?= $tongDon ?></p>
     </div>
-    <div class="the" style="flex: 1; min-width: 200px; text-align: center;">
-      <h3 style="color: #4b5563; margin-bottom: 0.5rem; font-size: 1rem;">Doanh thu dự kiến</h3>
-      <p style="font-size: 2rem; font-weight: 800; color: #0b6e3c; margin: 0;"><?= vnd((int)$tongTien) ?></p>
+    <div class="the the-thong-ke">
+      <h3 class="the-thong-ke__tieu-de">Doanh thu dự kiến</h3>
+      <p class="the-thong-ke__so"><?= vnd((int)$tongTien) ?></p>
     </div>
   </div>
 
@@ -121,7 +121,7 @@ require __DIR__ . '/inc/header.php';
   <?php if (count($dsDonHang) === 0): ?>
     <p>Chưa có đơn đặt sân nào.</p>
   <?php else: ?>
-    <div class="bang-chua" style="overflow-x: auto;">
+    <div class="bang-chua">
       <table class="bang">
         <thead>
           <tr>
@@ -150,17 +150,17 @@ require __DIR__ . '/inc/header.php';
                 </span>
               </td>
               <td>
-                <form method="post" action="quan-tri.php" style="display: flex; gap: 4px; align-items: center;">
+                <form method="post" action="quan-tri.php" class="form-doi-trang-thai">
                   <?= csrfField() ?>
                   <input type="hidden" name="action" value="doi_trang_thai_don">
                   <input type="hidden" name="id_don" value="<?= $don['id'] ?>">
-                  <select name="trang_thai" class="truong__nhap" style="padding: 2px 6px; font-size: 0.85rem;">
+                  <select name="trang_thai" class="truong__nhap nhap-nho">
                     <option value="cho_xac_nhan" <?= $don['trang_thai'] === 'cho_xac_nhan' ? 'selected' : '' ?>>Chờ xác nhận</option>
                     <option value="da_coc" <?= $don['trang_thai'] === 'da_coc' ? 'selected' : '' ?>>Đã cọc</option>
                     <option value="hoan_tat" <?= $don['trang_thai'] === 'hoan_tat' ? 'selected' : '' ?>>Hoàn tất</option>
                     <option value="da_huy" <?= $don['trang_thai'] === 'da_huy' ? 'selected' : '' ?>>Hủy đơn</option>
                   </select>
-                  <button type="submit" class="nut nut--phu" style="padding: 2px 8px; font-size: 0.8rem;">Lưu</button>
+                  <button type="submit" class="nut nut--phu nut-luu-nho">Lưu</button>
                 </form>
               </td>
             </tr>
@@ -171,21 +171,21 @@ require __DIR__ . '/inc/header.php';
   <?php endif; ?>
 
   <!-- 2. QUẢN LÝ SÂN BÓNG (THÊM, SỬA, XÓA) -->
-  <h2 style="margin-top: 2.5rem;">Quản lý Sân bóng</h2>
+  <h2 class="muc-quan-tri-cach">Quản lý Sân bóng</h2>
   
   <!-- Form Thêm Sân Mới -->
-  <div class="the" style="margin-bottom: 1.5rem; background: #f8fafc; border: 1px solid #e2e8f0;">
-    <h3 style="margin-top: 0; color: #0b6e3c;">➕ Thêm sân bóng mới</h3>
-    <form method="post" action="quan-tri.php" style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: flex-end;">
+  <div class="the khung-them-san">
+    <h3 class="khung-them-san__tieu-de">➕ Thêm sân bóng mới</h3>
+    <form method="post" action="quan-tri.php" class="form-them-san">
       <?= csrfField() ?>
       <input type="hidden" name="action" value="them_san">
       
-      <div style="flex: 1; min-width: 150px;">
+      <div class="cot-them-san">
         <label class="truong__nhan" for="ten_san">Tên sân (*)</label>
         <input type="text" id="ten_san" name="ten_san" required class="truong__nhap" placeholder="Ví dụ: Sân D1">
       </div>
 
-      <div style="flex: 1; min-width: 150px;">
+      <div class="cot-them-san">
         <label class="truong__nhan" for="danh_muc_id">Loại sân (*)</label>
         <select id="danh_muc_id" name="danh_muc_id" class="truong__nhap" required>
           <?php foreach ($dsDanhMuc as $dm): ?>
@@ -194,12 +194,12 @@ require __DIR__ . '/inc/header.php';
         </select>
       </div>
 
-      <div style="flex: 1; min-width: 150px;">
+      <div class="cot-them-san">
         <label class="truong__nhan" for="gia_thue">Giá thuê (VNĐ/h) (*)</label>
         <input type="number" id="gia_thue" name="gia_thue" required step="10000" min="50000" class="truong__nhap" placeholder="Ví dụ: 300000">
       </div>
 
-      <div style="flex: 1; min-width: 120px;">
+      <div class="cot-them-san--nho">
         <label class="truong__nhan" for="trang_thai_moi">Trạng thái</label>
         <select id="trang_thai_moi" name="trang_thai" class="truong__nhap">
           <option value="hoat_dong">Hoạt động</option>
@@ -215,7 +215,7 @@ require __DIR__ . '/inc/header.php';
   </div>
 
   <!-- Bảng Danh Sách Sân Hiện Tại -->
-  <div class="bang-chua" style="overflow-x: auto;">
+  <div class="bang-chua">
     <table class="bang">
       <thead>
         <tr>
@@ -238,20 +238,20 @@ require __DIR__ . '/inc/header.php';
               <span class="the-trang-thai"><?= e($san['trang_thai']) ?></span>
             </td>
             <td>
-              <div style="display: flex; gap: 6px; align-items: center;">
+              <div class="nhom-nut-san">
                 <!-- Form sửa nhanh giá & trạng thái -->
-                <form method="post" action="quan-tri.php" style="display: flex; gap: 4px; align-items: center;">
+                <form method="post" action="quan-tri.php" class="form-sua-san">
                   <?= csrfField() ?>
                   <input type="hidden" name="action" value="sua_san">
                   <input type="hidden" name="id_san" value="<?= $san['id'] ?>">
                   <input type="hidden" name="ten_san" value="<?= e($san['ten_san']) ?>">
-                  <input type="number" name="gia_thue" value="<?= (int)$san['gia_thue'] ?>" step="10000" style="width: 100px; padding: 2px 4px; font-size: 0.85rem;" class="truong__nhap" title="Giá mới">
-                  <select name="trang_thai" class="truong__nhap" style="padding: 2px; font-size: 0.85rem;">
+                  <input type="number" name="gia_thue" value="<?= (int)$san['gia_thue'] ?>" step="10000" class="truong__nhap nhap-gia-san" title="Giá mới">
+                  <select name="trang_thai" class="truong__nhap nhap-nho">
                     <option value="hoat_dong" <?= $san['trang_thai'] === 'hoat_dong' ? 'selected' : '' ?>>Hoạt động</option>
                     <option value="bao_tri" <?= $san['trang_thai'] === 'bao_tri' ? 'selected' : '' ?>>Bảo trì</option>
                     <option value="het_cho" <?= $san['trang_thai'] === 'het_cho' ? 'selected' : '' ?>>Hết chỗ</option>
                   </select>
-                  <button type="submit" class="nut nut--phu" style="padding: 2px 6px; font-size: 0.8rem;">Sửa</button>
+                  <button type="submit" class="nut nut--phu nut-luu-nho">Sửa</button>
                 </form>
 
                 <!-- Form xóa sân -->
@@ -259,7 +259,7 @@ require __DIR__ . '/inc/header.php';
                   <?= csrfField() ?>
                   <input type="hidden" name="action" value="xoa_san">
                   <input type="hidden" name="id_san" value="<?= $san['id'] ?>">
-                  <button type="submit" class="nut" style="padding: 2px 6px; font-size: 0.8rem; background: #ef4444; color: white;">Xóa</button>
+                  <button type="submit" class="nut nut-xoa-san">Xóa</button>
                 </form>
               </div>
             </td>
@@ -270,11 +270,11 @@ require __DIR__ . '/inc/header.php';
   </div>
 
   <!-- 3. LIÊN HỆ GẦN ĐÂY -->
-  <h2 style="margin-top: 2.5rem;">Tin nhắn liên hệ gần đây</h2>
+  <h2 class="muc-quan-tri-cach">Tin nhắn liên hệ gần đây</h2>
   <?php if (count($dsLienHe) === 0): ?>
     <p>Chưa có liên hệ nào.</p>
   <?php else: ?>
-    <div class="bang-chua" style="overflow-x: auto;">
+    <div class="bang-chua">
       <table class="bang">
         <thead>
           <tr><th>Ngày gửi</th><th>Họ tên</th><th>Email</th><th>Nội dung</th><th>Ảnh đính kèm</th></tr>
@@ -289,10 +289,10 @@ require __DIR__ . '/inc/header.php';
               <td>
                 <?php if (!empty($lh['hinh_anh'])): ?>
                   <a href="uploads/<?= e($lh['hinh_anh']) ?>" target="_blank" rel="noopener">
-                    <img src="uploads/<?= e($lh['hinh_anh']) ?>" alt="Ảnh liên hệ" style="max-height: 40px; border-radius: 4px; border: 1px solid #e5e7eb; vertical-align: middle;">
+                    <img src="uploads/<?= e($lh['hinh_anh']) ?>" alt="Ảnh liên hệ" class="anh-lien-he-thumb">
                   </a>
                 <?php else: ?>
-                  <span style="color: #9ca3af; font-size: 0.85rem;">Không có</span>
+                  <span class="chu-khong-co">Không có</span>
                 <?php endif; ?>
               </td>
             </tr>

@@ -13,7 +13,7 @@ $sanNoiBat = array_slice($sanNoiBat, 0, 3);
 ?>
 
 <main class="khu-vuc-chinh">
-  <section class="thoi-tiet-container mt-2 mb-2 p-2" style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; text-align: center;">
+  <section class="thoi-tiet-container" id="khu-vuc-thoi-tiet">
     <h2>🌤️ Thời tiết Đà Nẵng hiện tại</h2>
     <div id="thoi-tiet-widget">
       <p>Đang tải thông tin thời tiết...</p>

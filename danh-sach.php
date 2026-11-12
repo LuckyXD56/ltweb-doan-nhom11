@@ -91,7 +91,7 @@ require __DIR__ . '/inc/header.php';
         <option value="ten"      <?= $sapXep === 'ten'      ? 'selected' : '' ?>>Theo tên A → Z</option>
       </select>
     </div>
-    <div style="display: flex; gap: 0.5rem; align-items: flex-end;">
+    <div class="nhom-loc-nut">
       <button type="submit" class="nut nut--chinh">Lọc sân</button>
       <a class="nut nut--phu" href="danh-sach.php">Xoá lọc</a>
     </div>
@@ -102,8 +102,8 @@ require __DIR__ . '/inc/header.php';
   </p>
 
   <?php if ($tongSoSan === 0): ?>
-    <div class="the" style="text-align: center; padding: 2rem;">
-      <p style="font-size: 2rem; margin: 0;">🔍</p>
+    <div class="the hop-rong">
+      <p class="hop-rong__bieu-tuong">🔍</p>
       <p><strong>Không tìm thấy sân nào phù hợp.</strong></p>
       <p>Hãy thử xoá từ khoá hoặc điều chỉnh lại khoảng giá.</p>
       <a class="nut nut--chinh" href="danh-sach.php">Xem tất cả sân</a>
@@ -119,9 +119,9 @@ require __DIR__ . '/inc/header.php';
             Giá vàng: <?= vnd($san->getGiaVang()) ?>/giờ<br>
             Trạng thái: <strong><?= e($san->getTrangThai()) ?></strong>
           </p>
-          <div style="display: flex; gap: 0.5rem; margin-top: 0.75rem; flex-wrap: wrap;">
+          <div class="nhom-nut-san-card">
             <a class="nut nut--chinh" href="chi-tiet.php?id=<?= urlencode($san->getId()) ?>">Chi tiết &amp; Đặt</a>
-            <form method="post" action="them-gio.php" style="display: inline;">
+            <form method="post" action="them-gio.php" class="form-them-gio">
               <?= csrfField() ?>
               <input type="hidden" name="action" value="them">
               <input type="hidden" name="id" value="<?= e($san->getId()) ?>">
@@ -135,14 +135,14 @@ require __DIR__ . '/inc/header.php';
 
     <!-- Thanh phân trang -->
     <?php if ($tongTrang > 1): ?>
-      <nav class="phan-trang" style="display: flex; justify-content: center; gap: 0.5rem; margin: 2rem 0; flex-wrap: wrap;">
+      <nav class="phan-trang">
         <?php for ($i = 1; $i <= $tongTrang; $i++): ?>
           <?php
             $queryParam = $_GET;
             $queryParam['trang'] = $i;
             $link = 'danh-sach.php?' . http_build_query($queryParam);
           ?>
-          <a class="nut <?= $i === $trangHienTai ? 'nut--chinh' : 'nut--phu' ?>" href="<?= e($link) ?>" style="padding: 6px 12px; min-width: 38px; text-align: center;"><?= $i ?></a>
+          <a class="nut nut-phan-trang <?= $i === $trangHienTai ? 'nut--chinh' : 'nut--phu' ?>" href="<?= e($link) ?>"><?= $i ?></a>
         <?php endfor; ?>
       </nav>
     <?php endif; ?>

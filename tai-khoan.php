@@ -99,7 +99,7 @@ require __DIR__ . '/inc/header.php';
 
   <h2>Đăng nhập</h2>
   <?php if ($loiDangNhap !== ''): ?>
-    <div class="vung-thong-bao vung-thong-bao--loi" role="alert" style="padding: 0.75rem 1rem; background: #fee2e2; color: #991b1b; border-radius: 8px; margin-bottom: 1rem;">
+    <div class="vung-thong-bao vung-thong-bao--loi" role="alert">
       <?= e($loiDangNhap) ?>
     </div>
   <?php endif; ?>
@@ -118,7 +118,7 @@ require __DIR__ . '/inc/header.php';
 
   <h2>Đăng ký tài khoản mới</h2>
   <?php if ($loiDangKy !== ''): ?>
-    <div class="vung-thong-bao vung-thong-bao--loi" role="alert" style="padding: 0.75rem 1rem; background: #fee2e2; color: #991b1b; border-radius: 8px; margin-bottom: 1rem;">
+    <div class="vung-thong-bao vung-thong-bao--loi" role="alert">
       <?= e($loiDangKy) ?>
     </div>
   <?php endif; ?>
