@@ -186,7 +186,7 @@ require __DIR__ . '/../../inc/header.php';
     <main class="page-shell content">
 
         <?php if ($flash): ?>
-            <div class="alert alert-<?= e($flash['loai']) ?>" style="padding:15px; margin-bottom:20px; border-radius:5px; background:<?= $flash['loai'] === 'danger' ? '#f8d7da' : '#d4edda' ?>; color:<?= $flash['loai'] === 'danger' ? '#721c24' : '#155724' ?>; border: 1px solid <?= $flash['loai'] === 'danger' ? '#f5c6cb' : '#c3e6cb' ?>;">
+            <div class="alert alert-<?= e($flash['loai']) ?> hop-thong-bao-flash">
                 <?= e($flash['noiDung']) ?>
             </div>
         <?php endif; ?>
@@ -515,11 +515,11 @@ require __DIR__ . '/../../inc/header.php';
                                             <?= csrfField() ?>
                                             <input type="hidden" name="action" value="xoa_luubut">
                                             <input type="hidden" name="id_luubut" value="<?= e((string)$lb['id']) ?>">
-                                            <button type="submit" style="background:#ef4444; color:#fff; border:none; padding:4px 10px; border-radius:4px; font-size:12px; cursor:pointer;">Xóa</button>
+                                            <button type="submit" class="nut-xoa-lb">Xóa</button>
                                         </form>
                                     <?php endif; ?>
                                 </div>
-                                <p class="guestbook-message" class="loi-nhan-text"><?= nl2br(e($lb['loi_nhan'])) ?></p>
+                                <p class="guestbook-message loi-nhan-text"><?= nl2br(e($lb['loi_nhan'])) ?></p>
                             </li>
                         <?php endforeach; ?>
                     </ul>
@@ -528,7 +528,7 @@ require __DIR__ . '/../../inc/header.php';
                         <nav aria-label="Phân trang sổ lưu bút" class="phan-trang-lb">
                             <?php for ($p = 1; $p <= $tongTrang; $p++): ?>
                                 <a href="gioithieu.php?page=<?= $p ?>#so-luu-but"
-                                   style="display:inline-block; padding:6px 12px; border:1px solid #cbd5e1; border-radius:6px; text-decoration:none; <?= $p === $trangHienTai ? 'background:#00a86b; color:#fff; font-weight:bold;' : 'background:#fff; color:#334155;' ?>">
+                                   class="link-trang-lb <?= $p === $trangHienTai ? 'link-trang-lb--active' : '' ?>">
                                     <?= $p ?>
                                 </a>
                             <?php endfor; ?>

@@ -1228,3 +1228,5 @@ body.dark-theme .grade-section .grade-formula {
 .loi-nhan-text { margin: 8px 0 0; color: #334155; }
 .phan-trang-lb { display: flex; gap: 8px; justify-content: center; margin-top: 20px; }
 .link-trang-lb { display: inline-block; padding: 6px 12px; border: 1px solid #cbd5e1; border-radius: 6px; text-decoration: none; color: #1e293b; }
+
+.link-trang-lb--active { background: #00a86b !important; color: #fff !important; font-weight: bold; }
