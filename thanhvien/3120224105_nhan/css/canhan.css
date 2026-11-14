@@ -1213,3 +1213,18 @@ body.dark-theme .grade-section .grade-formula {
         width: 100%;
     }
 }
+
+
+/* Style sổ lưu bút tuân thủ CSP */
+.hop-thong-bao-flash { padding: 15px; margin-bottom: 20px; border-radius: 8px; }
+.nhan-dang-nhap { display: inline-block; margin-left: 8px; color: #007f51; font-weight: bold; }
+.danh-sach-luu-but-nhan { list-style: none; padding: 0; }
+.muc-luu-but-nhan { border-bottom: 1px solid #e2e8f0; padding: 12px 0; }
+.hang-luu-but-nhan { display: flex; justify-content: space-between; align-items: center; }
+.thoi-gian-lb { color: #64748b; font-size: 0.85rem; }
+.form-xoa-lb { margin: 0; }
+.nut-xoa-lb { background: #ef4444; color: #fff; border: none; padding: 4px 10px; border-radius: 4px; cursor: pointer; }
+.nut-xoa-lb:hover { background: #dc2626; }
+.loi-nhan-text { margin: 8px 0 0; color: #334155; }
+.phan-trang-lb { display: flex; gap: 8px; justify-content: center; margin-top: 20px; }
+.link-trang-lb { display: inline-block; padding: 6px 12px; border: 1px solid #cbd5e1; border-radius: 6px; text-decoration: none; color: #1e293b; }

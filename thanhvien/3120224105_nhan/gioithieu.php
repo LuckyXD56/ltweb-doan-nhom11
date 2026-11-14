@@ -76,8 +76,10 @@ for ($i = 0; $i < 7; $i++) {
 // --- CHỨC NĂNG 2: SỔ LƯU BÚT DÙNG CSDL (tv_luu_but) ---
 // Thêm lời nhắn mới
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'luubut') {
-    $ten = trim((string) ($_POST['ten'] ?? ''));
-    $loi_nhan = trim((string) ($_POST['loi_nhan'] ?? ''));
+    $rawTen = $_POST['ten'] ?? '';
+    $rawLoiNhan = $_POST['loi_nhan'] ?? '';
+    $ten = is_string($rawTen) ? trim($rawTen) : '';
+    $loi_nhan = is_string($rawLoiNhan) ? trim($rawLoiNhan) : '';
 
     if ($ten === '' || mb_strlen($ten) > 100 || $loi_nhan === '' || mb_strlen($loi_nhan) > 500) {
         datFlash('danger', 'Vui lòng nhập tên (tối đa 100 ký tự) và lời nhắn (tối đa 500 ký tự).');
@@ -160,12 +162,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && is_strin
             datFlash('success', 'Điểm học phần của bạn là: ' . number_format($diem_tb, 2, ',', '.'));
         }
     }
-    if (!headers_sent()) {
-        chuyenHuong('gioithieu.php');
-    } else {
-        echo "<script>window.location.href='gioithieu.php';</script>";
-        exit;
-    }
+    header('Location: gioithieu.php');
+    exit;
 }
 
 $flash = layFlash();
@@ -483,7 +481,7 @@ require __DIR__ . '/../../inc/header.php';
             <p class="guestbook-description">
                 Hãy để lại lời nhắn, góp ý hoặc lời chúc của bạn! Dữ liệu được lưu trữ an toàn trong MySQL.
                 <?php if ($laChuTrang): ?>
-                    <span style="display:inline-block; margin-left: 8px; color: #007f51; font-weight: bold;">(Bạn đang đăng nhập với tư cách chủ trang - có quyền quản lý và xóa lời nhắn)</span>
+                    <span class="nhan-dang-nhap">(Bạn đang đăng nhập với tư cách chủ trang - có quyền quản lý và xóa lời nhắn)</span>
                 <?php endif; ?>
             </p>
             <form action="gioithieu.php" method="POST" class="guestbook-form">
@@ -504,16 +502,16 @@ require __DIR__ . '/../../inc/header.php';
                 <?php if (empty($dsLuubut)): ?>
                     <p>Chưa có lời nhắn nào trong cơ sở dữ liệu.</p>
                 <?php else: ?>
-                    <ul class="guestbook-list" style="list-style: none; padding: 0;">
+                    <ul class="guestbook-list" class="danh-sach-luu-but-nhan">
                         <?php foreach ($dsLuubut as $lb): ?>
-                            <li style="border-bottom: 1px solid #e2e8f0; padding: 12px 0;">
-                                <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <li class="muc-luu-but-nhan">
+                                <div class="hang-luu-but-nhan">
                                     <div>
                                         <strong><?= e($lb['ho_ten']) ?></strong>
-                                        <span class="guestbook-time" style="color: #64748b; font-size: 0.85rem;"> (<?= e($lb['thoi_gian']) ?>)</span>
+                                        <span class="guestbook-time" class="thoi-gian-lb"> (<?= e($lb['thoi_gian']) ?>)</span>
                                     </div>
                                     <?php if ($laChuTrang): ?>
-                                        <form action="gioithieu.php" method="POST" style="margin: 0;" onsubmit="return confirm('Bạn có chắc chắn muốn xóa lời nhắn này?');">
+                                        <form action="gioithieu.php" method="POST" class="form-xoa-lb" data-xac-nhan="Bạn có chắc chắn muốn xóa lời nhắn này?">
                                             <?= csrfField() ?>
                                             <input type="hidden" name="action" value="xoa_luubut">
                                             <input type="hidden" name="id_luubut" value="<?= e((string)$lb['id']) ?>">
@@ -521,13 +519,13 @@ require __DIR__ . '/../../inc/header.php';
                                         </form>
                                     <?php endif; ?>
                                 </div>
-                                <p class="guestbook-message" style="margin: 8px 0 0; color: #334155;"><?= nl2br(e($lb['loi_nhan'])) ?></p>
+                                <p class="guestbook-message" class="loi-nhan-text"><?= nl2br(e($lb['loi_nhan'])) ?></p>
                             </li>
                         <?php endforeach; ?>
                     </ul>
 
                     <?php if ($tongTrang > 1): ?>
-                        <nav aria-label="Phân trang sổ lưu bút" style="display:flex; gap:8px; justify-content:center; margin-top:20px;">
+                        <nav aria-label="Phân trang sổ lưu bút" class="phan-trang-lb">
                             <?php for ($p = 1; $p <= $tongTrang; $p++): ?>
                                 <a href="gioithieu.php?page=<?= $p ?>#so-luu-but"
                                    style="display:inline-block; padding:6px 12px; border:1px solid #cbd5e1; border-radius:6px; text-decoration:none; <?= $p === $trangHienTai ? 'background:#00a86b; color:#fff; font-weight:bold;' : 'background:#fff; color:#334155;' ?>">

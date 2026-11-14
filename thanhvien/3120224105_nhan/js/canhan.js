@@ -115,3 +115,12 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 });
+
+// Xử lý xác nhận form xóa tuân thủ CSP
+document.addEventListener('submit', function(e) {
+    const form = e.target;
+    const xacNhan = form.getAttribute('data-xac-nhan');
+    if (xacNhan && !confirm(xacNhan)) {
+        e.preventDefault();
+    }
+});
