@@ -24,9 +24,9 @@ if (!function_exists('e')) {
 if (empty($_SESSION['da_xem_3120224060_db'])) {
     $_SESSION['da_xem_3120224060_db'] = true;
     try {
-        $sqlLX = "INSERT INTO tv_luot_xem_ngay (mssv, ngay, so_luot_xem) 
+        $sqlLX = "INSERT INTO tv_luot_xem (mssv, ngay, luot_xem) 
                   VALUES (?, CURDATE(), 1) 
-                  ON DUPLICATE KEY UPDATE so_luot_xem = so_luot_xem + 1";
+                  ON DUPLICATE KEY UPDATE luot_xem = luot_xem + 1";
         $stmtLX = db()->prepare($sqlLX);
         $stmtLX->execute([$mssv]);
     } catch (Exception $ex) {}
@@ -36,16 +36,16 @@ $luotXemHomNay = 0;
 $tongLuotXemAll = 0;
 $bangLuotXem7Ngay = [];
 try {
-    $stmtHN = db()->prepare("SELECT so_luot_xem FROM tv_luot_xem_ngay WHERE mssv = ? AND ngay = CURDATE()");
+    $stmtHN = db()->prepare("SELECT luot_xem FROM tv_luot_xem WHERE mssv = ? AND ngay = CURDATE()");
     $stmtHN->execute([$mssv]);
     $luotXemHomNay = (int)($stmtHN->fetchColumn() ?: 0);
 
-    $stmtTong = db()->prepare("SELECT SUM(so_luot_xem) FROM tv_luot_xem_ngay WHERE mssv = ?");
+    $stmtTong = db()->prepare("SELECT SUM(luot_xem) FROM tv_luot_xem WHERE mssv = ?");
     $stmtTong->execute([$mssv]);
     $tongLuotXemAll = (int)($stmtTong->fetchColumn() ?: 0);
 
-    $stmt7 = db()->prepare("SELECT DATE_FORMAT(ngay, '%d/%m/%Y') AS ngay, so_luot_xem AS luot_xem 
-                            FROM tv_luot_xem_ngay WHERE mssv = ? 
+    $stmt7 = db()->prepare("SELECT DATE_FORMAT(ngay, '%d/%m/%Y') AS ngay, luot_xem AS luot_xem 
+                            FROM tv_luot_xem WHERE mssv = ? 
                             ORDER BY ngay DESC LIMIT 7");
     $stmt7->execute([$mssv]);
     $bangLuotXem7Ngay = array_reverse($stmt7->fetchAll(PDO::FETCH_ASSOC));
@@ -61,7 +61,7 @@ try {
 } catch (Exception $e) {}
 
 // Phân quyền chủ trang phía máy chủ
-$laChuTrang = isset($_SESSION['nguoi_dung_id']) && (($_SESSION['vai_tro'] ?? '') === 'quan_tri' || ($_SESSION['mssv'] ?? '') === $mssv);
+$laChuTrang = (isset($_SESSION['nguoi_dung_id']) || isset($_SESSION['uid'])) && (($_SESSION['vai_tro'] ?? '') === 'quan_tri' || ($_SESSION['mssv'] ?? '') === $mssv);
 
 // -------------------------------------------------------------------------
 // CHỨC NĂNG 2: XỬ LÝ SỔ LƯU BÚT (XÓA & THÊM THEO MÔ HÌNH PRG VÀ POST)
@@ -89,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['gui_luu_but'])) {
         $_SESSION['flash_loi'] = 'Vui lòng nhập đầy đủ thông tin!';
     } else {
         try {
-            $stmtIns = db()->prepare("INSERT INTO tv_luu_but (mssv, ten_nguoi_gui, noi_dung) VALUES (?, ?, ?)");
+            $stmtIns = db()->prepare("INSERT INTO tv_luu_but (mssv, ho_ten, loi_nhan) VALUES (?, ?, ?)");
             $stmtIns->execute([$mssv, $hoTen, $loiNhan]);
             $_SESSION['flash_thanh_cong'] = 'Gửi lời nhắn thành công!';
         } catch (Exception $e) {
@@ -115,9 +115,9 @@ try {
     $tongSoLuuBut = (int)$stmtC->fetchColumn();
     $tongSoTrang = ceil($tongSoLuuBut / $soLuongMoiTrang);
 
-    $stmtLB = db()->prepare("SELECT id, ten_nguoi_gui AS ho_ten, noi_dung, DATE_FORMAT(ngay_gui, '%d/%m/%Y %H:%i') AS thoi_gian 
+    $stmtLB = db()->prepare("SELECT id, ho_ten, loi_nhan AS noi_dung, DATE_FORMAT(ngay_tao, '%d/%m/%Y %H:%i') AS thoi_gian 
                              FROM tv_luu_but WHERE mssv = ? 
-                             ORDER BY ngay_gui DESC LIMIT ? OFFSET ?");
+                             ORDER BY ngay_tao DESC LIMIT ? OFFSET ?");
     $stmtLB->bindValue(1, $mssv, PDO::PARAM_STR);
     $stmtLB->bindValue(2, $soLuongMoiTrang, PDO::PARAM_INT);
     $stmtLB->bindValue(3, $viTriBatDau, PDO::PARAM_INT);
@@ -158,7 +158,7 @@ require_once __DIR__ . '/../../inc/header.php';
         <p class="the-ho-so__dong"><strong>Email:</strong> <span id="email-ca-nhan">nguyenquyminhhoang@gmail.com</span></p>
         <p class="the-ho-so__dong"><strong>Nhiệm vụ đồ án:</strong> Phát triển trang tài khoản, đăng nhập &amp; quản lý lịch đặt sân.</p>
         <p class="the-ho-so__dong"><strong>Trạng thái:</strong> 
-          <?= $laChuTrang ? '<span style="color: var(--mau-chinh); font-weight: bold;">[Chủ trang - Có quyền quản lý]</span>' : '<span style="color: var(--mau-chu-phu);">[Khách xem trang]</span>' ?>
+          <?= $laChuTrang ? '<span class="chu-chinh dam">[Chủ trang - Có quyền quản lý]</span>' : '<span class="chu-phu">[Khách xem trang]</span>' ?>
         </p>
       </div>
     </section>
@@ -241,13 +241,13 @@ require_once __DIR__ . '/../../inc/header.php';
           <?php foreach ($danhSachLuuButDB as $item): ?>
             <li style="border-bottom: 1px solid var(--mau-vien); padding: 0.75rem 0;">
               <div style="display: flex; justify-content: space-between; align-items: center;">
-                <strong style="color: var(--mau-chu);"><?= e($item['ho_ten']) ?></strong>
-                <span style="font-size: 0.8rem; color: var(--mau-chu-phu);"><?= e($item['thoi_gian']) ?></span>
+                <strong class="chu-dam"><?= e($item['ho_ten']) ?></strong>
+                <span class="chu-nho chu-phu"><?= e($item['thoi_gian']) ?></span>
               </div>
-              <p style="margin: 0.3rem 0 0 0; font-size: 0.9rem; color: var(--mau-chu-phu);"><?= e($item['noi_dung']) ?></p>
+              <p class="noi-dung-luu-but"><?= e($item['noi_dung']) ?></p>
               <?php if ($laChuTrang): ?>
-                <div style="margin-top: 0.4rem; text-align: right;">
-                  <form method="post" action="gioithieu.php" style="display:inline;" onsubmit="return confirm('Bạn có chắc chắn muốn xóa lời nhắn này không?');">
+                <div class="vung-xoa-luu-but">
+                  <form method="post" action="gioithieu.php" class="form-xoa-tin-nhan" data-xac-nhan="Bạn có chắc chắn muốn xóa lời nhắn này không?">
                     <?= csrfField() ?>
                     <input type="hidden" name="hanh_dong" value="xoa">
                     <input type="hidden" name="id" value="<?= (int)$item['id'] ?>">

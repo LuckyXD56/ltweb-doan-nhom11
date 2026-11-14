@@ -64,4 +64,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+
+  // 4. XAC NHAN SUBMIT FORM TUAN THU CSP
+  document.addEventListener('submit', (e) => {
+    const form = e.target;
+    const xacNhan = form.getAttribute('data-xac-nhan');
+    if (xacNhan && !confirm(xacNhan)) {
+      e.preventDefault();
+    }
+  });
 });
