@@ -28,7 +28,7 @@ require __DIR__ . '/inc/header.php';
 
   <?php $flash = layFlash(); ?>
   <?php if ($flash): ?>
-    <div class="vung-thong-bao vung-thong-bao--<?= e($flash['loai']) ?>" role="status" style="padding: 0.75rem 1rem; margin-bottom: 1.5rem; border-radius: 8px; background: <?= $flash['loai'] === 'thanh-cong' ? '#dcfce7; color: #166534; border: 1px solid #86efac;' : '#fee2e2; color: #991b1b; border: 1px solid #fca5a5;' ?>">
+    <div class="vung-thong-bao vung-thong-bao--<?= e($flash['loai']) ?>" role="status">">
       <?= e($flash['noiDung']) ?>
     </div>
   <?php endif; ?>
