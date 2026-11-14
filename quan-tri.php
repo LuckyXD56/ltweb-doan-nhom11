@@ -255,7 +255,7 @@ require __DIR__ . '/inc/header.php';
                 </form>
 
                 <!-- Form xóa sân -->
-                <form method="post" action="quan-tri.php" onsubmit="return confirm('Bạn có chắc chắn muốn xóa sân <?= e($san['ten_san']) ?>?');">
+                <form method="post" action="quan-tri.php" data-xac-nhan="Bạn có chắc chắn muốn xóa sân <?= e($san['ten_san']) ?>?">
                   <?= csrfField() ?>
                   <input type="hidden" name="action" value="xoa_san">
                   <input type="hidden" name="id_san" value="<?= $san['id'] ?>">

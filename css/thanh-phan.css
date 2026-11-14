@@ -543,3 +543,21 @@
 .trang-loi-404 { text-align: center; padding: 2rem 1rem; }
 .bieu-tuong-loi { font-size: 3.5rem; margin: 1.5rem 0; }
 .hang-nut-loi { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+
+
+/* Style chi-tiet.php và lien-he.php tuân thủ CSP */
+.khung-dat-san-nhanh { margin-top: 1.5rem; background: #f8faf9; padding: 1.5rem; border-radius: 8px; border: 1px solid #e5e7eb; }
+.tieu-de-dat-san { margin-top: 0; color: #0b6e3c; }
+.nhom-truong-ct { margin-bottom: 1rem; }
+.hang-gio-ct { display: flex; gap: 1rem; margin-bottom: 1rem; }
+.cot-gio-ct { flex: 1; }
+.hang-nut-bam-ct { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.form-them-gio-ct { margin-top: 0.75rem; }
+.hop-canh-bao-dang-nhap { margin-top: 1.5rem; padding: 1rem; background: #fef3c7; border-left: 4px solid #f59e0b; border-radius: 4px; }
+.chu-canh-bao-dang-nhap { margin: 0; }
+.link-dang-nhap-canh-bao { font-weight: bold; color: #b45309; }
+.mt-1-5 { margin-top: 1.5rem; }
+.tieu-de-da-xem { margin-top: 2rem; }
+.thong-bao-loi-truong { color: #b91c1c; font-size: 0.9em; display: block; margin-bottom: 0.5rem; }
+.vung-thong-bao--thanh-cong { padding: 0.75rem 1rem; margin-bottom: 1.5rem; border-radius: 8px; background: #dcfce7; color: #166534; border: 1px solid #86efac; }
+.vung-thong-bao--loi { padding: 0.75rem 1rem; margin-bottom: 1.5rem; border-radius: 8px; background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }

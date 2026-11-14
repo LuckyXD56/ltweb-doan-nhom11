@@ -72,35 +72,35 @@ require __DIR__ . '/inc/header.php';
 
     <!-- FORM ĐẶT SÂN -->
     <?php if (!empty($_SESSION['da_dang_nhap'])): ?>
-      <form method="post" action="xu-ly-dat-san.php" style="margin-top: 1.5rem; background: #f8faf9; padding: 1.5rem; border-radius: 8px; border: 1px solid #e5e7eb;">
+      <form method="post" action="xu-ly-dat-san.php" class="khung-dat-san-nhanh">
         <?= csrfField() ?>
-        <h3 style="margin-top: 0; color: #0b6e3c;">Đặt sân này</h3>
+        <h3 class="tieu-de-dat-san">Đặt sân này</h3>
         
         <!-- Truyền ID số của sân (VD: 1, 2, 3...) -->
         <input type="hidden" name="ma_san" value="<?= e($san->getId()) ?>">
         
-        <div style="margin-bottom: 1rem;">
+        <div class="nhom-truong-ct mb-1">
             <label class="truong__nhan" for="ngay_dat">Ngày đặt (*):</label>
             <input class="truong__nhap" type="date" id="ngay_dat" name="ngay_dat" required min="<?= date('Y-m-d') ?>">
         </div>
         
-        <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
-            <div style="flex: 1;">
+        <div class="hang-gio-ct mb-1">
+            <div class="cot-gio-ct">
                 <label class="truong__nhan" for="gio_bat_dau">Giờ bắt đầu (*):</label>
                 <input class="truong__nhap" type="time" id="gio_bat_dau" name="gio_bat_dau" required>
             </div>
-            <div style="flex: 1;">
+            <div class="cot-gio-ct">
                 <label class="truong__nhan" for="gio_ket_thuc">Giờ kết thúc (*):</label>
                 <input class="truong__nhap" type="time" id="gio_ket_thuc" name="gio_ket_thuc" required>
             </div>
         </div>
         
-        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+        <div class="hang-nut-bam-ct">
             <button type="submit" class="nut nut--chinh">Xác nhận Đặt sân ngay</button>
         </div>
       </form>
       
-      <form method="post" action="them-gio.php" style="margin-top: 0.75rem;">
+      <form method="post" action="them-gio.php" class="form-them-gio-ct mt-0-75">
         <?= csrfField() ?>
         <input type="hidden" name="action" value="them">
         <input type="hidden" name="id" value="<?= e($san->getId()) ?>">
@@ -108,19 +108,19 @@ require __DIR__ . '/inc/header.php';
         <button type="submit" class="nut nut--phu">🛒 Thêm vào giỏ hàng</button>
       </form>
     <?php else: ?>
-      <div style="margin-top: 1.5rem; padding: 1rem; background: #fef3c7; border-left: 4px solid #f59e0b; border-radius: 4px;">
-        <p style="margin: 0;">Vui lòng <a href="dang-nhap.php" style="font-weight: bold; color: #b45309;">đăng nhập</a> để tiến hành đặt sân.</p>
+      <div class="hop-canh-bao-dang-nhap">
+        <p class="chu-canh-bao-dang-nhap">Vui lòng <a href="dang-nhap.php" class="link-dang-nhap-canh-bao">đăng nhập</a> để tiến hành đặt sân.</p>
       </div>
     <?php endif; ?>
 
-    <p class="chu-canh-giua mt-2" style="margin-top: 1.5rem;">
+    <p class="chu-canh-giua mt-1-5">
       <a class="nut nut--phu" href="danh-sach.php">← Về danh sách sân</a>
     </p>
   </div>
 
   <!-- KHỐI ĐÃ XEM GẦN ĐÂY -->
   <?php if (count($daXem) > 0): ?>
-    <h2 style="margin-top: 2rem;">Đã xem gần đây</h2>
+    <h2 class="tieu-de-da-xem mt-2">Đã xem gần đây</h2>
     <ul class="danh-sach-the">
       <?php foreach ($daXem as $idCu): 
           $sanCu = $kho->timTheoId((string) $idCu); 

@@ -52,27 +52,27 @@ require __DIR__ . '/inc/header.php';
     <input class="truong__nhap" type="text" id="lh-ho-ten" name="ho_ten"
            value="<?= e($du['ho_ten']) ?>" required minlength="2">
     <?php if (!empty($loi['ho_ten'])): ?>
-      <span style="color: #b91c1c; font-size: 0.9em; display:block; margin-bottom: 0.5rem;"><?= e($loi['ho_ten']) ?></span>
+      <span class="thong-bao-loi-truong"><?= e($loi['ho_ten']) ?></span>
     <?php endif; ?>
 
     <label class="truong__nhan" for="lh-email">Email (*)</label>
     <input class="truong__nhap" type="email" id="lh-email" name="email"
            value="<?= e($du['email']) ?>" required>
     <?php if (!empty($loi['email'])): ?>
-      <span style="color: #b91c1c; font-size: 0.9em; display:block; margin-bottom: 0.5rem;"><?= e($loi['email']) ?></span>
+      <span class="thong-bao-loi-truong"><?= e($loi['email']) ?></span>
     <?php endif; ?>
 
     <label class="truong__nhan" for="lh-noi-dung">Nội dung (*)</label>
     <textarea class="truong__nhap" id="lh-noi-dung" name="noi_dung" rows="4" required minlength="10"><?= e($du['noi_dung']) ?></textarea>
     <?php if (!empty($loi['noi_dung'])): ?>
-      <span style="color: #b91c1c; font-size: 0.9em; display:block; margin-bottom: 0.5rem;"><?= e($loi['noi_dung']) ?></span>
+      <span class="thong-bao-loi-truong"><?= e($loi['noi_dung']) ?></span>
     <?php endif; ?>
 
     <label class="truong__nhan" for="lh-anh">Đính kèm ảnh (không bắt buộc, tối đa 2 MB)</label>
     <input class="truong__nhap" type="file" id="lh-anh" name="anh"
            accept="image/jpeg,image/png,image/gif,image/webp">
     <?php if (!empty($loi['anh'])): ?>
-      <span style="color: #b91c1c; font-size: 0.9em; display:block; margin-bottom: 0.5rem;"><?= e($loi['anh']) ?></span>
+      <span class="thong-bao-loi-truong"><?= e($loi['anh']) ?></span>
     <?php endif; ?>
 
     <button class="nut nut--chinh" type="submit">Gửi liên hệ</button>
