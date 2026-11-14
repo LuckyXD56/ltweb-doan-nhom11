@@ -143,7 +143,7 @@ require_once __DIR__ . '/../../inc/header.php';
     <div class="thanh-cong-cu">
       <button type="button" id="nut-doi-giao-dien" class="nut-cong-cu">🌙 Chế độ tối</button>
       <button type="button" id="nut-sao-chep-email" class="nut-cong-cu">📧 Sao chép email</button>
-      <span class="nut-cong-cu" style="cursor: default;">👁️ Lượt xem: <strong><?= $luotXemHomNay ?></strong> (Tổng: <strong><?= $tongLuotXemAll ?></strong>)</span>
+      <span class="nut-cong-cu h-s7" >👁️ Lượt xem: <strong><?= $luotXemHomNay ?></strong> (Tổng: <strong><?= $tongLuotXemAll ?></strong>)</span>
       <span id="thong-bao-sao-chep" class="thong-bao-copy" role="status" aria-live="polite"></span>
     </div>
 
@@ -174,7 +174,7 @@ require_once __DIR__ . '/../../inc/header.php';
 
       <article class="the-nho">
         <h3 class="the-nho__tieu-de">⚡ Kỹ năng công nghệ</h3>
-        <div class="danh-sach-nhan" style="margin-top: 0.75rem;">
+        <div class="danh-sach-nhan h-s10" >
           <span class="nhan">HTML5 / CSS3</span>
           <span class="nhan">JavaScript (ES6)</span>
           <span class="nhan">PHP &amp; PDO</span>
@@ -191,14 +191,14 @@ require_once __DIR__ . '/../../inc/header.php';
           <thead>
             <tr>
               <?php foreach ($bangLuotXem7Ngay as $row): ?>
-                <th style="text-align: center; color: #ffffff !important; background-color: var(--mau-chinh);"><?= e($row['ngay']) ?></th>
+                <th class="h-s4"><?= e($row['ngay']) ?></th>
               <?php endforeach; ?>
             </tr>
           </thead>
           <tbody>
             <tr>
               <?php foreach ($bangLuotXem7Ngay as $row): ?>
-                <td style="text-align: center; font-weight: bold; color: var(--mau-chinh); background-color: var(--mau-the);"><?= $row['luot_xem'] ?></td>
+                <td class="h-s6"><?= $row['luot_xem'] ?></td>
               <?php endforeach; ?>
             </tr>
           </tbody>
@@ -211,36 +211,36 @@ require_once __DIR__ . '/../../inc/header.php';
       <h3 class="the-nho__tieu-de">📝 Sổ lưu bút trực tuyến</h3>
 
       <?php if ($thongBaoThanhCong !== ''): ?>
-        <p style="color: var(--mau-chinh); background: rgba(16,185,129,0.1); padding: 0.6rem 1rem; border-radius: var(--bo-goc-sm); font-size: 0.9rem;"><?= e($thongBaoThanhCong) ?></p>
+        <p class="h-s1"><?= e($thongBaoThanhCong) ?></p>
       <?php endif; ?>
 
       <?php if ($thongBaoLoi !== ''): ?>
-        <p style="color: #dc2626; background: rgba(220,38,38,0.1); padding: 0.6rem 1rem; border-radius: var(--bo-goc-sm); font-size: 0.9rem;"><?= e($thongBaoLoi) ?></p>
+        <p class="h-s21"><?= e($thongBaoLoi) ?></p>
       <?php endif; ?>
 
-      <form action="gioithieu.php" method="POST" style="margin-top: 1rem;">
+      <form action="gioithieu.php" method="POST" class="h-s2">
         <?= csrfField() ?>
-        <div style="margin-bottom: 0.75rem;">
+        <div class="h-s20">
           <input type="text" name="ho_ten" placeholder="Họ và tên của bạn..." required 
-                 style="width: 100%; padding: 0.6rem; border: 1px solid var(--mau-vien); background: var(--mau-the); color: var(--mau-chu); border-radius: var(--bo-goc-sm); font-size: 0.9rem;">
+                 class="h-s3">
         </div>
-        <div style="margin-bottom: 0.75rem;">
+        <div class="h-s20">
           <textarea name="loi_nhan" rows="3" placeholder="Viết lời nhắn cho Hoàng..." required 
-                    style="width: 100%; padding: 0.6rem; border: 1px solid var(--mau-vien); background: var(--mau-the); color: var(--mau-chu); border-radius: var(--bo-goc-sm); font-size: 0.9rem; resize: vertical;"></textarea>
+                    class="h-s18"></textarea>
         </div>
-        <button type="submit" name="gui_luu_but" class="nut-cong-cu" style="background: var(--mau-chinh); color: white; border: none; font-weight: bold;">
+        <button type="submit" name="gui_luu_but" class="nut-cong-cu h-s19" >
           ✉️ Gửi lời nhắn
         </button>
       </form>
 
-      <h4 style="margin: 1.5rem 0 0.75rem 0; color: var(--mau-chu);">Danh sách lời nhắn (Tổng số: <?= $tongSoLuuBut ?>):</h4>
+      <h4 class="h-s5">Danh sách lời nhắn (Tổng số: <?= $tongSoLuuBut ?>):</h4>
       <?php if (empty($danhSachLuuButDB)): ?>
-        <p style="font-size: 0.9rem; color: var(--mau-chu-phu); font-style: italic;">Chưa có lời nhắn nào được gửi.</p>
+        <p class="h-s15">Chưa có lời nhắn nào được gửi.</p>
       <?php else: ?>
-        <ul style="list-style: none; padding: 0; margin: 0;">
+        <ul class="h-s17">
           <?php foreach ($danhSachLuuButDB as $item): ?>
-            <li style="border-bottom: 1px solid var(--mau-vien); padding: 0.75rem 0;">
-              <div style="display: flex; justify-content: space-between; align-items: center;">
+            <li class="h-s14">
+              <div class="h-s8">
                 <strong class="chu-dam"><?= e($item['ho_ten']) ?></strong>
                 <span class="chu-nho chu-phu"><?= e($item['thoi_gian']) ?></span>
               </div>
@@ -251,7 +251,7 @@ require_once __DIR__ . '/../../inc/header.php';
                     <?= csrfField() ?>
                     <input type="hidden" name="hanh_dong" value="xoa">
                     <input type="hidden" name="id" value="<?= (int)$item['id'] ?>">
-                    <button type="submit" style="background:none; border:none; color: #dc2626; font-size: 0.8rem; cursor:pointer; font-weight: bold; text-decoration: underline; padding:0;">[❌ Xóa lời nhắn]</button>
+                    <button type="submit" class="h-s9">[❌ Xóa lời nhắn]</button>
                   </form>
                 </div>
               <?php endif; ?>
@@ -261,11 +261,11 @@ require_once __DIR__ . '/../../inc/header.php';
 
         <!-- PHÂN TRANG -->
         <?php if ($tongSoTrang > 1): ?>
-          <div style="margin-top: 1rem; text-align: center;">
-            <span style="font-size: 0.9rem; margin-right: 5px; color: var(--mau-chu-phu);">Trang:</span>
+          <div class="h-s12">
+            <span class="h-s11">Trang:</span>
             <?php for ($i = 1; $i <= $tongSoTrang; $i++): ?>
               <a href="gioithieu.php?trang=<?= $i ?>" 
-                 style="display: inline-block; padding: 4px 10px; margin: 0 2px; border: 1px solid var(--mau-vien); border-radius: 4px; text-decoration: none; font-size: 0.85rem; <?= $i === $trangHienTai ? 'background: var(--mau-chinh); color: white; border-color: var(--mau-chinh);' : 'color: var(--mau-chu); background: var(--mau-the);' ?>">
+                 class="link-trang-h <?= $i === $trangHienTai ? 'link-trang-h--active' : '' ?>">
                 <?= $i ?>
               </a>
             <?php endfor; ?>
@@ -282,19 +282,19 @@ require_once __DIR__ . '/../../inc/header.php';
           <caption>Lịch học tập và hoạt động trong tuần</caption>
           <thead>
             <tr>
-              <th scope="col" style="color: #ffffff !important; background-color: var(--mau-chinh);">Thứ</th>
-              <th scope="col" style="color: #ffffff !important; background-color: var(--mau-chinh);">Nội dung công việc / học tập</th>
-              <th scope="col" style="color: #ffffff !important; background-color: var(--mau-chinh);">Thời gian</th>
+              <th scope="col" class="h-s16">Thứ</th>
+              <th scope="col" class="h-s16">Nội dung công việc / học tập</th>
+              <th scope="col" class="h-s16">Thời gian</th>
             </tr>
           </thead>
           <tbody>
-            <tr><th scope="row" style="color: var(--mau-chu); background: var(--mau-the);">Thứ Hai</th><td style="color: var(--mau-chu); background: var(--mau-the);">Học lý thuyết chuyên ngành</td><td style="color: var(--mau-chu); background: var(--mau-the);">07:00 – 11:00</td></tr>
-            <tr><th scope="row" style="color: var(--mau-chu); background: var(--mau-the);">Thứ Ba</th><td style="color: var(--mau-chu); background: var(--mau-the);">Thực hành Lập trình Web</td><td style="color: var(--mau-chu); background: var(--mau-the);">07:00 – 11:00</td></tr>
-            <tr><th scope="row" style="color: var(--mau-chu); background: var(--mau-the);">Thứ Tư</th><td style="color: var(--mau-chu); background: var(--mau-the);">Học cơ sở dữ liệu nâng cao</td><td style="color: var(--mau-chu); background: var(--mau-the);">07:00 – 11:00</td></tr>
-            <tr><th scope="row" style="color: var(--mau-chu); background: var(--mau-the);">Thứ Năm</th><td style="color: var(--mau-chu); background: var(--mau-the);">Họp nhóm đồ án (Nhóm 11)</td><td style="color: var(--mau-chu); background: var(--mau-the);">13:30 – 17:00</td></tr>
-            <tr><th scope="row" style="color: var(--mau-chu); background: var(--mau-the);">Thứ Sáu</th><td style="color: var(--mau-chu); background: var(--mau-the);">Học trên lớp</td><td style="color: var(--mau-chu); background: var(--mau-the);">07:00 – 11:00</td></tr>
-            <tr><th scope="row" style="color: var(--mau-chu); background: var(--mau-the);">Thứ Bảy</th><td style="color: var(--mau-chu); background: var(--mau-the);">Làm việc tại dịch vụ &amp; vận hành POS365</td><td style="color: var(--mau-chu); background: var(--mau-the);">Theo ca</td></tr>
-            <tr><th scope="row" style="color: var(--mau-chu); background: var(--mau-the);">Chủ Nhật</th><td style="color: var(--mau-chu); background: var(--mau-the);">Ôn tập &amp; tổng kết tiến độ tuần</td><td style="color: var(--mau-chu); background: var(--mau-the);">19:00 – 21:00</td></tr>
+            <tr><th scope="row" class="h-s13">Thứ Hai</th><td class="h-s13">Học lý thuyết chuyên ngành</td><td class="h-s13">07:00 – 11:00</td></tr>
+            <tr><th scope="row" class="h-s13">Thứ Ba</th><td class="h-s13">Thực hành Lập trình Web</td><td class="h-s13">07:00 – 11:00</td></tr>
+            <tr><th scope="row" class="h-s13">Thứ Tư</th><td class="h-s13">Học cơ sở dữ liệu nâng cao</td><td class="h-s13">07:00 – 11:00</td></tr>
+            <tr><th scope="row" class="h-s13">Thứ Năm</th><td class="h-s13">Họp nhóm đồ án (Nhóm 11)</td><td class="h-s13">13:30 – 17:00</td></tr>
+            <tr><th scope="row" class="h-s13">Thứ Sáu</th><td class="h-s13">Học trên lớp</td><td class="h-s13">07:00 – 11:00</td></tr>
+            <tr><th scope="row" class="h-s13">Thứ Bảy</th><td class="h-s13">Làm việc tại dịch vụ &amp; vận hành POS365</td><td class="h-s13">Theo ca</td></tr>
+            <tr><th scope="row" class="h-s13">Chủ Nhật</th><td class="h-s13">Ôn tập &amp; tổng kết tiến độ tuần</td><td class="h-s13">19:00 – 21:00</td></tr>
           </tbody>
         </table>
       </div>

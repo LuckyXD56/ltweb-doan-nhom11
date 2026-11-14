@@ -381,3 +381,8 @@ body {
 .trang__footer a:hover {
   text-decoration: underline;
 }
+
+/* Style CSP Hoang */
+.link-trang-h { display: inline-block; padding: 4px 10px; margin: 0 2px; border: 1px solid var(--mau-vien); border-radius: 4px; text-decoration: none; font-size: 0.85rem; color: var(--mau-chu); background: var(--mau-the); }
+.link-trang-h--active { background: var(--mau-chinh); color: white; border-color: var(--mau-chinh); }
+
