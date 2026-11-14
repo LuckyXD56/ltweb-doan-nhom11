@@ -11,14 +11,8 @@
  *   6. Kiểm tra tham số mảng, lọc dữ liệu đầu vào và mã hóa an toàn đầu ra HTML bằng e().
  */
 
-session_start();
-
 $baseUrl = '../../';
-require_once __DIR__ . '/../../inc/ham.php';
-require_once __DIR__ . '/../../inc/db.php';
-if (file_exists(__DIR__ . '/../../inc/csrf.php')) {
-    require_once __DIR__ . '/../../inc/csrf.php';
-}
+require_once __DIR__ . '/../../inc/config.php';
 
 $mssv = '3120224192';
 
