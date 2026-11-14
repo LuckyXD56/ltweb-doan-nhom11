@@ -114,33 +114,33 @@ require __DIR__ . '/../../inc/header.php';
   </div>
 
   <!-- FORM GỬI LỜI NHẮN (Phần thêm mới để đáp ứng yêu cầu của thầy) -->
-  <article class="the-nho the-nho--full" style="margin-bottom: 1.5rem;">
+  <article class="the-nho the-nho--full mb-1-5">
     <h3 class="the-nho__tieu-de">📝 Gửi lời nhắn cho tôi</h3>
-    <form class="bieu-mau" method="post" action="gioithieu.php" novalidate style="margin-top: 1rem;">
+    <form class="bieu-mau mt-1" method="post" action="gioithieu.php" novalidate>
       <?= csrfField() ?>
       <label class="truong__nhan" for="ho_ten">Họ và tên (*)</label>
       <input class="truong__nhap" type="text" id="ho_ten" name="ho_ten" value="<?= e($du['ho_ten']) ?>" required>
       <?php if (!empty($loi['ho_ten'])): ?>
-        <span style="color: #b91c1c; font-size: 0.9em; display: block; margin-bottom: 0.5rem;"><?= e($loi['ho_ten']) ?></span>
+        <span class="thong-bao-loi-truong" ><?= e($loi['ho_ten']) ?></span>
       <?php endif; ?>
 
       <label class="truong__nhan" for="noi_dung">Nội dung (*)</label>
       <textarea class="truong__nhap" id="noi_dung" name="noi_dung" rows="3" required minlength="10"><?= e($du['noi_dung']) ?></textarea>
       <?php if (!empty($loi['noi_dung'])): ?>
-        <span style="color: #b91c1c; font-size: 0.9em; display: block; margin-bottom: 0.5rem;"><?= e($loi['noi_dung']) ?></span>
+        <span class="thong-bao-loi-truong" ><?= e($loi['noi_dung']) ?></span>
       <?php endif; ?>
 
       <button class="nut nut--chinh" type="submit">Gửi lời nhắn</button>
     </form>
 
     <?php if (count($loiNhan) > 0): ?>
-      <div style="margin-top: 1.5rem; border-top: 1px dashed #ccc; padding-top: 1rem;">
-        <p style="font-weight: 600; margin-bottom: 0.5rem;">Lời nhắn mới nhất:</p>
+      <div class="hop-loi-nhan-phu">
+        <p class="tieu-de-loi-nhan-phu">Lời nhắn mới nhất:</p>
         <?php foreach ($loiNhan as $ln): ?>
-          <div style="background: var(--mau-nen); padding: 0.75rem 1rem; margin-bottom: 0.5rem; border-left: 4px solid var(--mau-xanh); border-radius: 4px;">
-            <p style="margin: 0; font-weight: 600;"><?= e($ln['ho_ten'] ?? 'Ẩn danh') ?></p>
-            <p style="margin: 0.25rem 0 0 0; font-size: 0.85em; color: var(--mau-chu-nhat);"><?= date('H:i d/m/Y', strtotime($ln['thoi_gian'] ?? 'now')) ?></p>
-            <p style="margin: 0.5rem 0 0 0;"><?= e($ln['noi_dung'] ?? '') ?></p>
+          <div class="the-loi-nhan-phu">
+            <p class="ten-nguoi-gui-phu"><?= e($ln['ho_ten'] ?? 'Ẩn danh') ?></p>
+            <p class="thoi-gian-phu"><?= date('H:i d/m/Y', strtotime($ln['thoi_gian'] ?? 'now')) ?></p>
+            <p class="noi-dung-phu"><?= e($ln['noi_dung'] ?? '') ?></p>
           </div>
         <?php endforeach; ?>
       </div>

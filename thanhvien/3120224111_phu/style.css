@@ -430,3 +430,14 @@ body.giao-dien-toi .thong-bao-copy.thong-bao--loi {
   background-color: #7f1d1d;
   color: #fecaca;
 }
+
+/* Style CSP Phu */
+.mb-1-5 { margin-bottom: 1.5rem; }
+.mt-1 { margin-top: 1rem; }
+.thong-bao-loi-truong { color: #b91c1c; font-size: 0.9em; display: block; margin-bottom: 0.5rem; }
+.hop-loi-nhan-phu { margin-top: 1.5rem; border-top: 1px dashed #ccc; padding-top: 1rem; }
+.tieu-de-loi-nhan-phu { font-weight: 600; margin-bottom: 0.5rem; }
+.the-loi-nhan-phu { background: var(--mau-nen); padding: 0.75rem 1rem; margin-bottom: 0.5rem; border-left: 4px solid var(--mau-xanh); border-radius: 4px; }
+.ten-nguoi-gui-phu { margin: 0; font-weight: 600; }
+.thoi-gian-phu { margin: 0.25rem 0 0 0; font-size: 0.85em; color: var(--mau-chu-nhat); }
+.noi-dung-phu { margin: 0.5rem 0 0 0; }
