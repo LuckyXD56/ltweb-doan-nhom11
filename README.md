@@ -83,13 +83,13 @@ Truy cập website tại: [http://localhost:8000](http://localhost:8000)
 
 ---
 
-## 🔐 Tài khoản thử nghiệm
+## 🔐 Tài khoản thử nghiệm (Mật khẩu dùng chung: Admin@123)
 
-Dữ liệu tài khoản thử nghiệm được khởi tạo an toàn trong `database/seed.sql` với mật khẩu được băm chuẩn công nghiệp bằng thuật toán `PASSWORD_DEFAULT` (`bcrypt`/`argon2id`):
-- **admin@sanbongthangloi.vn**: Tài khoản Quản trị viên (vai trò `quan_tri` — truy cập `quan-tri.php`).
-- **khach1@sanbongthangloi.vn**: Tài khoản Khách hàng (vai trò `khach_hang` — đặt sân và quản lý giỏ).
-- **khach2@sanbongthangloi.vn**: Tài khoản Khách hàng 2.
-- **silaphet@sanbongthangloi.vn**: Tài khoản thành viên Silaphet.
+Dữ liệu tài khoản thử nghiệm được khởi tạo trong database/seed.sql (mật khẩu đã băm an toàn qua password_hash):
+- **admin@sanbongthangloi.vn** / Admin@123: Quản trị viên (vai trò quan_tri — truy cập quan-tri.php).
+- **khach1@sanbongthangloi.vn** / Admin@123: Khách hàng 1 (vai trò khach_hang — đặt sân, giỏ hàng, xem lich-su.php).
+- **khach2@sanbongthangloi.vn** / Admin@123: Khách hàng 2 (vai trò khach_hang).
+- **silaphet@sanbongthangloi.vn** / Admin@123: Tài khoản thành viên Silaphet.
 
 ---
 
