@@ -1,6 +1,6 @@
 <?php
 /**
- * 500.php â€” Trang bÃ¡o lá»—i há»‡ thá»‘ng (khÃ´ng truy váº¥n CSDL)
+ * 500.php — Trang báo lỗi máy chủ nội bộ (không truy vấn CSDL)
  */
 http_response_code(500);
 ?>
@@ -9,17 +9,17 @@ http_response_code(500);
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>500 â€” Lá»—i mÃ¡y chá»§ ná»™i bá»™ | SÃ¢n BÃ³ng Tháº¯ng Lá»£i</title>
+  <title>500 — Lỗi máy chủ nội bộ | Sân Bóng Thắng Lợi</title>
   <link rel="stylesheet" href="css/chung.css">
   <link rel="stylesheet" href="css/thanh-phan.css">
 </head>
 <body>
-  <main class="khu-vuc-chinh" style="text-align: center; padding: 3rem 1rem; max-width: 600px; margin: 2rem auto;">
-    <h1>500 â€” Lá»—i mÃ¡y chá»§ ná»™i bá»™</h1>
-    <p>Há»‡ thá»‘ng Ä‘ang gáº·p sá»± cá»‘ ká»¹ thuáº­t hoáº·c Ä‘ang Ä‘Æ°á»£c báº£o trÃ¬. ChÃºng tÃ´i xin lá»—i vÃ¬ sá»± báº¥t tiá»‡n nÃ y.</p>
-    <p style="font-size: 3.5rem; margin: 1.5rem 0;">âš ï¸ </p>
-    <p style="display: flex; justify-content: center; gap: 1rem;">
-      <a class="nut nut--chinh" href="index.php">Vá»  trang chá»§</a>
+  <main class="khu-vuc-chinh trang-loi-500">
+    <h1>500 — Lỗi máy chủ nội bộ</h1>
+    <p>Hệ thống đang gặp sự cố kỹ thuật hoặc đang được bảo trì. Chúng tôi xin lỗi vì sự bất tiện này.</p>
+    <p class="bieu-tuong-loi">⚠️</p>
+    <p class="hang-nut-loi">
+      <a class="nut nut--chinh" href="index.php">Về trang chủ</a>
     </p>
   </main>
 </body>

@@ -1,31 +1,31 @@
 <?php
 /**
- * xoa-san-pham.php â€” XÃ³a sÃ¢n bÃ³ng (chá»‰ nháº­n POST vÃ  yÃªu cáº§u quyá» n quan_tri)
+ * xoa-san-pham.php — Xóa sân bóng (chỉ nhận POST và yêu cầu quyền quan_tri)
  */
 
 declare(strict_types=1);
 
 require __DIR__ . '/inc/config.php';
 
-// Kiá»ƒm tra phÆ°Æ¡ng thá»©c: chá»‰ cho phÃ©p POST
+// Kiểm tra phương thức: chỉ cho phép POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
     header('Allow: POST');
-    echo '<!DOCTYPE html><html lang="vi"><head><meta charset="UTF-8"><title>405 Method Not Allowed</title></head><body><h1>405 Method Not Allowed</h1><p>Thao tÃ¡c xÃ³a sáº£n pháº©m / sÃ¢n bÃ³ng chá»‰ Ä‘Æ°á»£c thá»±c hiá»‡n qua phÆ°Æ¡ng thá»©c POST.</p><p><a href="quan-tri.php">Quay láº¡i</a></p></body></html>';
+    echo '<!DOCTYPE html><html lang="vi"><head><meta charset="UTF-8"><title>405 Method Not Allowed</title><link rel="stylesheet" href="css/chung.css"><link rel="stylesheet" href="css/thanh-phan.css"></head><body><main class="khu-vuc-chinh trang-loi-500"><h1>405 Method Not Allowed</h1><p>Thao tác xóa sản phẩm / sân bóng chỉ được thực hiện qua phương thức POST.</p><p><a class="nut nut--chinh" href="quan-tri.php">Quay lại</a></p></main></body></html>';
     exit;
 }
 
-// Kiá»ƒm tra quyá» n quáº£n trá»‹ (ngÆ°á» i dÃ¹ng thÆ°á» ng sáº½ nháº­n 403 vÃ  ghi log cam_truy_cap)
+// Kiểm tra quyền quản trị (người dùng thường sẽ nhận 403 và ghi log cam_truy_cap)
 yeuCauQuyen('quan_tri');
 
-// MÃ£ CSRF Ä‘Ã£ Ä‘Æ°á»£c kiá»ƒm tra táº­p trung á»Ÿ inc/config.php
+// Mã CSRF đã được kiểm tra tập trung ở inc/config.php
 $idSan = (int) ($_POST['id'] ?? $_POST['id_san'] ?? 0);
 if ($idSan > 0) {
     $stmt = db()->prepare('DELETE FROM san_bong WHERE id = ?');
     $stmt->execute([$idSan]);
-    datFlash('thanh-cong', "Ä Ã£ xÃ³a sÃ¢n bÃ³ng #$idSan thÃ nh cÃ´ng.");
+    datFlash('thanh-cong', "Đã xóa sân bóng #$idSan thành công.");
 } else {
-    datFlash('loi', 'MÃ£ sÃ¢n khÃ´ng há»£p lá»‡.');
+    datFlash('loi', 'Mã sân không hợp lệ.');
 }
 
 chuyenHuong('quan-tri.php');

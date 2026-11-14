@@ -535,3 +535,11 @@
 .nhan-trang-thai--da_coc { color: #1d4ed8; background: #dbeafe; }
 .nhan-trang-thai--hoan_tat { color: #047857; background: #d1fae5; }
 .nhan-trang-thai--da_huy { color: #b91c1c; background: #fee2e2; }
+
+
+/* Style các trang lỗi tuân thủ CSP */
+.trang-loi-500 { text-align: center; padding: 3rem 1rem; max-width: 600px; margin: 2rem auto; }
+.trang-loi-403 { text-align: center; padding: 2.5rem 1rem; }
+.trang-loi-404 { text-align: center; padding: 2rem 1rem; }
+.bieu-tuong-loi { font-size: 3.5rem; margin: 1.5rem 0; }
+.hang-nut-loi { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
