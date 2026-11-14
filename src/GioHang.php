@@ -115,4 +115,23 @@ class GioHang
         }
         return $tong;
     }
+
+    public function layDanhSach(): array
+    {
+        $ketQua = [];
+        foreach ($this->chiTiet() as $muc) {
+            $ketQua[] = [
+                'san'        => $muc['san'],
+                'so_luong'   => $muc['soLuong'],
+                'thanh_tien' => $muc['thanhTien'],
+            ];
+        }
+        return $ketQua;
+    }
+
+    public function xoa(string $idSan): void
+    {
+        $this->xoaMot($idSan);
+    }
+
 }

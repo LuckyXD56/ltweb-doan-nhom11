@@ -9,7 +9,9 @@ if (!function_exists('dangNhap')) {
     function dangNhap(int|string $uid): void
     {
         session_regenerate_id(true);
-        $_SESSION['uid'] = (int) $uid;
+        $id = (int) $uid;
+        $_SESSION['uid'] = $id;
+        $_SESSION['nguoi_dung_id'] = $id;
         $_SESSION['da_dang_nhap'] = true;
         
         $st = db()->prepare('SELECT id, ho_ten, email, vai_tro FROM nguoi_dung WHERE id = ?');

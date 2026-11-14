@@ -12,24 +12,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     kiemTraCsrf();
     $action = postChuoi('action');
 
-    // 1. Xử lý ĐĂNG NHẬP
+    // 1. Xử lý ĐĂNG NHẬP (Gom về logic xác thực và đếm lần sai duy nhất)
     if ($action === 'dang_nhap') {
         $email = postChuoi('tai_khoan');
         $matKhau = postChuoi('mat_khau');
+        $ip = $_SERVER['REMOTE_ADDR'] ?? '';
 
         if ($email === '' || $matKhau === '') {
             $loiDangNhap = 'Vui lòng nhập đầy đủ tài khoản/email và mật khẩu.';
+        } elseif (soLanSai($email) >= 5 || ($ip !== '' && function_exists('soLanSaiIp') && soLanSaiIp($ip) >= 10)) {
+            http_response_code(429);
+            $loiDangNhap = 'Sai quá nhiều lần, hãy thử lại sau 15 phút';
         } else {
             $user = $khoNguoiDung->timTheoEmail($email);
             if ($user && password_verify($matKhau, $user['mat_khau'])) {
-                $_SESSION = [];
-                session_regenerate_id(true);
+                // Xóa các lần đăng nhập sai của email này
+                try {
+                    db()->prepare('DELETE FROM dang_nhap_sai WHERE email = ?')->execute([$email]);
+                } catch (Throwable) {}
 
-                $_SESSION['da_dang_nhap'] = true;
-                $_SESSION['nguoi_dung_id'] = (int) $user['id'];
-                $_SESSION['email']        = $user['email'];
-                $_SESSION['ho_ten']       = $user['ho_ten'];
-                $_SESSION['vai_tro']      = $user['vai_tro'];
+                dangNhap((int) $user['id']);
 
                 datFlash('thanh-cong', 'Đăng nhập thành công. Xin chào ' . e($user['ho_ten']) . '!');
                 if ($user['vai_tro'] === 'quan_tri') {
@@ -38,7 +40,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     chuyenHuong('index.php');
                 }
             } else {
-                $loiDangNhap = 'Sai thông tin đăng nhập hoặc mật khẩu.';
+                ghiLanSai($email);
+                if (soLanSai($email) >= 5 || ($ip !== '' && function_exists('soLanSaiIp') && soLanSaiIp($ip) >= 10)) {
+                    http_response_code(429);
+                    $loiDangNhap = 'Sai quá nhiều lần, hãy thử lại sau 15 phút';
+                } else {
+                    $loiDangNhap = 'Sai thông tin đăng nhập hoặc mật khẩu.';
+                }
             }
         }
     }
@@ -71,14 +79,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $stmt->execute([$hoTen, $email, $hash]);
                     $newId = (int)$pdo->lastInsertId();
 
-                    // Tự động đăng nhập phiên cho tài khoản mới
-                    $_SESSION = [];
-                    session_regenerate_id(true);
-                    $_SESSION['da_dang_nhap'] = true;
-                    $_SESSION['nguoi_dung_id'] = $newId;
-                    $_SESSION['email']        = $email;
-                    $_SESSION['ho_ten']       = $hoTen;
-                    $_SESSION['vai_tro']      = 'khach_hang';
+                    // Tự động đăng nhập phiên cho tài khoản mới qua hàm chuẩn
+                    dangNhap((int) $newId);
 
                     datFlash('thanh-cong', 'Đăng ký tài khoản thành công! Chào mừng ' . e($hoTen) . ' đến với Sân Bóng Thắng Lợi.');
                     chuyenHuong('index.php');

@@ -527,3 +527,11 @@
   margin: var(--khoang) 0;
 }
 .khung-sap-xep .truong__nhan { margin-bottom: 0; }
+
+
+/* Trạng thái đơn đặt sân tuân thủ CSP */
+.nhan-trang-thai { font-weight: 600; display: inline-block; padding: 0.2rem 0.5rem; border-radius: 4px; }
+.nhan-trang-thai--cho_xac_nhan { color: #b45309; background: #fef3c7; }
+.nhan-trang-thai--da_coc { color: #1d4ed8; background: #dbeafe; }
+.nhan-trang-thai--hoan_tat { color: #047857; background: #d1fae5; }
+.nhan-trang-thai--da_huy { color: #b91c1c; background: #fee2e2; }

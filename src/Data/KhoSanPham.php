@@ -46,6 +46,24 @@ class KhoSanPham
     public function timTheoId(string $id): ?SanPham
     {
         $idInt = (int) $id;
+        if ($idInt <= 0) {
+            // Hỗ trợ mã slug dạng san-a1, san-a2 hoặc tên sân
+            $clean = trim(str_replace(['san-', 'san_', 'sân '], '', strtolower($id)));
+            $sql = "SELECT s.*, d.ten_danh_muc FROM san_bong s 
+                    LEFT JOIN danh_muc d ON s.danh_muc_id = d.id 
+                    WHERE LOWER(s.ten_san) = ? OR LOWER(s.ten_san) = ? OR s.hinh_anh LIKE ?";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute(['sân ' . $clean, $clean, '%' . $id . '%']);
+            $row = $stmt->fetch();
+            if ($row) {
+                $idInt = (int) $row['id'];
+            }
+        }
+
+        if ($idInt <= 0) {
+            return null;
+        }
+
         $sql = "SELECT s.*, d.ten_danh_muc FROM san_bong s LEFT JOIN danh_muc d ON s.danh_muc_id = d.id WHERE s.id = ?";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([$idInt]);

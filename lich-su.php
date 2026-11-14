@@ -9,7 +9,7 @@ $baseUrl = '';
 $tieuDeTrang = 'Lịch sử đặt sân';
 
 // Lấy ID người dùng từ session (nếu có)
-$nguoiDungId = (int) ($_SESSION['nguoi_dung_id'] ?? 0);
+$nguoiDungId = (int) ($_SESSION['nguoi_dung_id'] ?? $_SESSION['uid'] ?? 0);
 
 $lichSu = [];
 if ($nguoiDungId > 0) {
@@ -35,7 +35,7 @@ require __DIR__ . '/inc/header.php';
   <p>Danh sách dưới đây liệt kê các đơn đặt sân gần nhất gắn với tài khoản của bạn.</p>
 
   <?php if (count($lichSu) === 0): ?>
-    <div class="the" style="text-align: center; padding: 2rem;">
+    <div class="the chu-canh-giua p-4">
       <p>Bạn chưa có đơn đặt sân nào.</p>
       <a class="nut nut--chinh" href="danh-sach.php">Đặt sân ngay</a>
     </div>
@@ -69,7 +69,7 @@ require __DIR__ . '/inc/header.php';
                   if ($don['trang_thai'] === 'hoan_tat') { $text = 'Hoàn tất'; $mau = '#10b981'; }
                   if ($don['trang_thai'] === 'da_huy') { $text = 'Đã huỷ'; $mau = '#ef4444'; }
                 ?>
-                <span style="color: <?= $mau ?>; font-weight: 600;"><?= $text ?></span>
+                <span class="nhan-trang-thai nhan-trang-thai--<?= e($don['trang_thai']) ?>"><?= $text ?></span>
               </td>
               <td><?= vnd((int)$don['tong_tien']) ?></td>
             </tr>

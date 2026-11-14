@@ -41,7 +41,18 @@ if ($method === 'POST') {
     $jsonInput = json_decode(file_get_contents('php://input'), true) ?? [];
     $action   = postChuoi('action', $jsonInput['action'] ?? 'them');
     $idSan    = postChuoi('id_san', postChuoi('id', (string)($jsonInput['id_san'] ?? $jsonInput['id'] ?? '')));
-    $soLuong  = max(1, (int) postChuoi('so_luong', (string)($jsonInput['so_luong'] ?? '1')));
+
+    // Kiểm tra số lượng nghiêm ngặt (chặn số âm, số 0 và số vượt ngưỡng)
+    $rawSoLuong = $jsonInput['so_luong'] ?? $_POST['so_luong'] ?? 1;
+    if (!is_numeric($rawSoLuong) || (int)$rawSoLuong <= 0 || (int)$rawSoLuong > 10) {
+        http_response_code(400);
+        echo json_encode([
+            'status'  => 'error',
+            'message' => 'Số lượng không hợp lệ (phải là số nguyên từ 1 đến 10)'
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+    $soLuong = (int) $rawSoLuong;
 
     if ($action === 'them') {
         if ($idSan === '' || $kho->timTheoId($idSan) === null) {
