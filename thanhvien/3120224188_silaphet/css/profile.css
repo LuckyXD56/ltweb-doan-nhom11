@@ -156,3 +156,99 @@
     border-color: var(--mau-chinh);
     box-shadow: 0 0 0 3px rgba(11, 110, 60, 0.15);
 }
+
+
+/* Style CSP Silaphet */
+.thong-bao-flash { padding: 0.75rem 1.25rem; margin-bottom: 1.5rem; border-radius: 8px; font-weight: 500; }
+.thong-bao-flash--thanh_cong { background: #dcfce7; color: #166534; border: 1px solid #86efac; }
+.thong-bao-flash--loi { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
+.form-xoa-lb-inline { display: inline; margin: 0; }
+.slp-s2 { font-size: 0.9rem; color: #065f46; font-weight: 600; }
+.slp-s3 { display: block; font-weight: 600; font-size: 0.9rem; margin-bottom: 0.3rem; }
+.slp-s4 { margin-top: 2rem; background: #fdfdfd; border: 1px solid #cbd5e1; border-radius: 8px; padding: 1.5rem; }
+.slp-s5 { font-size: 1.6rem; font-weight: 800; color: #b45309; margin: 0.2rem 0 0; }
+.slp-s6 { background: #e0f2fe; color: #0369a1; padding: 0.2rem 0.6rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; white-space: nowrap; }
+.slp-s7 { width: 100%; }
+.slp-s8 { padding: 0.2rem 0.6rem; font-size: 0.75rem; color: #b91c1c; border-color: #fca5a5; }
+.slp-s9 { font-size: 0.85rem; color: #64748b; margin-bottom: 0.75rem; }
+.slp-s10 { font-size: 0.85rem; color: #6b21a8; font-weight: 600; }
+.slp-s11 { font-size: 1.6rem; font-weight: 800; color: #7e22ce; margin: 0.2rem 0 0; }
+.slp-s12 { color: #166534; font-weight: bold; }
+.slp-s13 { padding: 0.45rem 1rem; font-size: 0.9rem; }
+.slp-s14 { background: none; border: none; color: #dc2626; cursor: pointer; font-size: 0.8rem; padding: 0; text-decoration: underline; }
+.slp-s15 { width: 100%; padding: 0.45rem 0.6rem; font-size: 0.9rem; }
+.slp-s16 { flex: 1; min-width: 180px; background: #ecfdf5; padding: 1.25rem; border-radius: 8px; border-left: 4px solid #10b981; text-align: center; }
+.slp-s17 { background: #f8fafc; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; border: 1px solid #e2e8f0; }
+.slp-s18 { text-align: center; }
+.slp-s19 { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.25rem; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 2px 4px rgba(0,0,0,0.04); transition: transform 0.2s; }
+.slp-s20 { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: #94a3b8; border-top: 1px solid #f1f5f9; padding-top: 0.5rem; margin-top: 0.5rem; }
+.slp-s21 { background: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; margin-bottom: 1.5rem; border: 1px solid #e2e8f0; }
+.slp-s22 { margin-top: 0.5rem; padding: 0.4rem 0.8rem; background: #f0fdf4; border-radius: 6px; display: inline-block; }
+.slp-s23 { color: #64748b; font-style: italic; }
+.slp-s24 { font-size: 0.85rem; color: #64748b; margin-top: 0.5rem; }
+.slp-s25 { color: #0b6e3c; }
+.slp-s26 { display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 0.25rem; }
+.slp-s27 { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+.slp-s28 { color: #0b6e3c; font-size: 1rem; }
+.slp-s29 { margin-top: 0; color: #0b6e3c; }
+.slp-s30 { font-size: 0.85rem; color: #92400e; font-weight: 600; }
+.slp-s31 { margin-bottom: 0.5rem; color: #374151; }
+.slp-s33 { flex: 1; min-width: 150px; }
+.slp-s34 { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem; }
+.slp-s35 { background: #ffffff; border: 1px solid #e2e8f0; border-left: 4px solid #059669; padding: 1rem 1.25rem; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+.slp-s36 { font-size: 0.9rem; color: #1e40af; font-weight: 600; }
+.slp-s37 { flex: 1; min-width: 180px; background: #eff6ff; padding: 1.25rem; border-radius: 8px; border-left: 4px solid #3b82f6; text-align: center; }
+.slp-s38 { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.25rem; }
+.slp-s39 { padding: 0.35rem 0.75rem; font-size: 0.85rem; }
+.slp-s40 { width: 100%; height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden; }
+.slp-s41 { flex: 1; min-width: 140px; background: #fffbeb; padding: 1rem; border-radius: 8px; border-left: 4px solid #f59e0b; text-align: center; }
+.slp-s42 { font-size: 0.8rem; color: #94a3b8; }
+.slp-s43 { flex: 1; min-width: 140px; background: #faf5ff; padding: 1rem; border-radius: 8px; border-left: 4px solid #a855f7; text-align: center; }
+.slp-s44 { font-size: 2rem; font-weight: 800; color: #1d4ed8; margin: 0.25rem 0 0; }
+.slp-s46 { margin-bottom: 1rem; }
+.slp-s47 { color: #0b6e3c; font-weight: bold; }
+.slp-s48 { text-align: right; border-top: 1px dashed #e2e8f0; padding-top: 0.4rem; margin-top: 0.4rem; }
+.slp-s49 { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem; }
+.slp-s50 { color: #4b5563; }
+.slp-s51 { background: #fef2f2; border: 1px solid #f87171; color: #b91c1c; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; }
+.slp-s52 { color: #dc2626; font-size: 0.85rem; }
+.slp-s53 { font-size: 0.9rem; color: #475569; margin-bottom: 0.75rem; line-height: 1.5; }
+.slp-s54 { flex: 2; min-width: 180px; }
+.slp-s55 { margin: 0; }
+.slp-s56 { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.3rem; }
+.slp-s57 { font-size: 1.1rem; }
+.slp-s58 { margin-bottom: 0.5rem; }
+.slp-s59 { width: 100%; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+.slp-s60 { padding: 0.45rem 0.8rem; font-size: 0.9rem; }
+.slp-s61 { flex: 1; min-width: 140px; background: #f0fdf4; padding: 1rem; border-radius: 8px; border-left: 4px solid #22c55e; text-align: center; }
+.slp-s62 { font-weight: 600; color: #334155; }
+.slp-s64 { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.5rem; }
+.slp-s65 { margin: 0 0 0.5rem 0; color: #334155; line-height: 1.5; }
+.slp-s67 { margin-top: 2rem; margin-bottom: 2rem; }
+.slp-s68 { display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: flex-end; }
+.slp-s69 { max-width: 320px; margin: auto; position: relative; }
+.slp-s70 { background: #f1f5f9; padding: 1.5rem; text-align: center; border-radius: 8px; color: #64748b; }
+.slp-s71 { font-size: 1.4rem; font-weight: bold; color: #e11d48; margin-bottom: 1.5rem; }
+.slp-s72 { font-size: 0.85rem; color: #166534; font-weight: 600; }
+.slp-s73 { margin: 0; font-size: 1.1rem; color: #1e293b; }
+.slp-s74 { font-size: 0.95rem; }
+.slp-s75 { display: inline; margin: 0; }
+.slp-s76 { display: flex; justify-content: center; gap: 0.5rem; margin-top: 1rem; }
+.slp-s77 { flex: 1; min-width: 140px; }
+.slp-s78 { margin-bottom: 1rem; color: #374151; }
+.slp-s79 { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+.slp-s80 { font-size: 0.85rem; }
+.slp-s81 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-bottom: 1rem; }
+.slp-s82 { font-size: 1.6rem; font-weight: 800; color: #15803d; margin: 0.2rem 0 0; }
+.slp-s83 { font-size: 2rem; font-weight: 800; color: #047857; margin: 0.25rem 0 0; }
+
+.chu-tien-do { font-weight: 700; }
+.chu-tien-do--xong { color: #16a34a; }
+.chu-tien-do--dang-lam { color: #2563eb; }
+.thanh-tien-do-ruot { height: 100%; background: #3b82f6; border-radius: 4px; transition: width 0.3s; }
+.thanh-tien-do-ruot--xong { background: #22c55e; }
+.chu-trang-thai-da--hoan_thanh { color: #16a34a; }
+.chu-trang-thai-da--dang_lam { color: #f59e0b; }
+.chu-trang-thai-da--tam_dung { color: #ef4444; }
+.nut-phan-trang-lb { padding: 0.35rem 0.75rem; font-size: 0.85rem; }
+.nut-phan-trang-lb--hien-tai { font-weight: bold; }

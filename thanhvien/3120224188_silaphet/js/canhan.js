@@ -52,3 +52,32 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 3000); // 3 giây chuyển 1 lần
     }
 });
+
+
+// Xử lý sự kiện tuân thủ CSP
+document.addEventListener('DOMContentLoaded', function() {
+    const btnCuon = document.getElementById('nut-cuon-them-du-an');
+    if (btnCuon) {
+        btnCuon.addEventListener('click', function() {
+            const target = document.getElementById('form-them-du-an');
+            if (target) target.scrollIntoView({ behavior: 'smooth' });
+        });
+    }
+});
+
+document.addEventListener('submit', function(e) {
+    const form = e.target;
+    if (form && form.hasAttribute('data-xac-nhan')) {
+        const msg = form.getAttribute('data-xac-nhan');
+        if (msg && !confirm(msg)) {
+            e.preventDefault();
+        }
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.thanh-tien-do-ruot').forEach(function(el) {
+        var td = el.getAttribute('data-tien-do') || 0;
+        el.style.width = td + '%';
+    });
+});

@@ -332,13 +332,13 @@ require_once __DIR__ . '/../../inc/header.php';
     <?php if ($flash): ?>
         <div class="vung-thong-bao vung-thong-bao--<?= $flash['loai'] === 'thanh_cong' ? 'thanh-cong' : 'loi' ?>" 
              role="status" 
-             style="padding: 0.75rem 1.25rem; margin-bottom: 1.5rem; border-radius: 8px; font-weight: 500; background: <?= $flash['loai'] === 'thanh_cong' ? '#dcfce7; color: #166534; border: 1px solid #86efac;' : '#fee2e2; color: #991b1b; border: 1px solid #fca5a5;' ?>">
+             class="thong-bao-flash thong-bao-flash--<?= $flash['loai'] ?>">
             <?= e($flash['noi_dung']) ?>
         </div>
     <?php endif; ?>
 
     <?php if ($dbError): ?>
-        <div style="background: #fef2f2; border: 1px solid #f87171; color: #b91c1c; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;">
+        <div class="slp-s51">
             <strong>Thông báo cơ sở dữ liệu:</strong> <?= e($dbError) ?><br>
             <small>Vui lòng đảm bảo dịch vụ MySQL đang chạy và đã nạp <code>schema.sql</code>, <code>seed.sql</code>.</small>
         </div>
@@ -369,17 +369,17 @@ require_once __DIR__ . '/../../inc/header.php';
                 Phụ trách chức năng Liên hệ (lưu CSDL kèm upload ảnh), bảng quản trị liên hệ và trang cá nhân.
             </p>
 
-            <div style="margin-top: 0.5rem; padding: 0.4rem 0.8rem; background: #f0fdf4; border-radius: 6px; display: inline-block;">
+            <div class="slp-s22">
                 <?php if ($laChuTrang): ?>
-                    <span style="color: #166534; font-weight: bold;">🔑 Bạn đang đăng nhập với tư cách: Chủ trang (quyền Quản trị viên)</span>
+                    <span class="slp-s12">🔑 Bạn đang đăng nhập với tư cách: Chủ trang (quyền Quản trị viên)</span>
                 <?php else: ?>
-                    <span style="color: #4b5563;">👤 Khách truy cập (Chế độ xem). <a href="../../dang-nhap.php" style="color: #0b6e3c; font-weight: bold;">Đăng nhập</a> bằng <code>silaphet@sanbong.vn</code> để quản trị trang.</span>
+                    <span class="slp-s50">👤 Khách truy cập (Chế độ xem). <a href="../../dang-nhap.php" class="slp-s47">Đăng nhập</a> bằng <code>silaphet@sanbong.vn</code> để quản trị trang.</span>
                 <?php endif; ?>
             </div>
 
             <div class="d-flex gap-1 flex-wrap mt-1-5">
                 <div class="flex-1 min-w-200">
-                    <h3 class="mt-0 text-primary mb-0-5" style="font-size: 1.1rem;">Chuyên ngành</h3>
+                    <h3 class="mt-0 text-primary mb-0-5 slp-s57" >Chuyên ngành</h3>
                     <ul class="ky-nang-list">
                         <li>Khoa Toán - Tin</li>
                         <li>CNTT - Đại học Sư phạm Đà Nẵng</li>
@@ -387,7 +387,7 @@ require_once __DIR__ . '/../../inc/header.php';
                 </div>
 
                 <div class="flex-1 min-w-200">
-                    <h3 class="mt-0 text-primary mb-0-5" style="font-size: 1.1rem;">Kỹ năng công nghệ</h3>
+                    <h3 class="mt-0 text-primary mb-0-5 slp-s57" >Kỹ năng công nghệ</h3>
                     <ul class="ky-nang-list">
                         <li>PHP 8 &amp; PDO</li>
                         <li>MySQL Database</li>
@@ -452,21 +452,21 @@ require_once __DIR__ . '/../../inc/header.php';
             Chức năng đếm lượt xem theo ngày sử dụng câu lệnh <code>INSERT INTO tv_luot_xem (mssv, ngay, luot_xem) VALUES (?, CURRENT_DATE, 1) ON DUPLICATE KEY UPDATE luot_xem = luot_xem + 1</code>.
         </p>
 
-        <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
-            <div style="flex: 1; min-width: 180px; background: #ecfdf5; padding: 1.25rem; border-radius: 8px; border-left: 4px solid #10b981; text-align: center;">
-                <span style="font-size: 0.9rem; color: #065f46; font-weight: 600;">Lượt xem hôm nay</span>
-                <p style="font-size: 2rem; font-weight: 800; color: #047857; margin: 0.25rem 0 0;"><?= $luotXemHomNay ?></p>
+        <div class="slp-s27">
+            <div class="slp-s16">
+                <span class="slp-s2">Lượt xem hôm nay</span>
+                <p class="slp-s83"><?= $luotXemHomNay ?></p>
             </div>
-            <div style="flex: 1; min-width: 180px; background: #eff6ff; padding: 1.25rem; border-radius: 8px; border-left: 4px solid #3b82f6; text-align: center;">
-                <span style="font-size: 0.9rem; color: #1e40af; font-weight: 600;">Tổng số lượt xem</span>
-                <p style="font-size: 2rem; font-weight: 800; color: #1d4ed8; margin: 0.25rem 0 0;"><?= $tongLuotXem ?></p>
+            <div class="slp-s37">
+                <span class="slp-s36">Tổng số lượt xem</span>
+                <p class="slp-s44"><?= $tongLuotXem ?></p>
             </div>
         </div>
 
         <?php if (!empty($ds7Ngay)): ?>
-            <h4 style="margin-bottom: 0.5rem; color: #374151;">Chi tiết 7 ngày gần nhất:</h4>
+            <h4 class="slp-s31">Chi tiết 7 ngày gần nhất:</h4>
             <div class="bang-cuon-ngang">
-                <table class="bang-du-lieu" style="font-size: 0.95rem;">
+                <table class="bang-du-lieu slp-s74" >
                     <thead>
                         <tr>
                             <th scope="col">Ngày ghi nhận</th>
@@ -491,10 +491,10 @@ require_once __DIR__ . '/../../inc/header.php';
     <!-- Bảng tv_du_an: Tìm kiếm, lọc loại, sắp xếp whitelist, CRUD -->
     <!-- ========================================================= -->
     <section class="profile-schedule" id="quan-ly-du-an">
-        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem;">
-            <h3 class="text-primary" style="margin: 0;">Quản lý Dự án &amp; Sản phẩm cá nhân (Bảng riêng <code>tv_du_an</code>)</h3>
+        <div class="slp-s79">
+            <h3 class="text-primary slp-s55" >Quản lý Dự án &amp; Sản phẩm cá nhân (Bảng riêng <code>tv_du_an</code>)</h3>
             <?php if ($laChuTrang): ?>
-                <button type="button" class="nut nut--chinh" style="font-size: 0.85rem;" onclick="document.getElementById('form-them-du-an').scrollIntoView({behavior: 'smooth'})">
+                <button type="button" class="nut nut--chinh slp-s80"  id="nut-cuon-them-du-an" >
                     + Thêm dự án mới
                 </button>
             <?php endif; ?>
@@ -505,32 +505,32 @@ require_once __DIR__ . '/../../inc/header.php';
         </p>
 
         <!-- Khối thống kê SQL trực tiếp từ tv_du_an -->
-        <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
-            <div style="flex: 1; min-width: 140px; background: #faf5ff; padding: 1rem; border-radius: 8px; border-left: 4px solid #a855f7; text-align: center;">
-                <span style="font-size: 0.85rem; color: #6b21a8; font-weight: 600;">Tổng số dự án</span>
-                <p style="font-size: 1.6rem; font-weight: 800; color: #7e22ce; margin: 0.2rem 0 0;"><?= (int)$thongKeDuAn['tong'] ?></p>
+        <div class="slp-s27">
+            <div class="slp-s43">
+                <span class="slp-s10">Tổng số dự án</span>
+                <p class="slp-s11"><?= (int)$thongKeDuAn['tong'] ?></p>
             </div>
-            <div style="flex: 1; min-width: 140px; background: #f0fdf4; padding: 1rem; border-radius: 8px; border-left: 4px solid #22c55e; text-align: center;">
-                <span style="font-size: 0.85rem; color: #166534; font-weight: 600;">Đã hoàn thành</span>
-                <p style="font-size: 1.6rem; font-weight: 800; color: #15803d; margin: 0.2rem 0 0;"><?= (int)$thongKeDuAn['hoan_thanh'] ?></p>
+            <div class="slp-s61">
+                <span class="slp-s72">Đã hoàn thành</span>
+                <p class="slp-s82"><?= (int)$thongKeDuAn['hoan_thanh'] ?></p>
             </div>
-            <div style="flex: 1; min-width: 140px; background: #fffbeb; padding: 1rem; border-radius: 8px; border-left: 4px solid #f59e0b; text-align: center;">
-                <span style="font-size: 0.85rem; color: #92400e; font-weight: 600;">Tiến độ trung bình (SQL AVG)</span>
-                <p style="font-size: 1.6rem; font-weight: 800; color: #b45309; margin: 0.2rem 0 0;"><?= (int)$thongKeDuAn['tien_do_tb'] ?>%</p>
+            <div class="slp-s41">
+                <span class="slp-s30">Tiến độ trung bình (SQL AVG)</span>
+                <p class="slp-s5"><?= (int)$thongKeDuAn['tien_do_tb'] ?>%</p>
             </div>
         </div>
 
         <!-- Biểu mẫu Tìm kiếm, Lọc và Sắp xếp Dự án -->
-        <form method="get" action="gioithieu.php#quan-ly-du-an" style="background: #f8fafc; padding: 1rem 1.25rem; border-radius: 8px; margin-bottom: 1.5rem; border: 1px solid #e2e8f0;">
-            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: flex-end;">
-                <div style="flex: 2; min-width: 180px;">
-                    <label for="q_da" style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.3rem;">Tìm từ khóa</label>
-                    <input type="text" id="q_da" name="q_da" value="<?= e($q_da) ?>" placeholder="Tên dự án hoặc công nghệ..." class="truong__nhap" style="width: 100%; padding: 0.45rem 0.6rem; font-size: 0.9rem;">
+        <form method="get" action="gioithieu.php#quan-ly-du-an" class="slp-s21">
+            <div class="slp-s68">
+                <div class="slp-s54">
+                    <label for="q_da" class="slp-s56">Tìm từ khóa</label>
+                    <input type="text" id="q_da" name="q_da" value="<?= e($q_da) ?>" placeholder="Tên dự án hoặc công nghệ..." class="truong__nhap" class="slp-s15">
                 </div>
 
-                <div style="flex: 1; min-width: 140px;">
-                    <label for="loai_da" style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.3rem;">Loại dự án</label>
-                    <select id="loai_da" name="loai_da" class="truong__nhap" style="width: 100%; padding: 0.45rem 0.6rem; font-size: 0.9rem;">
+                <div class="slp-s77">
+                    <label for="loai_da" class="slp-s56">Loại dự án</label>
+                    <select id="loai_da" name="loai_da" class="truong__nhap slp-s15" >
                         <option value="">-- Tất cả loại --</option>
                         <option value="Web" <?= $loai_da === 'Web' ? 'selected' : '' ?>>Web App</option>
                         <option value="Mobile" <?= $loai_da === 'Mobile' ? 'selected' : '' ?>>Mobile App</option>
@@ -539,9 +539,9 @@ require_once __DIR__ . '/../../inc/header.php';
                     </select>
                 </div>
 
-                <div style="flex: 1; min-width: 150px;">
-                    <label for="sx_da" style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.3rem;">Sắp xếp (Whitelist)</label>
-                    <select id="sx_da" name="sx_da" class="truong__nhap" style="width: 100%; padding: 0.45rem 0.6rem; font-size: 0.9rem;">
+                <div class="slp-s33">
+                    <label for="sx_da" class="slp-s56">Sắp xếp (Whitelist)</label>
+                    <select id="sx_da" name="sx_da" class="truong__nhap slp-s15" >
                         <option value="moi" <?= $sx_da === 'moi' ? 'selected' : '' ?>>Mới nhất</option>
                         <option value="cu" <?= $sx_da === 'cu' ? 'selected' : '' ?>>Cũ nhất</option>
                         <option value="tien-do-giam" <?= $sx_da === 'tien-do-giam' ? 'selected' : '' ?>>Tiến độ cao nhất</option>
@@ -551,9 +551,9 @@ require_once __DIR__ . '/../../inc/header.php';
                 </div>
 
                 <div>
-                    <button type="submit" class="nut nut--chinh" style="padding: 0.45rem 1rem; font-size: 0.9rem;">Lọc dữ liệu</button>
+                    <button type="submit" class="nut nut--chinh slp-s13" >Lọc dữ liệu</button>
                     <?php if ($q_da !== '' || $loai_da !== '' || $sx_da !== 'moi'): ?>
-                        <a href="gioithieu.php#quan-ly-du-an" class="nut nut--phu" style="padding: 0.45rem 0.8rem; font-size: 0.9rem;">Đặt lại</a>
+                        <a href="gioithieu.php#quan-ly-du-an" class="nut nut--phu slp-s60" >Đặt lại</a>
                     <?php endif; ?>
                 </div>
             </div>
@@ -561,55 +561,55 @@ require_once __DIR__ . '/../../inc/header.php';
 
         <!-- Danh sách thẻ Dự án -->
         <?php if (empty($dsDuAn)): ?>
-            <div style="background: #f1f5f9; padding: 1.5rem; text-align: center; border-radius: 8px; color: #64748b;">
+            <div class="slp-s70">
                 Không tìm thấy dự án nào khớp với điều kiện tìm kiếm.
             </div>
         <?php else: ?>
-            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.25rem;">
+            <div class="slp-s38">
                 <?php foreach ($dsDuAn as $da): ?>
-                    <article style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.25rem; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 2px 4px rgba(0,0,0,0.04); transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='none'">
+                    <article class="slp-s19" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='none'">
                         <div>
-                            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.5rem;">
-                                <h4 style="margin: 0; font-size: 1.1rem; color: #1e293b;"><?= e($da['ten_du_an']) ?></h4>
-                                <span style="background: #e0f2fe; color: #0369a1; padding: 0.2rem 0.6rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; white-space: nowrap;">
+                            <div class="slp-s64">
+                                <h4 class="slp-s73"><?= e($da['ten_du_an']) ?></h4>
+                                <span class="slp-s6">
                                     <?= e($da['loai_du_an']) ?>
                                 </span>
                             </div>
 
-                            <p style="font-size: 0.9rem; color: #475569; margin-bottom: 0.75rem; line-height: 1.5;">
+                            <p class="slp-s53">
                                 <?= e($da['mo_ta']) ?>
                             </p>
 
-                            <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 0.75rem;">
-                                <strong>Công nghệ:</strong> <span style="color: #0b6e3c;"><?= e($da['cong_nghe']) ?></span>
+                            <p class="slp-s9">
+                                <strong>Công nghệ:</strong> <span class="slp-s25"><?= e($da['cong_nghe']) ?></span>
                             </p>
                         </div>
 
                         <div>
                             <!-- Thanh tiến độ hoàn thành -->
-                            <div style="margin-bottom: 0.5rem;">
-                                <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 0.25rem;">
-                                    <span style="font-weight: 600; color: #334155;">Tiến độ</span>
-                                    <span style="font-weight: 700; color: <?= (int)$da['tien_do'] === 100 ? '#16a34a' : '#2563eb' ?>"><?= (int)$da['tien_do'] ?>%</span>
+                            <div class="slp-s58">
+                                <div class="slp-s26">
+                                    <span class="slp-s62">Tiến độ</span>
+                                    <span class="chu-tien-do <?= (int)$da['tien_do'] === 100 ? 'chu-tien-do--xong' : 'chu-tien-do--dang-lam' ?>"><?= (int)$da['tien_do'] ?>%</span>
                                 </div>
-                                <div style="width: 100%; height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden;">
-                                    <div style="width: <?= (int)$da['tien_do'] ?>%; height: 100%; background: <?= (int)$da['tien_do'] === 100 ? '#22c55e' : '#3b82f6' ?>; border-radius: 4px;"></div>
+                                <div class="slp-s40">
+                                    <div class="thanh-tien-do-ruot <?= (int)$da['tien_do'] === 100 ? 'thanh-tien-do-ruot--xong' : '' ?>" data-tien-do="<?= (int)$da['tien_do'] ?>"></div>
                                 </div>
                             </div>
 
-                            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: #94a3b8; border-top: 1px solid #f1f5f9; padding-top: 0.5rem; margin-top: 0.5rem;">
+                            <div class="slp-s20">
                                 <span>Trạng thái: 
-                                    <strong style="color: <?= $da['trang_thai'] === 'hoan_thanh' ? '#16a34a' : ($da['trang_thai'] === 'dang_lam' ? '#f59e0b' : '#ef4444') ?>">
+                                    <strong class="chu-trang-thai-da chu-trang-thai-da--<?= e($da['trang_thai']) ?>">
                                         <?= $da['trang_thai'] === 'hoan_thanh' ? 'Hoàn thành' : ($da['trang_thai'] === 'dang_lam' ? 'Đang thực hiện' : 'Tạm dừng') ?>
                                     </strong>
                                 </span>
 
                                 <?php if ($laChuTrang): ?>
-                                    <form method="post" action="gioithieu.php#quan-ly-du-an" onsubmit="return confirm('Bạn có chắc chắn muốn xóa dự án này?');" style="margin: 0;">
+                                    <form method="post" action="gioithieu.php#quan-ly-du-an" data-xac-nhan="Bạn có chắc chắn muốn xóa dự án này?"  class="slp-s55">
                                         <?= csrfField() ?>
                                         <input type="hidden" name="action" value="xoa_du_an">
                                         <input type="hidden" name="id_du_an" value="<?= (int)$da['id'] ?>">
-                                        <button type="submit" style="background: none; border: none; color: #dc2626; cursor: pointer; font-size: 0.8rem; padding: 0; text-decoration: underline;">
+                                        <button type="submit" class="slp-s14">
                                             Xóa
                                         </button>
                                     </form>
@@ -623,25 +623,25 @@ require_once __DIR__ . '/../../inc/header.php';
 
         <!-- Form thêm dự án mới (chỉ dành cho chủ trang) -->
         <?php if ($laChuTrang): ?>
-            <div id="form-them-du-an" style="margin-top: 2rem; background: #fdfdfd; border: 1px solid #cbd5e1; border-radius: 8px; padding: 1.5rem;">
-                <h4 style="margin-top: 0; color: #0b6e3c;">Thêm dự án cá nhân mới vào CSDL (Quyền chủ trang)</h4>
+            <div id="form-them-du-an" class="slp-s4">
+                <h4 class="slp-s29">Thêm dự án cá nhân mới vào CSDL (Quyền chủ trang)</h4>
 
                 <form method="post" action="gioithieu.php#quan-ly-du-an">
                     <?= csrfField() ?>
                     <input type="hidden" name="action" value="them_du_an">
 
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+                    <div class="slp-s81">
                         <div>
-                            <label for="ten_du_an" style="display: block; font-weight: 600; font-size: 0.9rem; margin-bottom: 0.3rem;">Tên dự án (*)</label>
-                            <input type="text" id="ten_du_an" name="ten_du_an" class="truong__nhap" style="width: 100%;" required maxlength="150" placeholder="VD: Ứng dụng Quản lý...">
+                            <label for="ten_du_an" class="slp-s3">Tên dự án (*)</label>
+                            <input type="text" id="ten_du_an" name="ten_du_an" class="truong__nhap slp-s7"  required maxlength="150" placeholder="VD: Ứng dụng Quản lý...">
                             <?php if (!empty($loiForm['da_ten'])): ?>
-                                <span style="color: #dc2626; font-size: 0.85rem;"><?= e($loiForm['da_ten']) ?></span>
+                                <span class="slp-s52"><?= e($loiForm['da_ten']) ?></span>
                             <?php endif; ?>
                         </div>
 
                         <div>
-                            <label for="loai_du_an_them" style="display: block; font-weight: 600; font-size: 0.9rem; margin-bottom: 0.3rem;">Phân loại (*)</label>
-                            <select id="loai_du_an_them" name="loai_du_an" class="truong__nhap" style="width: 100%;">
+                            <label for="loai_du_an_them" class="slp-s3">Phân loại (*)</label>
+                            <select id="loai_du_an_them" name="loai_du_an" class="truong__nhap slp-s7" >
                                 <option value="Web">Web Application</option>
                                 <option value="Mobile">Mobile Application</option>
                                 <option value="Design">UI/UX Design</option>
@@ -650,20 +650,20 @@ require_once __DIR__ . '/../../inc/header.php';
                         </div>
                     </div>
 
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+                    <div class="slp-s81">
                         <div>
-                            <label for="cong_nghe" style="display: block; font-weight: 600; font-size: 0.9rem; margin-bottom: 0.3rem;">Công nghệ sử dụng (*)</label>
-                            <input type="text" id="cong_nghe" name="cong_nghe" class="truong__nhap" style="width: 100%;" required maxlength="200" placeholder="VD: PHP 8, MySQL, Flutter...">
+                            <label for="cong_nghe" class="slp-s3">Công nghệ sử dụng (*)</label>
+                            <input type="text" id="cong_nghe" name="cong_nghe" class="truong__nhap slp-s7"  required maxlength="200" placeholder="VD: PHP 8, MySQL, Flutter...">
                         </div>
 
                         <div>
-                            <label for="tien_do" style="display: block; font-weight: 600; font-size: 0.9rem; margin-bottom: 0.3rem;">Tiến độ hoàn thành (0 – 100%)</label>
-                            <input type="number" id="tien_do" name="tien_do" class="truong__nhap" style="width: 100%;" min="0" max="100" value="50" required>
+                            <label for="tien_do" class="slp-s3">Tiến độ hoàn thành (0 – 100%)</label>
+                            <input type="number" id="tien_do" name="tien_do" class="truong__nhap slp-s7"  min="0" max="100" value="50" required>
                         </div>
 
                         <div>
-                            <label for="trang_thai_them" style="display: block; font-weight: 600; font-size: 0.9rem; margin-bottom: 0.3rem;">Trạng thái</label>
-                            <select id="trang_thai_them" name="trang_thai" class="truong__nhap" style="width: 100%;">
+                            <label for="trang_thai_them" class="slp-s3">Trạng thái</label>
+                            <select id="trang_thai_them" name="trang_thai" class="truong__nhap slp-s7" >
                                 <option value="dang_lam">Đang thực hiện</option>
                                 <option value="hoan_thanh">Đã hoàn thành</option>
                                 <option value="tam_dung">Tạm dừng</option>
@@ -671,9 +671,9 @@ require_once __DIR__ . '/../../inc/header.php';
                         </div>
                     </div>
 
-                    <div style="margin-bottom: 1rem;">
-                        <label for="mo_ta" style="display: block; font-weight: 600; font-size: 0.9rem; margin-bottom: 0.3rem;">Mô tả ngắn dự án (*)</label>
-                        <textarea id="mo_ta" name="mo_ta" class="truong__nhap" rows="3" style="width: 100%;" required placeholder="Mô tả mục tiêu, tính năng chính của sản phẩm..."></textarea>
+                    <div class="slp-s46">
+                        <label for="mo_ta" class="slp-s3">Mô tả ngắn dự án (*)</label>
+                        <textarea id="mo_ta" name="mo_ta" class="truong__nhap slp-s7" rows="3"  required placeholder="Mô tả mục tiêu, tính năng chính của sản phẩm..."></textarea>
                     </div>
 
                     <button type="submit" class="nut nut--chinh">Lưu dự án mới</button>
@@ -693,41 +693,41 @@ require_once __DIR__ . '/../../inc/header.php';
         </p>
 
         <!-- Form gửi lưu bút -->
-        <form action="gioithieu.php#so-luu-but" method="post" style="background: #f8fafc; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; border: 1px solid #e2e8f0;">
+        <form action="gioithieu.php#so-luu-but" method="post" class="slp-s17">
             <?= csrfField() ?>
             <input type="hidden" name="action" value="them_luubut">
 
-            <div style="margin-bottom: 1rem;">
-                <label for="ten_khach" style="display: block; font-weight: 600; font-size: 0.9rem; margin-bottom: 0.3rem;">Tên của bạn (*)</label>
+            <div class="slp-s46">
+                <label for="ten_khach" class="slp-s3">Tên của bạn (*)</label>
                 <input
                     type="text"
                     id="ten_khach"
                     name="ten"
-                    class="truong__nhap"
-                    style="width: 100%;"
+                    class="truong__nhap slp-s7"
+                    
                     maxlength="50"
                     placeholder="Nhập họ tên của bạn..."
                     required
                 >
                 <?php if (!empty($loiForm['lb_ten'])): ?>
-                    <span style="color: #dc2626; font-size: 0.85rem;"><?= e($loiForm['lb_ten']) ?></span>
+                    <span class="slp-s52"><?= e($loiForm['lb_ten']) ?></span>
                 <?php endif; ?>
             </div>
 
-            <div style="margin-bottom: 1rem;">
-                <label for="loi_nhan_khach" style="display: block; font-weight: 600; font-size: 0.9rem; margin-bottom: 0.3rem;">Lời nhắn gửi tới Silaphet Thit (*)</label>
+            <div class="slp-s46">
+                <label for="loi_nhan_khach" class="slp-s3">Lời nhắn gửi tới Silaphet Thit (*)</label>
                 <textarea
                     id="loi_nhan_khach"
                     name="loi_nhan"
-                    class="truong__nhap"
+                    class="truong__nhap slp-s7"
                     rows="3"
-                    style="width: 100%;"
+                    
                     maxlength="500"
                     placeholder="Để lại lời chúc hoặc góp ý cho trang web..."
                     required
                 ></textarea>
                 <?php if (!empty($loiForm['lb_loi_nhan'])): ?>
-                    <span style="color: #dc2626; font-size: 0.85rem;"><?= e($loiForm['lb_loi_nhan']) ?></span>
+                    <span class="slp-s52"><?= e($loiForm['lb_loi_nhan']) ?></span>
                 <?php endif; ?>
             </div>
 
@@ -736,28 +736,28 @@ require_once __DIR__ . '/../../inc/header.php';
             </button>
         </form>
 
-        <h4 style="margin-bottom: 1rem; color: #374151;">
+        <h4 class="slp-s78">
             Danh sách lời nhắn (Tổng cộng: <?= $tongLuuBut ?> lời nhắn – Trang <?= $trangHienTaiLB ?>/<?= $soTrangLB ?>)
         </h4>
 
         <?php if (!empty($dsLuuBut)): ?>
-            <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem;">
+            <div class="slp-s34">
                 <?php foreach ($dsLuuBut as $tin): ?>
-                    <div style="background: #ffffff; border: 1px solid #e2e8f0; border-left: 4px solid #059669; padding: 1rem 1.25rem; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
-                            <strong style="color: #0b6e3c; font-size: 1rem;"><?= e($tin['ho_ten']) ?></strong>
-                            <span style="font-size: 0.8rem; color: #94a3b8;"><?= date('d/m/Y H:i', strtotime($tin['ngay_tao'])) ?></span>
+                    <div class="slp-s35">
+                        <div class="slp-s49">
+                            <strong class="slp-s28"><?= e($tin['ho_ten']) ?></strong>
+                            <span class="slp-s42"><?= date('d/m/Y H:i', strtotime($tin['ngay_tao'])) ?></span>
                         </div>
-                        <p style="margin: 0 0 0.5rem 0; color: #334155; line-height: 1.5;"><?= nl2br(e($tin['loi_nhan'])) ?></p>
+                        <p class="slp-s65"><?= nl2br(e($tin['loi_nhan'])) ?></p>
 
                         <!-- NÚT XÓA: CHỈ HIỂN THỊ KHI ĐĂNG NHẬP LÀ CHỦ TRANG / QUẢN TRỊ VIÊN -->
                         <?php if ($laChuTrang): ?>
-                            <div style="text-align: right; border-top: 1px dashed #e2e8f0; padding-top: 0.4rem; margin-top: 0.4rem;">
-                                <form method="post" action="gioithieu.php#so-luu-but" style="display: inline; margin: 0;" onsubmit="return confirm('Bạn có chắc muốn xóa lời nhắn này khỏi CSDL?');">
+                            <div class="slp-s48">
+                                <form method="post" action="gioithieu.php#so-luu-but" class="slp-s75" data-xac-nhan="Bạn có chắc muốn xóa lời nhắn này khỏi CSDL?" >
                                     <?= csrfField() ?>
                                     <input type="hidden" name="action" value="xoa_luubut">
                                     <input type="hidden" name="id_xoa" value="<?= (int)$tin['id'] ?>">
-                                    <button type="submit" class="nut nut--phu" style="padding: 0.2rem 0.6rem; font-size: 0.75rem; color: #b91c1c; border-color: #fca5a5;">
+                                    <button type="submit" class="nut nut--phu slp-s8" >
                                         🗑️ Xóa lời nhắn
                                     </button>
                                 </form>
@@ -769,53 +769,52 @@ require_once __DIR__ . '/../../inc/header.php';
 
             <!-- PHÂN TRANG SỔ LƯU BÚT -->
             <?php if ($soTrangLB > 1): ?>
-                <nav aria-label="Phân trang lưu bút" style="display: flex; justify-content: center; gap: 0.5rem; margin-top: 1rem;">
+                <nav aria-label="Phân trang lưu bút" class="slp-s76">
                     <?php if ($trangHienTaiLB > 1): ?>
-                        <a href="?trang_lb=<?= $trangHienTaiLB - 1 ?>#so-luu-but" class="nut nut--phu" style="padding: 0.35rem 0.75rem; font-size: 0.85rem;">&laquo; Trước</a>
+                        <a href="?trang_lb=<?= $trangHienTaiLB - 1 ?>#so-luu-but" class="nut nut--phu" class="slp-s39">&laquo; Trước</a>
                     <?php endif; ?>
 
                     <?php for ($i = 1; $i <= $soTrangLB; $i++): ?>
                         <a href="?trang_lb=<?= $i ?>#so-luu-but" 
-                           class="nut <?= $i === $trangHienTaiLB ? 'nut--chinh' : 'nut--phu' ?>" 
-                           style="padding: 0.35rem 0.75rem; font-size: 0.85rem; <?= $i === $trangHienTaiLB ? 'font-weight: bold;' : '' ?>">
+                           class="nut <?= $i === $trangHienTaiLB ? 'nut--chinh' : 'nut--phu' ?> nut-phan-trang-lb <?= $i === $trangHienTaiLB ? 'nut-phan-trang-lb--hien-tai' : '' ?>">
                             <?= $i ?>
                         </a>
                     <?php endfor; ?>
 
                     <?php if ($trangHienTaiLB < $soTrangLB): ?>
-                        <a href="?trang_lb=<?= $trangHienTaiLB + 1 ?>#so-luu-but" class="nut nut--phu" style="padding: 0.35rem 0.75rem; font-size: 0.85rem;">Sau &raquo;</a>
+                        <a href="?trang_lb=<?= $trangHienTaiLB + 1 ?>#so-luu-but" class="nut nut--phu" class="slp-s39">Sau &raquo;</a>
                     <?php endif; ?>
                 </nav>
             <?php endif; ?>
         <?php else: ?>
-            <p style="color: #64748b; font-style: italic;">Chưa có lời nhắn lưu bút nào. Hãy là người đầu tiên để lại lời chúc!</p>
+            <p class="slp-s23">Chưa có lời nhắn lưu bút nào. Hãy là người đầu tiên để lại lời chúc!</p>
         <?php endif; ?>
     </section>
 
     <!-- TƯƠNG TÁC JAVASCRIPT GIỮ LẠI TỪ BÀI TẬP TRƯỚC -->
-    <article class="profile-schedule" style="text-align: center;">
+    <article class="profile-schedule slp-s18" >
         <h3 class="text-primary">Tiện ích tương tác bổ trợ</h3>
         
         <h4>Đếm ngược đến ngày bảo vệ đồ án</h4>
-        <div id="dong-ho" style="font-size: 1.4rem; font-weight: bold; color: #e11d48; margin-bottom: 1.5rem;">
+        <div id="dong-ho" class="slp-s71">
             Đang tính toán thời gian...
         </div>
 
         <h4>Hình ảnh sân bóng tiêu biểu</h4>
-        <div class="slideshow-container" style="max-width: 320px; margin: auto; position: relative;">
+        <div class="slideshow-container slp-s69" >
             <img
                 id="anh-slide"
                 src="../../images/san-a1.jpg"
                 alt="Ảnh sân bóng trong slideshow"
-                style="width: 100%; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);"
+                class="slp-s59"
             >
         </div>
-        <p style="font-size: 0.85rem; color: #64748b; margin-top: 0.5rem;">
+        <p class="slp-s24">
             (Hình ảnh tự động chuyển động sau mỗi 3 giây)
         </p>
     </article>
 
-    <p class="chu-canh-giua mt-1" style="margin-top: 2rem; margin-bottom: 2rem;">
+    <p class="chu-canh-giua mt-1 slp-s67" >
         <a href="../../thanh-vien.php" class="nut nut--phu">
             ← Quay lại danh sách thành viên nhóm
         </a>
